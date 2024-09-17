@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="Hofi.css">
+    <title>MrHofi WebShop</title>
+</head>
+
+<body>
+
+    <div class="foDiv">
+        <h1>MrHofi WebShop</h1>
+    </div>
+
+    <div class="menuIcon" id="menuIcon">
+        <div style="background-color:white; width: 35px; height: 5px; margin-top:5px"></div>
+        <div style="background-color:white; width: 35px; height: 5px; margin-top:5px"></div>
+    </div>
+
+    <div class="menuIcon" id="cartIcon" style="right:15px;background-color:transparent">
+        <img src="kocsi.png" style="width:30px; height:30px" />
+    </div>
+
+    <div class="alsoDiv">
+        <h4>Kapcsolat: info@mrhofi.com</h4>
+    </div>
+
+    <div class="balDiv">
+        <h2 style="margin-top:100px" class="ferfiFo" id="ferfiFo">Férfi</h2>
+            <h4 style="margin-top:10px" class="ferfiAlso" id="ferfiAlso1">Kabátok, Dzsekik</h4>
+            <h4 style="margin-top:10px" class="ferfiAlso" id="ferfiAlso2">Hosszúujjúk</h4>
+            <h4 style="margin-top:10px" class="ferfiAlso" id="ferfiAlso3">Nadrágok</h4>
+            <h4 style="margin-top:10px" class="ferfiAlso" id="ferfiAlso4">Pólók</h4>
+            <h4 style="margin-top:10px" class="ferfiAlso" id="ferfiAlso5">Cipők</h4>
+        <h2 style="margin-top:50px" class="noiFo" id="noiFo">Női</h2>
+            <h4 style="margin-top:10px" class="noiAlso" id="noiAlso1">Kabátok, Dzsekik</h4>
+            <h4 style="margin-top:10px" class="noiAlso" id="noiAlso2">Hosszúujjúk</h4>
+            <h4 style="margin-top:10px" class="noiAlso" id="noiAlso3">Nadrágok</h4>
+            <h4 style="margin-top:10px" class="noiAlso" id="noiAlso4">Pólók</h4>
+            <h4 style="margin-top:10px" class="noiAlso" id="noiAlso5">Cipők</h4>
+        <h2 style="margin-top:50px" class="gyerekFo" id="gyerekFo">Gyerek</h2>
+            <h4 style="margin-top:10px" class="gyerekAlso" id="gyerekAlso1">Kabátok, Dzsekik</h4>
+            <h4 style="margin-top:10px" class="gyerekAlso" id="gyerekAlso2">Hosszúujjúk</h4>
+            <h4 style="margin-top:10px" class="gyerekAlso" id="gyerekAlso3">Nadrágok</h4>
+            <h4 style="margin-top:10px" class="gyerekAlso" id="gyerekAlso4">Pólók</h4>
+            <h4 style="margin-top:10px" class="gyerekAlso" id="gyerekAlso5">Cipők</h4>
+    </div>
+
+    <div class="panelDiv" style="margin-top:90px">
+        <div style="display:flex;">
+            <h3 class="panelCim">Újdonságok</h3>
+            <h4 class="tobb">Több...</h4>
+        </div>
+        <img id="kep" class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+    </div>
+
+    <div class="panelDiv">
+        <div style="display:flex;">
+            <h3 class="panelCim">Felkapott</h3>
+            <h4 class="tobb">Több...</h4>
+        </div>
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+    </div>
+
+    <div class="panelDiv">
+        <div style="display:flex;">
+            <h3 class="panelCim">Pólók</h3>
+            <h4 class="tobb">Több...</h4>
+        </div>
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+    </div>
+
+    <div class="panelDiv">
+        <div style="display:flex;">
+            <h3 class="panelCim">Pulcsik</h3>
+            <h4 class="tobb">Több...</h4>
+        </div>
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+    </div>
+
+    <div class="panelDiv" style="margin-bottom:70px">
+        <div style="display:flex;">
+            <h3 class="panelCim">Nadrágok</h3>
+            <h4 class="tobb">Több...</h4>
+        </div>
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+        <img class="felsoroltImg" src="polo.jpg" />
+    </div>
+
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <button id="closePopup" style="margin-bottom:30px;right:0;">
+                Bezárás
+            </button>
+            <img class="popupImg" src="polo.jpg" />
+            <table style="color:black;text-align:center; width: 100%">
+                <tr>
+                    <th>Ár</th>
+                    <th>15.000 Ft</th>
+                </tr>
+                <tr>
+                    <td>Anyag</td>
+                    <td>Pamut</td>
+                </tr>
+            </table>
+            <button style="margin-top:30px;right:0;">
+                Kosárba
+            </button>
+        </div>
+    </div>
+
+    <script>
+
+        let x = 0;
+        let y = 0;
+        let z = 0;
+
+        kep.addEventListener(
+            "click",
+            function () {
+                myPopup.classList.add("show");
+            }
+        );
+        closePopup.addEventListener(
+            "click",
+            function () {
+                myPopup.classList.remove(
+                    "show"
+                );
+            }
+        );
+        window.addEventListener(
+            "click",
+            function (event) {
+                if (event.target == myPopup) {
+                    myPopup.classList.remove(
+                        "show"
+                    );
+                }
+            }
+        );
+
+        document.getElementById("ferfiFo").onclick = function () {
+            if (x > 0) {
+                document.getElementById("ferfiAlso1").style.display = "none";
+                document.getElementById("ferfiAlso2").style.display = "none";
+                document.getElementById("ferfiAlso3").style.display = "none";
+                document.getElementById("ferfiAlso4").style.display = "none";
+                document.getElementById("ferfiAlso5").style.display = "none";
+                x--;
+            }
+            else {
+                document.getElementById("ferfiAlso1").style.display = "block";
+                document.getElementById("ferfiAlso2").style.display = "block";
+                document.getElementById("ferfiAlso3").style.display = "block";
+                document.getElementById("ferfiAlso4").style.display = "block";
+                document.getElementById("ferfiAlso5").style.display = "block";
+                x++;
+            }
+        }
+        document.getElementById("noiFo").onclick = function () {
+            if (y > 0) {
+                document.getElementById("noiAlso1").style.display = "none";
+                document.getElementById("noiAlso2").style.display = "none";
+                document.getElementById("noiAlso3").style.display = "none";
+                document.getElementById("noiAlso4").style.display = "none";
+                document.getElementById("noiAlso5").style.display = "none";
+                y--;
+            } else {
+                document.getElementById("noiAlso1").style.display = "block";
+                document.getElementById("noiAlso2").style.display = "block";
+                document.getElementById("noiAlso3").style.display = "block";
+                document.getElementById("noiAlso4").style.display = "block";
+                document.getElementById("noiAlso5").style.display = "block";
+                y++;
+            }
+        }
+        document.getElementById("gyerekFo").onclick = function () {
+            if (z > 0) {
+                document.getElementById("gyerekAlso1").style.display = "none";
+                document.getElementById("gyerekAlso2").style.display = "none";
+                document.getElementById("gyerekAlso3").style.display = "none";
+                document.getElementById("gyerekAlso4").style.display = "none";
+                document.getElementById("gyerekAlso5").style.display = "none";
+                z--;
+            } else {
+                document.getElementById("gyerekAlso1").style.display = "block";
+                document.getElementById("gyerekAlso2").style.display = "block";
+                document.getElementById("gyerekAlso3").style.display = "block";
+                document.getElementById("gyerekAlso4").style.display = "block";
+                document.getElementById("gyerekAlso5").style.display = "block";
+                z++;
+            }
+        }
+
+        window.onload = function () {
+            
+        }
+
+    </script>
+
+
+</body>
+</html>
