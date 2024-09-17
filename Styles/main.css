@@ -1,0 +1,159 @@
+﻿::-webkit-scrollbar {
+    width: 0px;
+}
+
+body {
+    color: black;
+    background-color: black;
+    cursor: default;
+}
+
+.foDiv {
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+}
+
+    .foDiv:hover {
+        color: mediumpurple;
+        text-shadow: 3px 3px 15px mediumpurple;
+    }
+
+.balDiv {
+    background-color: white;
+    height: 100%;
+    position: fixed;
+    width: 150px;
+    left: 0;
+    text-align: center;
+    z-index: 3;
+    top: 0;
+    overflow: hidden;
+}
+
+.alsoDiv {
+    background-color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.panelDiv {
+    background-color: white;
+    border-radius: 20px;
+    width: auto;
+    height: 550px !important;
+    margin-top: 10px;
+    overflow: hidden;
+    overflow-x: auto;
+    margin-left: 150px;
+}
+
+.panelCim {
+    padding: 0px 0px 15px 15px;
+    position: relative;
+    width: 100%;
+}
+
+.felsoroltImg {
+    height: 450px;
+    width: 450px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    border: 3px solid white;
+    border-radius: 20px;
+}
+
+.popupImg {
+    height: 300px;
+    width: 300px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+}
+
+.felsoroltImg:hover {
+    border: 3px solid mediumpurple;
+    box-shadow: 10px 5px 10px mediumpurple;
+}
+
+.popup {
+    position: fixed;
+    z-index: 11;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+}
+
+.popup-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888888;
+    width: 50%;
+    font-weight: bolder;
+    text-align: center;
+    border-radius: 10px;
+}
+
+    .popup-content button {
+        display: block;
+        margin: 0 auto;
+    }
+
+.show {
+    display: block;
+}
+
+button {
+    background-color: white;
+    border-radius: 10px;
+    border: 3px solid black;
+}
+
+    button:hover {
+        border: 3px solid mediumpurple;
+        box-shadow: 10px 5px 25px mediumpurple;
+    }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.menuIcon {
+    width: 35px;
+    height: 25px;
+    background-color: black;
+    z-index: 10;
+    position: fixed;
+    top: 30px;
+    margin-left: 50px
+}
+
+.tobb {
+    position: static;
+    margin-right: 10px;
+}
+
+    .tobb:hover, .ferfiFo:hover, .noiFo:hover, .gyerekFo:hover, .ferfiAlso:hover, .noiAlso:hover, .gyerekAlso:hover {
+        color: mediumpurple;
+        text-shadow: 3px 3px 15px mediumpurple;
+    }
+
+.ferfiAlso, .noiAlso, .gyerekAlso {
+    display: none
+}
