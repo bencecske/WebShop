@@ -1,9 +1,9 @@
 function loginClick() {
-    window.location.replace("/login.html");
+    window.location.replace("login.html");
 }
 
 function cartClick() {
-    window.location.replace("/cart.html");
+    window.location.replace("cart.html");
 }
 
 function menuClick() {
