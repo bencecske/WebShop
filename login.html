@@ -2,20 +2,15 @@
 <html>
 <head>
     <link rel="stylesheet" href="Styles/login.css">
-    <title>HofiShop</title>
+    <title>HofiShop - Bejelentkezés</title>
 </head>
 
 <body>
   <div class="header">
-    <label class="burger" for="burger">
-      <input type="checkbox" id="burger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
     <a class="mainBtn" href="main.html">HofiShop</a>
     <div class="button-container">
       <button class="button" onclick="cartClick()">
+        <p id="cartCount">0</p>
         <svg
           class="icon"
           stroke="currentColor"
@@ -91,12 +86,6 @@
           </div>
     </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
     <form class="form_main" action="">
         <p class="heading">Bejelentkezés</s></p>
         <div class="inputContainer">
@@ -112,14 +101,12 @@
         </svg>
         <input placeholder="Jelszó" id="password" class="inputField" type="password">
     </div>
-                  
-               
-    <button id="button">Bejelentkezés</button>
+    <h3 id="button" onclick="loginBtnClick()">Bejelentkezés</h3>
         <div class="signupContainer">
             <p>Nincs még fiókod?</p>
             <a href="register.html">Regisztrálok!</a>
         </div>
     </form>
-    <script src="Scripts/main.js"></script>
+    <script src="Scripts/onClickEvents.js"></script>
 </body>
 </html>

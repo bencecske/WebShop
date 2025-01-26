@@ -2,20 +2,15 @@
 <html>
 <head>
     <link rel="stylesheet" href="Styles/cart.css">
-    <title>HofiShop</title>
+    <title>HofiShop - Kosár</title>
 </head>
 <body>
 
   <div class="header">
-    <label class="burger" for="burger">
-      <input type="checkbox" id="burger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
     <a class="mainBtn" href="main.html">HofiShop</a>
     <div class="button-container">
       <button class="button" onclick="cartClick()">
+        <p id="cartCount">0</p>
         <svg
           class="icon"
           stroke="currentColor"
@@ -100,8 +95,8 @@
     <form class="form_main" action="">
         <p class="heading">Kosár</s></p>
         <p>Üres a kosarad!</p>
-        <button id="button">Fizetek</button>
+        <a href="pay.html">Fizetek!</a>
     </form>
-    <script src="Scripts/main.js"></script>
+    <script src="Scripts/onClickEvents.js"></script>
 </body>
 </html>
