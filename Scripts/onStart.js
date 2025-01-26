@@ -25,7 +25,7 @@ function LoadItems(number, name, group, type, price, description, img, id) {
             document.body.innerHTML += allText;
             document.getElementById("newCardItem").id = "item" + number;
             document.getElementById("item" + number).style.backgroundImage = 'url('+img+')';
-        alert(img)
+        alert(img);
             document.getElementById("newCardItem_Name").id = "item" + number + "_name";
             document.getElementById("item" + number + "_name").innerHTML = name;
             document.getElementById("newCardItem_Description").id = "item" + number + "_description";
