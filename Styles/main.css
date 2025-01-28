@@ -1,7 +1,13 @@
-﻿body {
+body {
     background-color: white;
     display: grid;
     place-items: center;
+}
+  
+@media screen and (max-width: 479px) {
+  * {
+    transform: scale(1.5);
+  }
 }
 
 @media (min-width: 650px) {
