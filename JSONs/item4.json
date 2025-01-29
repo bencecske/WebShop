@@ -1,1 +1,9 @@
-
+{
+    "name" : "Nike Geci",
+    "group" : "Man",
+    "type" : "2",
+    "price" : "190.990 Ft",
+    "description" : "Muszalas fos",
+    "Img" : "Images/NikePulcsi.png",
+    "ID" : "#4"
+}
