@@ -2,7 +2,15 @@ function add() {
   
 }
 
-function remove() {
+function cartRemove() {
+  
+}
+
+function cartPlus() {
+  
+}
+
+function cartMinus() {
   
 }
 
