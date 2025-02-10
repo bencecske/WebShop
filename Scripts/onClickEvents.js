@@ -9,7 +9,18 @@ function toCartClick() {
 }
 
 function loginClick() {
-    window.location.replace("login.html");
+    document.getElementById("login").style.display = "flex";
+    document.getElementById("registration").style.display = "none";
+}
+
+function registerClick() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "flex";
+}
+
+function closeForm() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "none";
 }
 
 function cartClick() {
@@ -44,4 +55,21 @@ function saveClick() {
     for (let i = 0; i < elementz.length; i++) {
         elementz[i].style.display = "none";
     }
+}
+
+function testAPI() {
+    const APIUrl = new URL("http://localhost:3000/api/v1/products");
+    // Make a GET request
+    fetch(APIUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+    }
+    })
+    .then(data => {
+        alert(data)
+    })
+    .catch(error => {
+        alert(error)
+    });
 }

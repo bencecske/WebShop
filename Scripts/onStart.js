@@ -5,7 +5,7 @@ LoadJSON();
 
 function LoadJSON() {
     var rawJSON = new XMLHttpRequest();
-        rawJSON.open("GET", "JSONs/" + JSONName, true);
+        rawJSON.open("GET", "/JSONs/" + JSONName, true);
         rawJSON.onreadystatechange = function() {
         if (rawJSON.readyState === 4) {
             var JSONallText = rawJSON.responseText;
@@ -18,7 +18,7 @@ rawJSON.send();
 
 function LoadItems(number, name, group, type, price, description, img, id) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/CardItem.html", true);
+    rawFile.open("GET", "/Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
