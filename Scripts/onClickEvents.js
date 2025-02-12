@@ -73,3 +73,15 @@ function testAPI() {
         alert(error)
     });
 }
+
+function outClick() {
+    const loginForm = document.getElementById("login").style.display;
+    const registerForm = document.getElementById("registration").style.display;
+    const menuBar = document.getElementById("menuBar").style.visibility;
+
+    if (loginForm != none || reigsterForm != none || menubar != hidden) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("registration").style.display = "none";
+        document.getElementById("menuBar").style.visibility = "hidden";
+    }
+}
