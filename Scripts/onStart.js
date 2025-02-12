@@ -10,6 +10,7 @@ function LoadJSON() {
             alert(rawJSON.readyState);
         if (rawJSON.readyState === 4) {
             var JSONallText = rawJSON.responseText;
+            alert(JSONallText);
             Item = JSON.parse(JSONallText);
             alert(Item);
             LoadItems(JSONCount, Item.name, Item.group, Item.type, Item.price, Item.count, Item.description, Item.Img, Item.ID);
