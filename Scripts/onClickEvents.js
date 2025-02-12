@@ -9,16 +9,44 @@ function toCartClick() {
 }
 
 function loginClick() {
-    document.getElementById('login').classList.toggle('show');
+    const login = document.getElementById('login');
+    const register = document.getElementById('registration');
+    if (login.style.visibility == "hidden") {
+        login.classList.add('.show');
+    } 
+    else {
+        login.classList.remove('.show');
+    }
+    if (register.style.visibility == "visible") {
+        register.classList.remove('.show');
+    } 
+    else {
+        register.classList.add('.show');
+    }
 }
 
 function registerClick() {
-    document.getElementById('registration').classList.toggle('show');
+    const login = document.getElementById('login');
+    const register = document.getElementById('registration');
+    if (login.style.visibility == "visible") {
+        login.classList.remove('.show');
+    } 
+    else {
+        login.classList.add('.show');
+    }
+    if (register.style.visibility == "hidden") {
+        register.classList.add('.show');
+    } 
+    else {
+        register.classList.remove('.show');
+    }
 }
 
 function closeForm() {
-    document.getElementById('login').classList.toggle('show');
-    document.getElementById('registration').classList.toggle('show');
+    const login = document.getElementById('login');
+    const register = document.getElementById('registration');
+    login.classList.remove('show');
+    register.classList.remove('show');
 }
 
 function cartClick() {
