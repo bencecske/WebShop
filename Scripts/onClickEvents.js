@@ -78,14 +78,10 @@ function outClick() {
     const loginForm = document.getElementById("login").style.display;
     const registerForm = document.getElementById("registration").style.display;
     const menuBar = document.getElementById("menuBar").style.visibility;
-    alert(loginForm + registerForm + menuBar);
 
     if (loginForm != "none" || reigsterForm != "none" || menuBar != "hidden") {
-        alert("changed");
         document.getElementById("login").style.display = "none";
         document.getElementById("registration").style.display = "none";
         document.getElementById("menuBar").style.visibility = "hidden";
-    } else {
-        alert("failed");
     }
 }
