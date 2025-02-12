@@ -28,17 +28,17 @@ function loginClick() {
 function registerClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
-    if (login.style.visibility == "visible") {
-        login.classList.remove('.show');
-    } 
-    else {
+    if (login.style.visibility == "hidden") {
         login.classList.add('.show');
-    }
-    if (register.style.visibility == "hidden") {
-        register.classList.add('.show');
     } 
     else {
+        login.classList.remove('.show');
+    }
+    if (register.style.visibility == "visible") {
         register.classList.remove('.show');
+    } 
+    else {
+        register.classList.add('.show');
     }
 }
 
