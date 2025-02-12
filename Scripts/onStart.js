@@ -1,10 +1,10 @@
 var JSONCount = 1;
 var JSONName = "item" + JSONCount + ".json";
-alert("Started!");
 
 LoadJSON();
 
 function LoadJSON() {
+alert("Started!");
     var rawJSON = new XMLHttpRequest();
         rawJSON.open("GET", "/JSONs/" + JSONName, true);
         rawJSON.onreadystatechange = function() {
