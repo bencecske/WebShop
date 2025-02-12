@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
-<html onclick="outClick(this)">
+<html>
 <head>
     <link rel="stylesheet" href="Styles/main.css">
     <title>HofiShop - Főoldal</title>
 </head>
 <body>
-    <div class="header">
+    <div class="header" onclick="outClick()">
       <label class="burger" for="burger">
         <input type="checkbox" id="burger" onclick="menuClick()">
         <span></span>
@@ -85,7 +85,7 @@
         <a href="kid.html" class="child">Cipő</a>
       </div>
     </div>
-    <div onclick="testAPI()" style="cursor: pointer;" class="footer">
+    <div onclick="testAPI(); outClick()" style="cursor: pointer;" class="footer">
         <div class="card">
             <a href="#" class="socialContainer containerOne">
               <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
