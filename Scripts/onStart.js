@@ -10,9 +10,7 @@ function LoadJSON() {
             alert(rawJSON.readyState);
         if (rawJSON.readyState === 4) {
             var JSONallText = rawJSON.responseText;
-            alert(JSONallText);
             Item = JSON.parse(JSONallText);
-            alert(Item);
             LoadItems(JSONCount, Item.name, Item.group, Item.type, Item.price, Item.count, Item.description, Item.Img, Item.ID);
         }
     }
@@ -20,7 +18,6 @@ rawJSON.send();
 }
 
 function LoadItems(number, name, group, type, price, count, description, img, id) {
-alert("Loading Items...");
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", "Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
