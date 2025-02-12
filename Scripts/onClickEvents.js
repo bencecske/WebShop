@@ -80,7 +80,7 @@ function outClick() {
     const menuBar = document.getElementById("menuBar").style.visibility;
     alert(loginForm + registerForm + menuBar);
 
-    if (loginForm != none || reigsterForm != none || menuBar != hidden) {
+    if (loginForm != "none" || reigsterForm != "none" || menuBar != "hidden") {
         alert("changed");
         document.getElementById("login").style.display = "none";
         document.getElementById("registration").style.display = "none";
