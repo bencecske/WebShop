@@ -11,12 +11,7 @@ function toCartClick() {
 function loginClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
-    alert(login.style.visibility + "asd");
-    if (login.style.visibility == null) {
         login.classList.add('.show');
-        register.classList.add('.show');
-        register.classList.remove('.show');
-    }
     if (login.style.visibility == "visible") {
         login.classList.remove('.show');
         register.classList.add('.show');
