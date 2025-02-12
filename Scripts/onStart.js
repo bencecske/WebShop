@@ -1,6 +1,8 @@
 var JSONCount = 1;
 var JSONName = "item" + JSONCount + ".json";
 
+alert(screen.width + " - " + screen.height);
+
 LoadJSON();
 
 function LoadJSON() {
