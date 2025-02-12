@@ -10,12 +10,10 @@ function toCartClick() {
 
 function loginClick() {
     document.getElementById('login').classList.toggle('show');
-    document.getElementById('registration').classList.toggle('show');
 }
 
 function registerClick() {
     document.getElementById('registration').classList.toggle('show');
-    document.getElementById('login').classList.toggle('show');
 }
 
 function closeForm() {
