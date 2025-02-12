@@ -1,5 +1,6 @@
 var JSONCount = 1;
 var JSONName = "item" + JSONCount + ".json";
+alert("Started!");
 
 LoadJSON();
 
