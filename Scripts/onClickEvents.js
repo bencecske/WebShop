@@ -11,34 +11,26 @@ function toCartClick() {
 function loginClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
-    if (login.style.visibility == "hidden") {
-        login.classList.add('.show');
-    } 
-    else {
+    if (login.style.visibility == "visible") {
         login.classList.remove('.show');
-    }
-    if (register.style.visibility == "visible") {
-        register.classList.remove('.show');
+        register.classList.add('.show');
     } 
     else {
-        register.classList.add('.show');
+        login.classList.add('.show');
+        register.classList.remove('.show');
     }
 }
 
 function registerClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
-    if (login.style.visibility == "hidden") {
-        login.classList.add('.show');
-    } 
-    else {
+    if (login.style.visibility == "visible") {
         login.classList.remove('.show');
-    }
-    if (register.style.visibility == "visible") {
-        register.classList.remove('.show');
+        register.classList.add('.show');
     } 
     else {
-        register.classList.add('.show');
+        login.classList.add('.show');
+        register.classList.remove('.show');
     }
 }
 
