@@ -2,9 +2,10 @@ var JSONCount = 1;
 var JSONName = "item" + JSONCount + ".json";
 
 LoadJSON();
+alert("Started!");
 
 function LoadJSON() {
-alert("Started! xd");
+alert("Loading JSONs...");
     var rawJSON = new XMLHttpRequest();
         rawJSON.open("GET", "/JSONs/" + JSONName, true);
         rawJSON.onreadystatechange = function() {
@@ -18,6 +19,7 @@ rawJSON.send();
 }
 
 function LoadItems(number, name, group, type, price, description, img, id) {
+alert("Loading Items...");
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", "/Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
