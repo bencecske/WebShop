@@ -74,7 +74,8 @@ function testAPI() {
     });
 }
 
-function outClick() {
+function outClick(element) {
+    alert(element.id);
     const loginForm = document.getElementById("login").style.display;
     const registerForm = document.getElementById("registration").style.display;
     const menuBar = document.getElementById("menuBar").style.visibility;
