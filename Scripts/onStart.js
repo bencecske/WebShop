@@ -7,6 +7,7 @@ function LoadJSON() {
     var rawJSON = new XMLHttpRequest();
         rawJSON.open("GET", "/JSONs/" + JSONName, true);
         rawJSON.onreadystatechange = function() {
+            alert(rawJSON.readyState);
         if (rawJSON.readyState === 4) {
             var JSONallText = rawJSON.responseText;
             Item = JSON.parse(JSONallText);
