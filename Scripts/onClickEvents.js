@@ -75,6 +75,7 @@ function testAPI() {
 }
 
 function outClick() {
+    alert("fasz");
     const loginForm = document.getElementById("login").style.display;
     const registerForm = document.getElementById("registration").style.display;
     const menuBar = document.getElementById("menuBar").style.visibility;
