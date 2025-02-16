@@ -12,27 +12,14 @@ function loginClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
         login.classList.add('.show');
-    if (login.style.visibility == "visible") {
-        login.classList.remove('.show');
         register.classList.add('.show');
-    } 
-    else {
-        login.classList.add('.show');
-        register.classList.remove('.show');
-    }
 }
 
 function registerClick() {
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
-    if (login.style.visibility == "visible") {
         login.classList.remove('.show');
         register.classList.add('.show');
-    } 
-    else {
-        login.classList.add('.show');
-        register.classList.remove('.show');
-    }
 }
 
 function closeForm() {
