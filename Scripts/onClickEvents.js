@@ -1,4 +1,5 @@
 function toCartClick() {
+    alert("xd");
     let inCart = Number(document.getElementById("cartCount").innerHTML);
     var inCartNow = inCart + 1;
     if (inCartNow <= 9) {
