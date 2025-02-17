@@ -9,7 +9,7 @@ function toCartClick() {
 }
 
 function loginClick() {
-    ALERT("csicska");
+    alert("csicska");
     const login = document.getElementById('login');
     const register = document.getElementById('registration');
         login.classList.add('.show');
