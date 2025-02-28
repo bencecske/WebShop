@@ -2,37 +2,49 @@
 <html>
 <head>
     <link rel="stylesheet" href="index.css">
-    <title>Test</title>
+    <title>Termékkezelő</title>
 </head>
 <body>
 
 <header>
-<h1>Main</h1>
+<h1>Termékkezelő</h1>
+<div class="headerDiv">
+<button onclick="UploadClick()">Feltöltés</button>
+<button onclick="EditClick()">Szerkesztés</button>
+<button onclick="DeleteClick()">Törlés</button>
+</div>
 </header><br><br>
 
-<section>
+<section class="firstSection" id="Upload">
 <div class="container">
-<h2>Termék feltöltése</h2>
 <input type="text" placeholder="Név"></input>
 <input type="text" placeholder="Ár"></input>
 <input type="text" placeholder="Darab"></input>
 <input type="text" placeholder="Leírás"></input>
 <button>Feltöltés</button>
 </div>
+</section>
+
+<section class="firstSection" id="Edit">
 <div class="container">
-<h2>Termék törlése</h2>
+
 <input type="text" placeholder="ID"></input>
-<button>Törlés</button>
+<input type="text" placeholder="Név"></input>
+<button>Keresés</button>
 </div>
+</section>
+
+<section class="firstSection" id="Delete">
 <div class="container">
-<h2>Termék szerkesztése</h2>
 <input type="text" placeholder="ID"></input>
-<button>Feltöltés</button>
+<input type="text" placeholder="Név"></input>
+<button>Keresés</button>
 </div>
 </section>
 
 <section>
 <div class="container">
+grafikonok
 </div>
 </section>
 
