@@ -1,0 +1,313 @@
+body {
+    background-color: white;
+    display: grid;
+    place-items: center;
+    cursor: default;
+    user-select: none;
+  }
+  
+  a {
+    cursor: pointer;
+  }
+  
+  footer{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: #2e2e2e;
+    border-radius: 30px 30px 0px 0px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0px 0px 30px #8000ff9c;
+  }
+
+container {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  gap: 5%;
+  width: 90%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px 30px 0px 0px;
+  background-color: transparent;
+}
+
+item{
+  position: relative;
+  width: 20%;
+  height: 50px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.mainItem {
+  position: relative;
+  width: 20%;
+  height: 50px;
+  align-items: center;
+  overflow: hidden;
+  scale: 1.5;
+}
+
+svg:hover{
+  transform: scale(1.1);
+}
+
+  .header{
+  position: absolute;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  background-color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  }
+  
+  .button-container {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    display: flex;
+    background-color: white;
+    width: 150px;
+    height: 60px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+  }
+  
+  .button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+    scale: 1.3;
+  
+  }
+  
+  .button:hover {
+    transform: scale(1.1);
+    box-shadow: #8000ff 1px 0 10px;
+  }
+  
+  .icon {
+    font-size: 20px;
+  }
+  
+  .mainBtn {
+  padding-left: 15px;
+  font-weight: 500;
+  color: #2e2e2e;
+  text-decoration: none;
+  font-size: 48px;
+  }
+  
+  .heading {
+    font-size: 2.5em;
+    color: #2e2e2e;
+    font-weight: 700;
+    margin: 15px 0 30px 0;
+  }
+  
+  .inputContainer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .inputIcon {
+    position: absolute;
+    left: 10px;
+  }
+  
+  .inputField {
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(173, 173, 173);
+    border-radius: 30px;
+    margin: 10px 0;
+    color: black;
+    font-size: .8em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding-left: 30px;
+  }
+  
+  .inputField:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(199, 114, 255);
+  }
+  
+  .inputField::placeholder {
+    color: rgb(80, 80, 80);
+    font-size: 1em;
+    font-weight: 500;
+  }
+  
+  #button {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    border: 2px solid #8000ff;
+    font-size: .8em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    margin: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.5s;
+  }
+  
+  #button::after {
+    content: "";
+    position: absolute;
+    background-color: #8000ff1f;
+    height: 100%;
+    width: 150px;
+    top: 0;
+    left: -200px;
+    border-bottom-right-radius: 100px;
+    border-top-left-radius: 100px;
+    filter: blur(10px);
+    transition-duration: .5s;
+  }
+  
+  #button:hover {
+    transform: scale(1.1);
+  }
+  
+  #button:hover::after {
+    transform: translateX(600px);
+    transition-duration: .5s;
+  }
+  
+  .form_main a {
+    width: 250px;
+    font-weight: 500;
+    background-color: #2e2e2e;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all .5s;
+  }
+  
+  .form_main a:hover {
+    background-color: #8000ff;
+  }
+
+  .form_main {
+    width: 90%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.062);
+    margin-top: 100px;
+    overflow: hidden;
+    margin-bottom: 100px;
+  }
+
+  section {
+    position: relative;
+    color: white;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+table {
+  position: relative;
+  color: #2e2e2e;
+}
+
+td, tr {
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+th {
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+/*------ Settings ------*/
+.CheckBoxcontainer {
+  --color: #a5a5b0;
+  --size: 30px;
+  position: relative;
+  top: 3px;
+  left: -15px;
+  cursor: pointer;
+  font-size: var(--size);
+  fill: var(--color);
+}
+
+.CheckBoxcontainer .eye {
+  animation: keyframes-fill .5s;
+}
+
+.CheckBoxcontainer .eye-slash {
+  animation: keyframes-fill .5s;
+  display: none;
+}
+
+/* ------ On check event ------ */
+.CheckBoxcontainer input:checked ~ .eye {
+  display: none;
+}
+
+.CheckBoxcontainer input:checked ~ .eye-slash {
+  display:inline;
+}
+
+/* ------ Hide the default checkbox ------ */
+.CheckBoxcontainer input {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}

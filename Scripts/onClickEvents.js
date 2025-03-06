@@ -1,5 +1,4 @@
 function toCartClick() {
-    alert("xd");
     let inCart = Number(document.getElementById("cartCount").innerHTML);
     var inCartNow = inCart + 1;
     if (inCartNow <= 9) {
@@ -10,25 +9,18 @@ function toCartClick() {
 }
 
 function loginClick() {
-    alert("csicska");
-    const login = document.getElementById('login');
-    const register = document.getElementById('registration');
-        login.classList.add('.show');
-        register.classList.remove('.show');
+    document.getElementById("login").style.display = "flex";
+    document.getElementById("registration").style.display = "none";
 }
 
 function registerClick() {
-    const login = document.getElementById('login');
-    const register = document.getElementById('registration');
-        login.classList.remove('.show');
-        register.classList.add('.show');
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "flex";
 }
 
 function closeForm() {
-    const login = document.getElementById('login');
-    const register = document.getElementById('registration');
-    login.classList.remove('show');
-    register.classList.remove('show');
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "none";
 }
 
 function cartClick() {
@@ -65,31 +57,38 @@ function saveClick() {
     }
 }
 
-function testAPI() {
-    const APIUrl = new URL("http://localhost:3000/api/v1/products");
-    // Make a GET request
-    fetch(APIUrl)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-    }
-    })
-    .then(data => {
-        alert(data)
-    })
-    .catch(error => {
-        alert(error)
-    });
-}
-
-function outClick() {
-    const loginForm = document.getElementById("login").style.display;
-    const registerForm = document.getElementById("registration").style.display;
-    const menuBar = document.getElementById("menuBar").style.visibility;
-
-    if (loginForm != "none" || reigsterForm != "none" || menuBar != "hidden") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("menuBar").style.visibility = "hidden";
+function ShowHide(element){
+    const SalesCheckBox = document.getElementById('SalesCheckBox');
+    const GraphCheckBox = document.getElementById('GraphCheckBox');
+    if (element.id == 'Sales-eye' || element.id == 'Sales-slash') {
+        if (SalesCheckBox.checked) {
+            document.getElementById('Sales').style.display = "none";
+        } else {
+            document.getElementById('Sales').style.display = "flex";
+        }
+    } else {
+        if (GraphCheckBox.checked) {
+            document.getElementById('Graphs').style.display = "none";
+        } else {
+            document.getElementById('Graphs').style.display = "grid";
+        }
     }
 }
+
+
+async function testAPI() {
+    const url = "https://pokeapi.co/api/v2/pokemon/1";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+  
+      const json = await response.json();
+      console.log(json);
+      alert(json.id);
+    } catch (error) {
+      console.error(error.message);
+      alert(error.message);
+    }
+  }

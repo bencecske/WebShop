@@ -1,24 +1,26 @@
 var JSONCount = 1;
 var JSONName = "item" + JSONCount + ".json";
 
+//alert(screen.width + " - " + screen.height);
+
 LoadJSON();
 
 function LoadJSON() {
     var rawJSON = new XMLHttpRequest();
-        rawJSON.open("GET", "JSONs/" + JSONName, true);
+        rawJSON.open("GET", "/JSONs/" + JSONName, true);
         rawJSON.onreadystatechange = function() {
         if (rawJSON.readyState === 4) {
             var JSONallText = rawJSON.responseText;
             Item = JSON.parse(JSONallText);
-            LoadItems(JSONCount, Item.name, Item.group, Item.type, Item.price, Item.count, Item.description, Item.Img, Item.ID);
+            LoadItems(JSONCount, Item.name, Item.group, Item.type, Item.price, Item.description, Item.Img, Item.ID);
         }
     }
 rawJSON.send();
 }
 
-function LoadItems(number, name, group, type, price, count, description, img, id) {
+function LoadItems(number, name, group, type, price, description, img, id) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/CardItem.html", true);
+    rawFile.open("GET", "/Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;

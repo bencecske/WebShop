@@ -9,13 +9,12 @@
 a {
   cursor: pointer;
 }
-  
+
 @media screen and (max-device-width: 479px) {
   * {
-      
+    transform: rotate(3deg);
   }
 }
-
 
 @media (min-width: 650px) {
   body { grid-template-columns: repeat(2, 1fr); }
@@ -114,7 +113,7 @@ a {
 .footer{
     padding-bottom: 10px;
     padding-top: 10px;
-    position: fixed;
+    position: fixed !important;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -424,29 +423,11 @@ a {
   }
 
 #registration {
-  opacity: 0%;
-  visible: hidden;
   display: none;
-}
-
-#registration.show {
-  display: flex;
-  transform: translate(1%);
-  opacity: 100%;
-  visibility: visible;
 }
 
 #login {
-  opacity: 0%;
-  visible: hidden;
   display: none;
-}
-
-#login.show {
-  display: flex;
-  transform: translate(1%);
-  opacity: 100%;
-  visibility: visible;
 }
 
   .form_main {
