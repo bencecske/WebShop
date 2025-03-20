@@ -31,14 +31,28 @@ function menuClick() {
     document.getElementById('menuBar').classList.toggle('show');
 }
 
-function loginBtnClick() {
-    window.location.replace("account.html");
-}
+async function loginBtnClick() {
+    const apiUrl = 'https://cb5f-2001-4c4c-22e1-d400-c897-dc25-fe5d-61d9.ngrok-free.app/login/';
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(userData => {
+        alert('User Data:', userData);
+      })
+      .catch(error => {
+        alert('Error:', error);
+      });
+    //window.location.replace("account.html");
+    }
 
 function editClick() {
     const elements = document.getElementsByClassName("editTable");
     for (let i = 0; i < elements.length; i++) {
-        elements[i].style.display = "flex";
+        elements[i].style.display = "contents";
     }
     const elementz = document.getElementsByClassName("editTableBtn");
     for (let i = 0; i < elementz.length; i++) {
@@ -75,20 +89,24 @@ function ShowHide(element){
     }
 }
 
+function switchPanels(element) {
+    const DataPanel = document.getElementById('Datas');
+    const ListPanel = document.getElementById('ItemList');
+    const AddPanel = document.getElementById('AddItem');
 
-async function testAPI() {
-    const url = "https://pokeapi.co/api/v2/pokemon/1";
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-  
-      const json = await response.json();
-      console.log(json);
-      alert(json.id);
-    } catch (error) {
-      console.error(error.message);
-      alert(error.message);
+    const ID = element.id;
+
+    if (ID == 'DatasBtn') {
+        DataPanel.style.display = 'inline';
+        ListPanel.style.display = 'none';
+        AddPanel.style.display = 'none';
+    } else if (ID == 'ItemListBtn') {
+        DataPanel.style.display = 'none';
+        ListPanel.style.display = 'inline';
+        AddPanel.style.display = 'none';
+    } else {
+        DataPanel.style.display = 'none';
+        ListPanel.style.display = 'none';
+        AddPanel.style.display = 'inline';
     }
-  }
+}

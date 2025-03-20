@@ -12,6 +12,7 @@ a {
 
 @media screen and (max-device-width: 479px) {
   * {
+    transform: rotate(3deg);
   }
 }
 

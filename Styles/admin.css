@@ -59,6 +59,10 @@ item{
   scale: 1.5;
 }
 
+svg {
+  transition: .5s all;
+}
+
 svg:hover{
   transform: scale(1.1);
 }
@@ -203,7 +207,15 @@ svg:hover{
     transform: translateX(600px);
     transition-duration: .5s;
   }
+
+  .ListSvg {
+    top: 7px;
+  }
   
+  .form_main svg {
+    position: relative;
+  }
+
   .form_main a {
     width: 250px;
     font-weight: 500;
@@ -231,7 +243,12 @@ svg:hover{
     box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.062);
     margin-top: 100px;
     overflow: hidden;
-    margin-bottom: 100px;
+  }
+
+  .form_main TitleContainer {
+    display: grid;
+    align-items: center;
+    justify-content: center;
   }
 
   section {
@@ -310,4 +327,161 @@ th {
   50% {
     transform: scale(1.2);
   }
+}
+
+.listItem {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: #2e2e2e1a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  margin-bottom: 10px;
+}
+
+.listItem h2 {
+  top: -30px;
+  left: 15px;
+  position: relative;
+  color: #2e2e2e;
+  width: 300px;
+}
+
+.listItem h3 {
+  font-size: 29px;
+  margin-right: 10px;
+}
+
+.listItem p {
+  position: absolute;
+  left: 95px;
+  top: 13px;
+  width: 300px;
+  height: 60px;
+  max-width: 300px;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.listItem svg {
+  position: relative;
+  top: -2px
+}
+
+.listItem:hover {
+  box-shadow: 1px 10px 20px #8000ff6b;
+  transform: scale(1.01);
+}
+
+.listBtnContainer {
+  position: absolute;
+  width: auto;
+  right: 0;
+  height: 100px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  margin-right: 10px;
+}
+
+.listImg {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  right: -10px;
+  background: #2e2e2e1a;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+}
+
+.searchBar {
+  position: relative;
+  top: -3px;
+  width: 25%;
+  border: 2px solid #2e2e2e;
+  border-radius: 30px;
+  outline: none;
+  padding: 10px;
+}
+
+.inputField::placeholder {
+  color: #2e2e2e;
+  opacity: 100%;
+}
+
+.ItemAdd {
+  height: auto;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.ItemAdd input, .custom-file-upload {
+  width: 200px;
+  height: 20px;
+  border: 2px solid #2e2e2e;
+  border-radius: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
+  transition: .5s all;
+  text-align: center;
+  outline: none;
+  margin-left: 40px;
+}
+
+.custom-file-upload {
+  cursor: pointer;
+}
+
+.ItemAdd input:hover {
+  box-shadow: 2px 2px 10px #8000ff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload:hover { 
+  box-shadow: 2px 2px 10px #8000ff;
+}
+
+.ItemAdd button {
+  width: 300px;
+  outline: none;
+  background: transparent;
+  border: 2px solid #2e2e2e;
+  border-radius: 30px;
+  padding: 10px;
+  margin-bottom: 30px;
+  transition: all .5s;
+  cursor: pointer;
+}
+
+.ItemAdd button:hover {
+  scale: 1.05;
+  border: 2px solid #8000ff;
+  box-shadow: 2px 2px 10px #8000ff;
+}
+
+.ItemAdd p {
+margin-left: 10px;
+}
+
+#Datas {
+  display: inline;
+}
+
+#ItemList {
+  display: none;
+}
+
+#AddItem {
+  display: none;
 }
