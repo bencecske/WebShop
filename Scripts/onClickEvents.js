@@ -1,4 +1,4 @@
-const apiUrl = 'https://february-boston-sheets-california.trycloudflare.com/';
+const apiUrl = 'https://chargers-baby-salaries-artistic.trycloudflare.com/';
 
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
