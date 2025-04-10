@@ -31,7 +31,7 @@ function LoadData(number, customer, price, count, date) {
     income += newIncome;
     document.getElementById('income').innerHTML = "Teljes Bevétel: " + income.toLocaleString('de-DE')  + " Ft";
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "/Elements/DataListItem.html", true);
+    rawFile.open("GET", "Elements/DataListItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
@@ -52,7 +52,7 @@ function LoadData(number, customer, price, count, date) {
 
 function LoadItems(number, name, group, type, price, description, img, id, count) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "/Elements/ListItem.html", true);
+    rawFile.open("GET", "Elements/ListItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
@@ -76,7 +76,7 @@ function LoadItems(number, name, group, type, price, description, img, id, count
 function RefreshJSON() {
     document.getElementById('ItemList').innerHTML = "";
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "/Elements/ItemListTitle.html", true);
+    rawFile.open("GET", "Elements/ItemListTitle.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
