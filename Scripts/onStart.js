@@ -1,4 +1,4 @@
-const apiURL = "https://february-boston-sheets-california.trycloudflare.com/"
+const apiURL = "https://chargers-baby-salaries-artistic.trycloudflare.com/"
 
 GetJSON();
 
