@@ -7,10 +7,10 @@
 <body>
 
   <div class="header">
-    <a class="mainBtn">HofiShop Termékkezelő</a>
+    <a class="mainBtn" href="main.html">HofiShop Termékkezelő</a>
   </div>
 
-  <form class="form_main" action="" id="Datas">
+  <form class="form_main" id="Datas">
     <h1>Eladások  
       <label class="CheckBoxcontainer">
       <input type="checkbox" checked="checked" id="SalesCheckBox">
@@ -23,22 +23,13 @@
         <path d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15 11.999 15C12.8215 15 13.5667 14.669 14.1086 14.133M6.49902 6.64715C4.59972 7.90034 3.15305 9.78394 2.45703 12C3.73128 16.0571 7.52159 19 11.9992 19C13.9881 19 15.8414 18.4194 17.3988 17.4184M10.999 5.04939C11.328 5.01673 11.6617 5 11.9992 5C16.4769 5 20.2672 7.94291 21.5414 12C21.2607 12.894 20.8577 13.7338 20.3522 14.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </label></h1>
+    <h3 id="income">Teljes Bevétel: </h3>
     <section id="Sales">
-      <table>
-        <th>Megnevezés</th>
-        <th>Kategória</th>
-        <th>Eladási ár</th>
-        <th>Eladás dátuma</th>
+      <table id="DataList">
         <th>Vevő</th>
-        <th>Profit</th>
-        <tr>
-          <td>Nike pulcsi</td>
-          <td>Férfi</td>
-          <td>19.990 Ft</td>
-          <td>2025.03.06</td>
-          <td>Martin</td>
-          <td>10.000 Ft</td>
-        </tr>
+        <th>Fizetve</th>
+        <th>Termékek</th>
+        <th>Dátum</th>
         </table>
     </section>
     <h1>Grafikonok 
@@ -58,102 +49,92 @@
       <canvas id="kor" style="width:100%;max-width:600px"></canvas>
       <br>
       <canvas id="csik" style="width:100%;max-width:600px"></canvas>
-      <script>
-        const xValues2 = ["Férfi eladások (db)", "Női eladások (db)", "Gyerek eladások (db)"];
-        const yValues = [66, 56, 67];
-        const barColors = [
-          "green",
-          "red",
-          "blue",
-        ];
-        
-        new Chart("kor", {
-          type: "pie",
-          data: {
-            labels: xValues2,
-            datasets: [{
-              backgroundColor: barColors,
-              data: yValues
-            }]
-          },
-          options: {
-            title: {display: false}
-          }
-        });
-        const xValues = ["Jan", "Feb", "Márc", "Ápr", "Máj", "Jún", "Júl", "Aug", "Szept", "Okt", "Nov", "Dec"];
-
-        new Chart("csik", {
-          type: "line",
-          data: {
-            labels: xValues,
-            datasets: [{ 
-              label: "Férfi eladások (db)",
-              data: [1,3,4,15,2,7,3,4,5,6,12,4],
-              borderColor: "green",
-              fill: false
-            }, { 
-              label: "Nő eladások (db)",
-              data: [12,2,4,1,7,9,2,3,9,2,1,4],
-              borderColor: "red",
-              fill: false
-            }, { 
-              label: "Gyerek eladások (db)",
-              data: [4,6,9,8,13,6,7,2,3,1,8,0],
-              borderColor: "blue",
-              fill: false
-            }]
-          },
-          options: {
-            legend: {display: true}
-          }
-        });
-      </script>
     </section>
   </form>
 
-  <form action="" class="form_main" id="ItemList">
+  <form class="form_main" id="ItemList">
     <TitleContainer>
       <h1>Aktív termékek listája
-        <input type="text" name="" id="listSearch" class="searchBar" placeholder="Keresés...">
-        <?xml version="1.0" encoding="utf-8"?>
-        <svg class="ListSvg" width="30" height="30" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
+        <input type="text" id="listSearch" class="searchBar" placeholder="Keresés...">
+        <svg onclick="searchItem()" class="ListSvg" width="30" height="30" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
         <path d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <?xml version="1.0" encoding="utf-8"?>
-        <svg class="ListSvg" width="30" height="30" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
+        <svg onclick="filterItem()" class="ListSvg" width="30" height="30" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
         <path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </h1>
+      <FilterContainer id="filters">
+        <label class="cbContainer" for="cb1">
+          <input type="checkbox" checked="checked" id="cb1">
+          <div class="checkmark"></div>
+          Férfi
+        </label>
+        <label class="cbContainer" for="cb2">
+          <input type="checkbox" id="cb2">
+          <div class="checkmark"></div>
+          Női
+        </label>
+        <label class="cbContainer" for="cb3">
+          <input type="checkbox" id="cb3">
+          <div class="checkmark"></div>
+          Gyerek
+        </label>
+        <select name="" id="cb4">
+          <option value="audi">Minden Tipus</option>
+          <option value="volvo">Kabát, Dzeski</option>
+          <option value="saab">Hosszúujjú</option>
+          <option value="opel">Nadrág</option>
+          <option value="audi">Póló</option>
+          <option value="audi">Cipő</option>
+        </select>
+      </FilterContainer>
     </TitleContainer>
-    <div id="newListItem" class="listItem">
-      <div id="newListItemImg" class="listImg">1</div>
-      <h2 id="newListItemTitle">Cucc neve</h2>
-      <p id="newListItemDescription">Cucc leirasa</p>
-      <div class="listBtnContainer">
-        <h3 id="newListPrice">10.000</h3>
-        <?xml version="1.0" encoding="utf-8"?>
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15.4998 5.49994L18.3282 8.32837M3 20.9997L3.04745 20.6675C3.21536 19.4922 3.29932 18.9045 3.49029 18.3558C3.65975 17.8689 3.89124 17.4059 4.17906 16.9783C4.50341 16.4963 4.92319 16.0765 5.76274 15.237L17.4107 3.58896C18.1918 2.80791 19.4581 2.80791 20.2392 3.58896C21.0202 4.37001 21.0202 5.63634 20.2392 6.41739L8.37744 18.2791C7.61579 19.0408 7.23497 19.4216 6.8012 19.7244C6.41618 19.9932 6.00093 20.2159 5.56398 20.3879C5.07171 20.5817 4.54375 20.6882 3.48793 20.9012L3 20.9997Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <?xml version="1.0" encoding="utf-8"?>
-        <svg width="50px" height="50px" viewBox="0 0 24 24" fill="#8000ff" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
   </form>
 
-  <form action="" class="form_main" id="AddItem">
+  <div class="popUpDiv" id="popUpDiv">
+      <h1 id="popUpItemName">Cucc neve</h1>
+      <div class="dataContainer">
+        <div class="section">
+          <h3>Név</h3>
+          <input type="text" id="popUpName">
+        </div>
+        <div class="section">
+          <h3>Leírás</h3>
+          <input type="text" id="popUpDesc">
+        </div>
+        <div class="section">
+          <h3>Csoport</h3>
+          <input type="text" id="popUpGroup">
+        </div>
+        <div class="section">
+          <h3>Tipus</h3>
+          <input type="text" id="popUpType">
+        </div>
+        <div class="section">
+          <h3>Ár</h3>
+          <input type="text" id="popUpPrice">
+        </div>
+        <div class="section">
+          <h3>Darabszám</h3>
+          <input type="text" id="popUpCount">
+        </div>
+        <button id="editBtn" onclick="editClick(this)">Szerkesztés</button>
+      </div>
+  </div>
+
+  <form class="form_main" id="AddItem">
     <TitleContainer>
       <h1>Termék hozzáadása</h1>
     </TitleContainer>
     <div class="ItemAdd">
-      <input type="text" name="" id="NewItemName" placeholder="Termék Neve">
-      <input type="text" name="" id="NewItemDescription" placeholder="Termék Leírása">
-      <input type="text" name="" id="NewItemPrice" placeholder="Termék Ára">
-      <input type="text" name="" id="NewItemPrice" placeholder="Termék Darabszáma">
+      <input type="text" name="" id="AddItemName" placeholder="Termék Neve">
+      <input type="text" name="" id="AddItemDescription" placeholder="Termék Leírása">
+      <input type="text" name="" id="AddItemGroup" placeholder="Termék Csoportja">
+      <input type="text" name="" id="AddItemType" placeholder="Termék Tipusa">
+      <input type="text" name="" id="AddItemPrice" placeholder="Termék Ára">
+      <input type="text" name="" id="AddItemCount" placeholder="Termék Darabszáma">
       <label for="file-upload" class="custom-file-upload">Termék Képe</label><input id="file-upload" type="file" />
-      <button submit>Feltöltés</button>
+      <button id="addItemButton" type="button" onclick="AddItem()">Feltöltés</button>
     </div>
   </form>
 
@@ -180,5 +161,6 @@
   </footer>
 
   <script src="Scripts/onClickEvents.js"></script>
+  <script src="Scripts/admin.js"></script>
 </body>
 </html>

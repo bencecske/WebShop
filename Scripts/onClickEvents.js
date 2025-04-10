@@ -1,16 +1,19 @@
-function toCartClick() {
-    let inCart = Number(document.getElementById("cartCount").innerHTML);
-    var inCartNow = inCart + 1;
-    if (inCartNow <= 9) {
-        document.getElementById("cartCount").innerHTML = inCartNow;
-    } else {
-        document.getElementById("cartCount").innerHTML = "9+";
-    }
-}
+const apiUrl = 'https://february-boston-sheets-california.trycloudflare.com/';
 
-function loginClick() {
-    document.getElementById("login").style.display = "flex";
-    document.getElementById("registration").style.display = "none";
+async function loginClick() {
+    let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
+    if (user) {
+        const response = await fetch(apiURL + "Users/" + user);
+        const result = await response.json();
+        if (result.user.role === "admin") {
+            window.location.replace("admin.html");
+        } else {
+            window.location.replace("account.html");
+        }
+    } else {
+        document.getElementById("login").style.display = "flex";
+        document.getElementById("registration").style.display = "none";
+    }
 }
 
 function registerClick() {
@@ -32,22 +35,34 @@ function menuClick() {
 }
 
 async function loginBtnClick() {
-    const apiUrl = 'https://cb5f-2001-4c4c-22e1-d400-c897-dc25-fe5d-61d9.ngrok-free.app/login/';
-    fetch(apiUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    const user = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const response = await fetch(apiURL + "Users/" + user)
+    const result = await response.json();
+    if (result) {
+        if (password === result.user.password) {
+            if (result.user.role === "admin") {
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
+                } else {
+                    window.sessionStorage.setItem("username", user)
+                }
+                window.location.replace("admin.html")
+            } else {
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
+                } else {
+                    window.sessionStorage.setItem("username", user)
+                }
+                window.location.replace("account.html")
+            }
+        } else {
+            document.getElementById('loginPassword').style.borderColor = "red";
         }
-        return response.json();
-      })
-      .then(userData => {
-        alert('User Data:', userData);
-      })
-      .catch(error => {
-        alert('Error:', error);
-      });
-    //window.location.replace("account.html");
+    } else {
+        document.getElementById('loginUsername').style.borderColor = "red";
     }
+}
 
 function editClick() {
     const elements = document.getElementsByClassName("editTable");
@@ -109,4 +124,93 @@ function switchPanels(element) {
         ListPanel.style.display = 'none';
         AddPanel.style.display = 'inline';
     }
+}
+
+async function cartAdd(element) {
+    let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+    if (user) {
+        const ID = element.id.replace("toCartBtn", "")
+        const req = await fetch(apiUrl + "Items/" + ID)
+        const res = await req.json();
+        if (res.item.count > 0) {
+            await fetch(apiUrl + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count - 1,
+                    })
+            })
+            const response = await fetch(apiURL + "Users/" + user);
+            const result = await response.json();
+            var inCartNow = result.user.inCart;
+            if (inCartNow <= 9) {
+                document.getElementById("cartCount").innerHTML = inCartNow + 1;
+            } else {
+                document.getElementById("cartCount").innerHTML = "9+";
+            }
+            await fetch(apiUrl + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": inCartNow + 1,
+                    "inCartID":result.user.inCartID.push(ID)
+                    })
+            })
+        } else {
+            alert("Valaki épp veszi ezt!")
+        }
+    } else {
+        document.getElementById("login").style.display = "flex";
+    }
+}
+
+async function cartRemove() {
+    
+}
+
+async function cartPlus() {
+    let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+    if (user) {
+        const ID = element.id.replace("toCartBtn", "")
+        const req = await fetch(apiUrl + "Items/" + ID)
+        const res = await req.json();
+        if (res.item.count > 0) {
+            await fetch(apiUrl + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count - 1,
+                    })
+            })
+            const response = await fetch(apiURL + "Users/" + user);
+            const result = await response.json();
+            await fetch(apiUrl + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": inCartNow + 1,
+                    })
+            })
+        } else {
+            alert("Nincs több ebből!")
+        }
+    } else {
+        document.getElementById("login").style.display = "flex";
+    }
+}
+
+async function cartMinus() {
+    
+}
+
+function cartPay() {
+
 }

@@ -554,3 +554,64 @@ a {
   .signupContainer a:hover {
     background-color: #8000ff;
   }
+  .cbContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    border-radius: 5px;
+   }
+   
+   .cbContainer {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    gap: 8px;
+   }
+   
+   .checkmark {
+    position: relative;
+    top: -3px;
+    left: 0;
+    height: 1.3em;
+    width: 1.3em;
+    background-color: #2e2e2e;
+    border-radius: 5px;
+   }
+   
+   .cbContainer input:checked ~ .checkmark {
+    box-shadow: 3px 3px 10px #8000ff6b;
+    transition: all 0.2s;
+    opacity: 1;
+    background-color: #8000ff;
+   }
+   
+   .cbContainer input ~ .checkmark {
+    transition: all 0.2s;
+    opacity: 1;
+    box-shadow: 1px 1px 0px rgb(183, 183, 183);
+   }
+   
+   .cbContainer:after {
+    content: "";
+    position: absolute;
+    opacity: 0;
+    transition: all 0.2s;
+   }
+   
+   .cbContainer input:checked ~ .checkmark:after {
+    opacity: 1;
+    transition: all 0.2s;
+   }
+   
+   .cbContainer .checkmark:after {
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid white;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+   }

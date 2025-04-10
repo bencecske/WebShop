@@ -1,21 +1,19 @@
-var JSONCount = 1;
-var JSONName = "item" + JSONCount + ".json";
+const apiURL = "https://february-boston-sheets-california.trycloudflare.com/"
 
-//alert(screen.width + " - " + screen.height);
+GetJSON();
 
-LoadJSON();
-
-function LoadJSON() {
-    var rawJSON = new XMLHttpRequest();
-        rawJSON.open("GET", "/JSONs/" + JSONName, true);
-        rawJSON.onreadystatechange = function() {
-        if (rawJSON.readyState === 4) {
-            var JSONallText = rawJSON.responseText;
-            Item = JSON.parse(JSONallText);
-            LoadItems(JSONCount, Item.name, Item.group, Item.type, Item.price, Item.description, Item.Img, Item.ID);
-        }
+async function GetJSON(request) {
+    try {
+      const response = await fetch(apiURL + "Items/");
+      const result = await response.json();
+      for (let i = 1; i <= result.length; i++) {
+        const res = await fetch(apiURL + "Items/" + i + "/");
+        const item = await res.json();
+        LoadItems(i, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID);
+      }
+    } catch (error) {
+      //baj
     }
-rawJSON.send();
 }
 
 function LoadItems(number, name, group, type, price, description, img, id) {
@@ -26,6 +24,7 @@ function LoadItems(number, name, group, type, price, description, img, id) {
         var allText = rawFile.responseText;
             document.body.innerHTML += allText;
             document.getElementById("newCardItem").id = "item" + number;
+            document.getElementById("toCartBtn").id = "toCartBtn" + number;
             document.getElementById("item" + number).style.backgroundImage = 'url('+img+')';
             document.getElementById("newCardItem_Name").id = "item" + number + "_name";
             document.getElementById("item" + number + "_name").innerHTML = name;
@@ -36,7 +35,14 @@ function LoadItems(number, name, group, type, price, description, img, id) {
         }
     }
     rawFile.send();
-    JSONCount++;
-    JSONName = "item" + JSONCount + ".json";
-    LoadJSON();
+}
+
+async function get(request) {
+    try {
+      const response = await fetch(request);
+      const result = await response.json();
+      alert(result.item.name);
+    } catch (error) {
+      //baj
+    }
 }
