@@ -1,4 +1,4 @@
-const apiURL = "https://chargers-baby-salaries-artistic.trycloudflare.com/"
+const apiURL = "https://diseases-green-neither-e.trycloudflare.com/"
 
 GetJSON(1);
 GetJSON(2);
@@ -31,7 +31,7 @@ function LoadData(number, customer, price, count, date) {
     income += newIncome;
     document.getElementById('income').innerHTML = "Teljes Bevétel: " + income.toLocaleString('de-DE')  + " Ft";
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/DataListItem.html", true);
+    rawFile.open("GET", "/Elements/DataListItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
@@ -52,7 +52,7 @@ function LoadData(number, customer, price, count, date) {
 
 function LoadItems(number, name, group, type, price, description, img, id, count) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/ListItem.html", true);
+    rawFile.open("GET", "/Elements/ListItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
@@ -76,7 +76,7 @@ function LoadItems(number, name, group, type, price, description, img, id, count
 function RefreshJSON() {
     document.getElementById('ItemList').innerHTML = "";
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/ItemListTitle.html", true);
+    rawFile.open("GET", "/Elements/ItemListTitle.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
@@ -142,11 +142,12 @@ async function editClick(element) {
             "type":document.getElementById('popUpType').value,
             "price":document.getElementById('popUpPrice').value,
             "count":document.getElementById('popUpCount').value,
-            "description":document.getElementById('popUpDesc').value,
-            "Img":"/Images/NikePolo.png"
+            "description":document.getElementById('popUpDesc').value
             })
         })
-        document.getElementById('popUpDiv').style.display = "none";
+    document.getElementById('popUpDiv').style.display = "none";
+    setTimeout(3000)
+    RefreshJSON()
 }
 
 async function deleteItem(element) {

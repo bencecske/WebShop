@@ -1,6 +1,21 @@
-const apiURL = "https://chargers-baby-salaries-artistic.trycloudflare.com/"
+const apiURL = "https://diseases-green-neither-e.trycloudflare.com/"
 
 GetJSON();
+LoadCart();
+
+async function LoadCart() {
+  let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+  if (user) {
+    const response = await fetch(apiURL + "Users/" + user);
+    const result = await response.json();
+    var inCartNow = result.user.inCart;
+    if (inCartNow <= 9) {
+      document.getElementById("cartCount").innerHTML = inCartNow;
+    } else {
+      document.getElementById("cartCount").innerHTML = "9+";
+    }
+  }
+}
 
 async function GetJSON(request) {
     try {
@@ -18,7 +33,7 @@ async function GetJSON(request) {
 
 function LoadItems(number, name, group, type, price, description, img, id) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/CardItem.html", true);
+    rawFile.open("GET", "/Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;

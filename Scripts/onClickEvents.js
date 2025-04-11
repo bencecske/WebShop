@@ -1,4 +1,4 @@
-const apiUrl = 'https://chargers-baby-salaries-artistic.trycloudflare.com/';
+const apiUrl = 'https://diseases-green-neither-e.trycloudflare.com/';
 
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
@@ -145,11 +145,8 @@ async function cartAdd(element) {
             const response = await fetch(apiURL + "Users/" + user);
             const result = await response.json();
             var inCartNow = result.user.inCart;
-            if (inCartNow <= 9) {
-                document.getElementById("cartCount").innerHTML = inCartNow + 1;
-            } else {
-                document.getElementById("cartCount").innerHTML = "9+";
-            }
+            let inCartIDs = result.user.inCartID;
+            inCartIDs.push(ID)
             await fetch(apiUrl + "Users/" + user, {
                 method: "PATCH",
                 headers: {
@@ -157,9 +154,14 @@ async function cartAdd(element) {
                 },
                 body: JSON.stringify({
                     "inCart": inCartNow + 1,
-                    "inCartID":result.user.inCartID.push(ID)
+                    "inCartID": inCartIDs
                     })
             })
+            if (inCartNow <= 9) {
+                document.getElementById("cartCount").innerHTML = inCartNow + 1;
+            } else {
+                document.getElementById("cartCount").innerHTML = "9+";
+            }
         } else {
             alert("Valaki épp veszi ezt!")
         }
