@@ -27,7 +27,7 @@ async function GetJSON(request) {
         LoadItems(i, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID);
       }
     } catch (error) {
-      //baj
+      //baj xd
     }
 }
 
