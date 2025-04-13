@@ -1,4 +1,4 @@
-const apiUrl = 'https://diseases-green-neither-e.trycloudflare.com/';
+const apiUrl = 'https://arab-decor-julie-personal.trycloudflare.com/';
 
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
