@@ -1,4 +1,4 @@
-const apiURL = "https://diseases-green-neither-e.trycloudflare.com/"
+const apiURL = "https://arab-decor-julie-personal.trycloudflare.com/"
 
 GetJSON();
 LoadCart();
