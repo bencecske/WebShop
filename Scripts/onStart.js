@@ -33,7 +33,7 @@ async function GetJSON(request) {
 
 function LoadItems(number, name, group, type, price, description, img, id) {
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "/Elements/CardItem.html", true);
+    rawFile.open("GET", "Elements/CardItem.html", true);
     rawFile.onreadystatechange = function() {
     if (rawFile.readyState === 4) {
         var allText = rawFile.responseText;
