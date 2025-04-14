@@ -1,4 +1,4 @@
-const apiURL = "https://arab-decor-julie-personal.trycloudflare.com/"
+const apiURL = "https://meet-amateur-denial-toe.trycloudflare.com/"
 
 GetJSON(1);
 GetJSON(2);
