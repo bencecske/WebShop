@@ -3,7 +3,7 @@ const apiUrl = 'https://meet-amateur-denial-toe.trycloudflare.com/';
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
     if (user) {
-        const response = await fetch(apiURL + "Users/" + user);
+        const response = await fetch(apiUrl + "Users/" + user);
         const result = await response.json();
         if (result.user.role === "admin") {
             window.location.replace("admin.html");
@@ -37,7 +37,7 @@ function menuClick() {
 async function loginBtnClick() {
     const user = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-    const response = await fetch(apiURL + "Users/" + user)
+    const response = await fetch(apiUrl + "Users/" + user)
     const result = await response.json();
     if (result) {
         if (password === result.user.password) {
@@ -142,7 +142,7 @@ async function cartAdd(element) {
                     "count": res.item.count - 1,
                     })
             })
-            const response = await fetch(apiURL + "Users/" + user);
+            const response = await fetch(apiUrl + "Users/" + user);
             const result = await response.json();
             var inCartNow = result.user.inCart;
             let inCartIDs = result.user.inCartID;
@@ -170,49 +170,94 @@ async function cartAdd(element) {
     }
 }
 
-async function cartRemove() {
-    
-}
-
-async function cartPlus() {
+async function cartRemove(element, type) {
     let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
     if (user) {
-        const ID = element.id.replace("toCartBtn", "")
-        const req = await fetch(apiUrl + "Items/" + ID)
+        let ID;
+        if (type == 'byFunc') {
+            ID = element
+        } else {
+            ID = element.id.replace("CartBin", "");
+        }
+        const response = await fetch(apiUrl + "Users/" + user);
+        const result = await response.json();
+        let InCartIDs = result.user.inCartID;
+        InCartIDs = InCartIDs.filter(item => item != ID);
+        let deleted = result.user.inCartID.length - InCartIDs.length
+        await fetch(apiUrl + "Users/" + user, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "inCart": result.user.inCart - deleted,
+                "inCartID": InCartIDs
+            })
+        })
+        const req = await fetch(apiUrl + "Items/" + ID);
+        const res = await req.json();
+        await fetch(apiUrl + "Items/" + ID, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "count": res.item.count + deleted
+            })
+        })
+        document.getElementById("CartItem" + ID).remove();
+    }
+}
+
+async function cartPlus(element) {
+    let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+    if (user) {
+        const ID = element.id.replace("CartPlus", "");
+        const req = await fetch(apiUrl + "Items/" + ID);
         const res = await req.json();
         if (res.item.count > 0) {
-            await fetch(apiUrl + "Items/" + ID, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "count": res.item.count - 1,
-                    })
-            })
-            const response = await fetch(apiURL + "Users/" + user);
+            let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+            const response = await fetch(apiUrl + "Users/" + user);
             const result = await response.json();
+            let InCartIDs = result.user.inCartID;
+            InCartIDs.push(ID);
             await fetch(apiUrl + "Users/" + user, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "inCart": inCartNow + 1,
-                    })
+                    "inCart": result.user.inCart + 1,
+                    "inCartID": InCartIDs
+                })
             })
-        } else {
-            alert("Nincs több ebből!")
+            await fetch(apiUrl + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count - 1
+                })
+            })
+            document.getElementById("CartItemImg" + ID).innerHTML = count + 1;
         }
-    } else {
-        document.getElementById("login").style.display = "flex";
     }
 }
 
-async function cartMinus() {
-    
+async function cartMinus(element) {
+    let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+    if (user) {
+        const ID = element.id.replace("CartMinus", "");
+        let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+        if (count > 1) {
+            document.getElementById("CartItemImg" + ID).innerHTML = count - 1;
+        } else {
+            cartRemove(3, 'byFunc')
+        }
+    }
 }
 
-function cartPay() {
+async function cartPay() {
 
 }
