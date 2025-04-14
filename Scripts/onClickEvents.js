@@ -251,7 +251,33 @@ async function cartMinus(element) {
         const ID = element.id.replace("CartMinus", "");
         let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
         if (count > 1) {
-            document.getElementById("CartItemImg" + ID).innerHTML = count - 1;
+            const req = await fetch(apiUrl + "Items/" + ID);
+            const res = await req.json();
+            let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+            const response = await fetch(apiUrl + "Users/" + user);
+            const result = await response.json();
+            let InCartIDs = result.user.inCartID;
+            InCartIDs.push(ID);
+            await fetch(apiUrl + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": result.user.inCart - 1,
+                    "inCartID": InCartIDs
+                })
+            })
+            await fetch(apiUrl + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count + 1
+                })
+            })
+            document.getElementById("CartItemImg" + ID).innerHTML = count - 1;    
         } else {
             cartRemove(3, 'byFunc')
         }
