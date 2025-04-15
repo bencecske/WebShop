@@ -6,9 +6,9 @@ async function loginClick() {
         const response = await fetch(apiUrl + "Users/" + user);
         const result = await response.json();
         if (result.user.role === "admin") {
-            window.location.replace("admin.html");
+            window.location.replace("admin.html?platform=set");
         } else {
-            window.location.replace("account.html");
+            window.location.replace("account.html?platform=set");
         }
     } else {
         document.getElementById("login").style.display = "flex";
@@ -27,7 +27,7 @@ function closeForm() {
 }
 
 function cartClick() {
-    window.location.replace("cart.html");
+    window.location.replace("cart.html?platform=set");
 }
 
 function menuClick() {
@@ -47,14 +47,14 @@ async function loginBtnClick() {
                 } else {
                     window.sessionStorage.setItem("username", user)
                 }
-                window.location.replace("admin.html")
+                window.location.replace("admin.html?platform=set")
             } else {
                 if (document.getElementById('saveLogin').checked) {
                     window.localStorage.setItem("username", user)
                 } else {
                     window.sessionStorage.setItem("username", user)
                 }
-                window.location.replace("account.html")
+                window.location.replace("account.html?platform=set")
             }
         } else {
             document.getElementById('loginPassword').style.borderColor = "red";
