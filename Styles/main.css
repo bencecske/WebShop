@@ -11,12 +11,6 @@ a {
   cursor: pointer;
 }
 
-@media screen and (max-device-width: 479px) {
-  * {
-    transform: rotate(3deg);
-  }
-}
-
 @media (min-width: 650px) {
   body { grid-template-columns: repeat(2, 1fr); }
 }
