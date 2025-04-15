@@ -1,4 +1,4 @@
-const apiUrl = 'https://meet-amateur-denial-toe.trycloudflare.com/';
+const apiUrl = 'https://pursuit-mating-bought-whereas.trycloudflare.com/';
 
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
@@ -127,6 +127,9 @@ function switchPanels(element) {
 }
 
 async function cartAdd(element) {
+    if (url.includes("mobile")) {
+        mobile = true;
+    }
     let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
     if (user) {
         const ID = element.id.replace("toCartBtn", "")
@@ -158,15 +161,23 @@ async function cartAdd(element) {
                     })
             })
             if (inCartNow <= 9) {
-                document.getElementById("cartCount").innerHTML = inCartNow + 1;
+                if (!mobile) {
+                    document.getElementById("cartCount").innerHTML = inCartNow + 1;
+                } else {
+                    document.getElementById("cartCount").innerHTML = "Kosár ("+ inCartNow++ +")";
+                }
             } else {
-                document.getElementById("cartCount").innerHTML = "9+";
+                if (!mobile) {
+                    document.getElementById("cartCount").innerHTML = "9+"; 
+                } else {
+                    document.getElementById("cartCount").innerHTML = "Kosár (9+)";
+                }
             }
         } else {
             alert("Valaki épp veszi ezt!")
         }
     } else {
-        document.getElementById("login").style.display = "flex";
+        document.getElementById("login").style.display = "block";
     }
 }
 
