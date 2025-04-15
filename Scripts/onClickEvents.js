@@ -1,4 +1,4 @@
-const apiUrl = 'https://pursuit-mating-bought-whereas.trycloudflare.com/';
+const apiUrl = 'https://locator-dat-freebsd-wrapping.trycloudflare.com/';
 
 async function loginClick() {
     let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
