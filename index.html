@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <script>
-    alert(window.innerWidth)
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('platform', 'set');
-    if (window.innerWidth < 700) {
+    if (window.innerWidth < 1000) {
         window.location.replace("mobile-main.html?" + urlParams);
-    } else if (window.innerWidth >= 700) {
+    } else if (window.innerWidth >= 1000) {
         window.location.replace("main.html?" + urlParams);
     }
 </script>
