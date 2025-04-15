@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #2e2e2e;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      border: 2px solid #2e2e2e;
+      background-color: #ffffff;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(128, 0, 255, 0.15);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #2e2e2e;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #2e2e2e;
+    }
+
+    .btn {
+      background-color: #8000ff;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #9d33ff;
+      transform: scale(1.05);
+    }
+
+    ul.status {
+      list-style: none;
+      margin-top: 2rem;
+      padding: 0;
+      color: #2e2e2e;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    ul.status li {
+      margin-bottom: 0.5rem;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    ul.status li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #8000ff;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      ul.status {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hiba történt...</h1>
+    <p>A szerver most nem elérhető. Lehet, hogy karbantartás zajlik, vagy ideiglenes problémák miatt offline vagyunk.</p>
+    <ul class="status">
+        <li><strong>Szerver állapota:</strong> Offline</li>
+        <li><strong>Megjegyzés:</strong> <span id="error-message">Karbantartás</span></li>
+    </ul>
+    <br>
+    <a href="index.html" class="btn">Próbáljuk újra!</a>
+  </div>
+</body>
+<script>
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+  
+    const error = getQueryParam("error");
+    if (error) {
+      // Lecseréli az "Error: " kezdetű részt, ha van benne
+      const cleanedError = decodeURIComponent(error.replace(/\+/g, ' ')).replace(/^Error:\s*/i, '');
+      document.getElementById("error-message").textContent = cleanedError;
+    }
+</script>
+</html>

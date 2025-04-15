@@ -1,6 +1,5 @@
-const apiURL = "https://locator-dat-freebsd-wrapping.trycloudflare.com/"
-
-const platform = localStorage.getItem("platform");
+function onStart() {
+  const platform = localStorage.getItem("platform");
 
 const params = new URLSearchParams(window.location.search);
 
@@ -179,4 +178,5 @@ function LoadItems(number, name, group, type, price, description, img, id) {
         }
     }
     rawFile.send();
+}
 }

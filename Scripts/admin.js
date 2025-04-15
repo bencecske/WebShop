@@ -1,6 +1,5 @@
-const apiURL = "https://locator-dat-freebsd-wrapping.trycloudflare.com/"
-
-GetJSON(1);
+function admin() {
+    GetJSON(1);
 GetJSON(2);
 LoadGraphs()
 
@@ -247,4 +246,5 @@ async function LoadGraphs() {
             legend: {display: true}
         }
     });
+}
 }
