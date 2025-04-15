@@ -2,10 +2,10 @@ const apiURL = "https://pursuit-mating-bought-whereas.trycloudflare.com/"
 
 const platform = localStorage.getItem("platform");
 
-if (window.innerWidth < 500 && platform !== "mobile") {
+if (window.innerWidth < 480 && platform !== "mobile") {
   localStorage.setItem("platform", "mobile");
   window.location.replace("mobile-main.html");
-} else if (window.innerWidth >= 500 && platform !== "pc") {
+} else if (window.innerWidth >= 480 && platform !== "pc") {
   localStorage.setItem("platform", "pc");
   window.location.replace("main.html");
 }
