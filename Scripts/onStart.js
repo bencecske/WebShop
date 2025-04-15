@@ -1,4 +1,4 @@
-const apiURL = "https://pursuit-mating-bought-whereas.trycloudflare.com/"
+const apiURL = "https://locator-dat-freebsd-wrapping.trycloudflare.com/"
 
 const platform = localStorage.getItem("platform");
 
