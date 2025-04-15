@@ -2,12 +2,10 @@ const apiURL = "https://pursuit-mating-bought-whereas.trycloudflare.com/"
 
 const platform = localStorage.getItem("platform");
 
-if (window.innerWidth < 480 && platform !== "mobile") {
-  localStorage.setItem("platform", "mobile");
-  window.location.replace("mobile-main.html");
-} else if (window.innerWidth >= 480 && platform !== "pc") {
-  localStorage.setItem("platform", "pc");
-  window.location.replace("main.html");
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("platform") != "set") {
+  window.location.replace("index.html");
 }
 
 const url = window.location.href;

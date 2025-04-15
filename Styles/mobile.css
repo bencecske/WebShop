@@ -72,7 +72,7 @@
   .main-content, .account-content {
     flex: 1;
     margin-top: 20px;
-    padding-bottom: 80px; 
+    padding-bottom: 20px; 
   }
   .product-list {
     display: grid;
@@ -160,9 +160,7 @@
 .search-form {
     display: flex;
     width: 100%;
-    max-width: 200px;
-    height: 3;
-    margin-right: 50px;
+    margin-left: 3%;
   }
   .search-form input {
     outline: none;
