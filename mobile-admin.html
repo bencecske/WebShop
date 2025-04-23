@@ -1,56 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="hu">
 <head>
-    <link rel="stylesheet" href="Styles/cart.css">
-    <title>HofiShop - Kosár</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HofiShop - Fiók</title>
+    <link rel="stylesheet" href="Styles/mobile.css">
 </head>
 <body>
-
-  <div class="header">
-    <a class="mainBtn" href="main.html">HofiShop</a>
-    <div class="button-container">
-      <button class="button" onclick="cartClick()">
-        <p id="cartCount">0</p>
-        <svg
-          class="icon"
-          stroke="currentColor"
-          fill="none"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path
-            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-          ></path>
-        </svg>
-      </button>
-      <button class="button" onclick="loginClick()">
-        <svg
-          class="icon"
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 24 24"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"
-          ></path>
-        </svg>
-      </button>
-    </div>
-</div>
-
-    <div class="footer">
-        <div class="card">
+  <div class="container">
+    <header class="header">
+        <input type="checkbox" id="burger"/>
+        <label class="burger" for="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div>
+          <button onclick="mobileAdminBtn(this)">Termékek</button>
+          <button onclick="mobileAdminBtn(this)">Rendelések</button>
+          <button onclick="mobileAdminBtn(this)">Új Termék</button>
+        </div>
+        <nav class="navbar">
+          <a href="mobile-main.html?platform=set">Kezdőlap</a>
+          <a onclick="mobileAdminBtn(this)">Termékek</a>
+          <a onclick="mobileAdminBtn(this)">Rendelések</a>
+          <a onclick="mobileAdminBtn(this)">Új Termék</a>
+          <footer class="footer">
             <a href="#" class="socialContainer containerOne">
               <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
                 <path
@@ -58,7 +33,6 @@
                 ></path>
               </svg>
             </a>
-          
             <a href="#" class="socialContainer containerTwo">
               <svg
                 class="socialSvg tiktokSvg largeIcon"
@@ -83,56 +57,77 @@
                 </g>
               </svg>
             </a>
-          </div>
-    </div>
+        </footer>
+        </nav>
+        <div class="overlay"></div>
+    </header>
 
-    <form class="form_main" id="payment">
-        <p class="heading">Fizetés</s></p>
-        <table class="cart-table">
-          <thead>
-            <tr>
-              <th>Termék</th>
-              <th>Darab</th>
-              <th>Egységár (Ft)</th>
-              <th>Összesen (Ft)</th>
-            </tr>
-          </thead>
-          <tbody id="items">
-          </tbody>
-        </table>
-        <div class="cart-summary">
-          <h2>Végösszeg: <strong id="endPrice">0 Ft</strong></h2>
+    <main class="main-content" id="itemList">
+      <div class="card" style="text-align: left;">
+        <div class="ordersHeader">
+          <h2>Termékek</h2>
+          <form class="search-bar" onsubmit="searchItem(event)">
+            <input type="text" name="query" placeholder="Keresés...">
+            <button type="submit"><svg 
+                onclick="searchItem(event)" 
+                class="ListSvg" 
+                width="30" 
+                height="30" 
+                viewBox="0 0 24 24" 
+                fill="transparent" 
+                xmlns="http://www.w3.org/2000/svg">
+                <path 
+                d="M11 6C13.7614 6 
+                16 8.23858 16 11M16.6588 
+                16.6549L21 21M19 11C19 
+                15.4183 15.4183 19 11 
+                19C6.58172 19 3 15.4183 
+                3 11C3 6.58172 6.58172 3 
+                11 3C15.4183 3 19 6.58172 19 
+                11Z" stroke="#000000" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"/>
+                </svg>
+            </button>
+          </form>
         </div>
-        <button class="btn" type="submit">Fizetek</button>
-    </form>
+      </div>
+    </main>
 
-    <script src="Scripts/check.js"></script>
-    <script src="Scripts/onClickEvents.js"></script>
-    <script src="Scripts/onStart.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-      const stripe = Stripe("pk_test_51RDr7k4FFIWXdfs8GEM7SkiKeyGizTeFsCt4hkAXllVv3B8rqE0oZm1HqLH7yabVheMGDJh3AvH3yGJT7xQ6v6JR002el7NOqh");
-    
-      document.getElementById("payment").addEventListener("submit", async function(e) {
+    <main class="main-content" id="uploadItem">
+      <div class="card" style="text-align: left;">
+        <h2>Új Termék</h2>
+        <div class="uploadItem">
+          <input type="text" placeholder="Termék neve" id="">
+          <input type="text" placeholder="Termék leirasa" id="">
+          <input type="text" placeholder="Termék csoportja" id="">
+          <input type="text" placeholder="Termék tipusa" id="">
+          <input type="text" placeholder="Termék ára" id="">
+          <input type="text" placeholder="Termék darabszáma" id="">
+          <label for="">
+            <input type="file" id="">
+          </label>
+          <button onclick="">Feltöltés</button>
+        </div>
+      </div>
+    </main>
 
-        e.preventDefault();
-    
-        let amountText = document.getElementById("endPrice").innerText;
-        let amount = parseInt(amountText.replace(/\D/g, ''));
-    
-        const res = await fetch(apiURL + "checkout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ amount: amount }),
-        });
-    
-        const data = await res.json();
-        const sessionId = data.id;
-
-        stripe.redirectToCheckout({ sessionId: sessionId });
-      });
-    </script>
+    <main class="main-content" id="orderList">
+      <div class="card" style="text-align: left;">
+        <h2>Rendelések</h2>
+        <table id="orderTable">
+          <thead>
+            <th>Azonosito</th>
+            <th>Termékek</th>
+            <th>Állapot</th>
+          </thead>
+        </table>
+      </div>
+    </main>
+  </div>
 </body>
+<script src="Scripts/check.js"></script>
+<script src="Scripts/onStart.js"></script>
+<script src="Scripts/admin.js"></script>
 </html>

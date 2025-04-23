@@ -1,30 +1,150 @@
-function onStart() {
-  const platform = localStorage.getItem("platform");
-
-const params = new URLSearchParams(window.location.search);
-
-if (params.get("platform") != "set") {
-  window.location.replace("index.html");
-}
-
-const url = window.location.href;
+let url;
 
 let mobile;
 
-if (url.includes("cart")) {
-  LoadCart(true);
-} else {
-  if (url.includes("main")) {
-    GetJSON();
+let user;
+
+async function onStart() {
+  await LoadUser();
+
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("platform") != "set") {
+    window.location.replace("index.html");
   }
-  LoadCart(false);
+
+  url = window.location.href;
+
+  if (!url.includes("admin")) {
+    if (url.includes("pay")) {
+      LoadPay();
+      LoadCart(false);
+    } else if (url.includes("account")) {
+      LoadAccount()
+      LoadCart(false);
+    } else {
+      if (url.includes("cart")) {
+        LoadCart(true);
+      } else {
+        if (url.includes("main")) {
+          GetJSON();
+        }
+        LoadCart(false);
+      }
+    }
+  }
+}
+
+async function LoadUser() {
+  let checkUser = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
+  let checkPassword = window.sessionStorage.getItem('password') || window.localStorage.getItem('password')
+  if (checkUser && checkPassword) {
+    const response = await fetch(apiURL + "users/" + checkUser)
+    const result = await response.json();
+    if (response.ok) {
+      if (result.user.password == checkPassword) {
+        user = checkUser
+      } else {
+        user = null
+      }
+    } else {
+      user = null
+    }
+  } else {
+    user = null
+  }
+}
+
+async function LoadAccount() {
+  if (user) {
+    const response = await fetch(apiURL + "Users/" + user);
+    const result = await response.json();
+    let length = result.user.orders.length - 1;
+    for (let i = length; i >= 0; i--) {
+      let ID = result.user.orders[i]
+      const req = await fetch(apiURL + "Datas/" + ID)
+      const res = await req.json();
+      const order = res.order;
+      if (order) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", "Elements/AccountList.html", true);
+        rawFile.onreadystatechange = function() {
+          if (rawFile.readyState === 4) {
+            var allText = rawFile.responseText;
+            if (mobile) {
+              allText = allText.replace(`<td id="Date">2025.04.21</td>`, "")
+            }
+            document.getElementById("orderList").innerHTML += allText;
+            const idMap = {
+              "Order": `Order${ID}`,
+              "Date": `Date${ID}`,
+              "Status": `Status${ID}`,
+              "checkOrder": `checkOrder${ID}`,
+              "cancelOrder": `cancelOrder${ID}`,
+            };
+            for (const [oldId, newId] of Object.entries(idMap)) {
+              const el = document.getElementById(oldId);
+              if (el) el.id = newId;
+            }
+            document.getElementById(`Order${ID}`).innerHTML = `#${ID}`
+            if (!mobile) {
+              document.getElementById(`Date${ID}`).innerHTML = new Date(order.date * 1000).toLocaleString("hu-HU");
+            }
+            const statusTexts = {
+              0: `Feldolgozás alatt`,
+              1: `Kiszállítás alatt`,
+              2: `Kézbesítve`,
+              3: `Lezárva`
+            };
+            let status = statusTexts[order.status] || "Ismeretlen státusz";
+            document.getElementById(`Status${ID}`).innerHTML = status
+          }
+        }
+        rawFile.send();
+      }
+    }
+  }
+}
+
+async function LoadPay() {
+  if (user) {
+    const response = await fetch(apiURL + "Users/" + user);
+    const result = await response.json();
+    const inCart = result.user.inCart;
+    const cartItem = result.user.inCartID;
+    for (let i = 0; i < inCart; i++) {
+      const req = await fetch(apiURL + "Items/" + cartItem[i])
+      const res = await req.json();
+      if (!document.getElementById(`item${cartItem[i]}`)) {
+        document.getElementById("items").innerHTML += `
+          <tr>
+            <td id="item${cartItem[i]}">${res.item.name}</td>
+            <td id="itemCount${cartItem[i]}">1</td>
+            <td id="perItem${cartItem[i]}">${res.item.price}</td>
+            <td id="allItem${cartItem[i]}">${res.item.price}</td>
+          </tr>
+        `;
+        let price = parseInt(document.getElementById("endPrice").innerHTML.replace(/\./g, '').replace(/\s?Ft/g, ''))
+        let newPrice = price + parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, ''))
+        document.getElementById("endPrice").innerHTML = newPrice.toLocaleString('de-DE') + " Ft"
+      } else {
+        let count = Number(document.getElementById(`itemCount${cartItem[i]}`).innerHTML) + 1
+        document.getElementById(`itemCount${cartItem[i]}`).innerHTML = count;
+        let price = parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, ''))
+        let allPrice = price * count
+        document.getElementById(`allItem${cartItem[i]}`).innerHTML = allPrice.toLocaleString('de-DE') + " Ft"
+        let OldPrice = parseInt(document.getElementById("endPrice").innerHTML.replace(/\./g, '').replace(/\s?Ft/g, ''))
+        let newPrice = OldPrice + parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, ''))
+        document.getElementById("endPrice").innerHTML = newPrice.toLocaleString('de-DE') + " Ft"
+      }
+    }
+  }
 }
 
 async function LoadCart(isCart) {
   if (url.includes("mobile")) {
     mobile = true;
   }
-  let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
   if (user) {
     const response = await fetch(apiURL + "Users/" + user);
     const result = await response.json();
@@ -45,7 +165,7 @@ async function LoadCart(isCart) {
     if (isCart) {
       for (let i = 0; i < inCartNow; i++) {
         const ID = result.user.inCartID[i];
-        const req = await fetch(apiUrl + "Items/" + ID);
+        const req = await fetch(apiURL + "Items/" + ID);
         const res = await req.json();
         if (!document.getElementById(`CartItem${ID}`)) {
           var rawFile = new XMLHttpRequest();
@@ -81,7 +201,7 @@ async function LoadCart(isCart) {
               }
 
               if (!mobile) {
-                document.getElementById(`CartItemImg${ID}`).style.backgroundImage = `url(${res.item.Img})`;
+                document.getElementById(`CartItemImg${ID}`).style.backgroundImage = `url(${apiURL}Images/${res.item.Img})`;
                 document.getElementById(`CartTitle${ID}`).innerHTML = res.item.name;
                 document.getElementById(`CartDescription${ID}`).innerHTML = res.item.description;
                 document.getElementById(`CartPrice${ID}`).innerHTML = res.item.price; 
@@ -165,12 +285,12 @@ function LoadItems(number, name, group, type, price, description, img, id) {
             }
             
             if (!mobile) {
-              document.getElementById(`item${number}`).style.backgroundImage = `url(${img})`;
+              document.getElementById(`item${number}`).style.backgroundImage = `url(${apiURL}Images/${img})`;
               document.getElementById(`item${number}_name`).innerHTML = name;
               document.getElementById(`item${number}_description`).innerHTML = description;
               document.getElementById(`item${number}_price`).innerHTML = price;
             } else {
-              document.getElementById(`item${number}_img`).src = img;
+              document.getElementById(`item${number}_img`).src = `${apiURL}Images/${img}`;
               document.getElementById(`item${number}_name`).innerHTML = name;
               document.getElementById(`item${number}_description`).innerHTML = description;
               document.getElementById(`item${number}_price`).innerHTML = price;
@@ -178,5 +298,4 @@ function LoadItems(number, name, group, type, price, description, img, id) {
         }
     }
     rawFile.send();
-}
-}
+  }

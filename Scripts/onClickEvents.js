@@ -1,300 +1,447 @@
-function onClickEvents() {
-    async function loginClick() {
-        let user = window.localStorage.getItem('username') || window.sessionStorage.getItem('username');
-        if (user) {
-            const response = await fetch(apiURL + "Users/" + user);
-            const result = await response.json();
-            if (result.user.role === "admin") {
-                window.location.replace("admin.html?platform=set");
-            } else {
-                window.location.replace("account.html?platform=set");
-            }
+async function loginClick() {
+    if (user) {
+        const response = await fetch(apiURL + "Users/" + user);
+        const result = await response.json();
+        if (result.user.role === "admin") {
+            window.location.replace("admin.html?platform=set");
         } else {
-            document.getElementById("login").style.display = "flex";
-            document.getElementById("registration").style.display = "none";
+            window.location.replace("account.html?platform=set");
         }
-    }
-    
-    function registerClick() {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("registration").style.display = "flex";
-    }
-    
-    function closeForm() {
-        document.getElementById("login").style.display = "none";
+    } else {
+        document.getElementById("login").style.display = "flex";
         document.getElementById("registration").style.display = "none";
     }
-    
-    function cartClick() {
-        window.location.replace("cart.html?platform=set");
+}
+
+function registerClick() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "flex";
+}
+
+function closeForm() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("registration").style.display = "none";
+}
+
+function cartClick() {
+    window.location.replace("cart.html?platform=set");
+}
+
+function menuClick() {
+    document.getElementById('menuBar').classList.toggle('show');
+}
+
+function searchItem(event) {
+    event?.preventDefault();
+    let cards;
+    let item;
+    let title;
+    let description;
+    document.getElementById("noItem").style.display = "none"
+    const query = document.querySelector('.search-bar input[name="query"]').value.toLowerCase()
+    const url = new URL(window.location);
+    url.searchParams.set('kereses', query);
+    window.history.pushState({}, '', url);
+    cards = document.getElementsByClassName("cardItem").length || document.getElementsByClassName("product-card").length;
+    for (let i = 1; i <= cards; i++) {
+        item = document.getElementById("item" + [i])
+        item.style.display = "flex";
+        title = document.getElementById("item" + [i] + "_name").innerHTML.toLowerCase();
+        description = document.getElementById("item" + [i] + "_description").innerHTML.toLowerCase();
+        if (!title.includes(query) && !description.includes(query)) {
+            item.style.display = "none"
+        } else {
+            item.style.display = "unset"
+        }
     }
-    
-    function menuClick() {
-        document.getElementById('menuBar').classList.toggle('show');
+    const hidden = hiddenCount('.cardItem, .product-card');
+    if (hidden.length == cards) {
+        document.getElementById("noItem").style.display = "flex"
     }
-    
-    async function loginBtnClick() {
-        const user = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
-        const response = await fetch(apiURL + "Users/" + user)
+}
+
+async function searchBy(group, type) {
+    document.getElementById("noItem").style.display = "none"
+    let cards = document.getElementsByClassName("cardItem").length || document.getElementsByClassName("product-card").length;
+    let item;
+    for (let index = 1; index <= cards; index++) {
+        item = document.getElementById("item" + [index])
+        item.style.display = "none"
+    }
+    let response;
+    if (type == "all") {
+        response = await fetch(apiURL + "Items/Groups/" + group)
+    } else {
+        response = await fetch(apiURL + "Items/Groups/" + group + "/" + type)
+    }
+    if (response.ok) {
         const result = await response.json();
-        if (result) {
-            if (password === result.user.password) {
-                if (result.user.role === "admin") {
-                    if (document.getElementById('saveLogin').checked) {
-                        window.localStorage.setItem("username", user)
-                    } else {
-                        window.sessionStorage.setItem("username", user)
-                    }
-                    window.location.replace("admin.html?platform=set")
+        if (result.item.length > 0) {
+            for (let i = 0; i < result.item.length; i++) {
+                console.log(result.item[i].name)
+                item = document.getElementById("item" + [result.item[i].ID])
+                if (!mobile) {
+                    item.style.display = "flex"
                 } else {
-                    if (document.getElementById('saveLogin').checked) {
-                        window.localStorage.setItem("username", user)
-                    } else {
-                        window.sessionStorage.setItem("username", user)
-                    }
-                    window.location.replace("account.html?platform=set")
+                    item.style.display = "unset"
                 }
-            } else {
-                document.getElementById('loginPassword').style.borderColor = "red";
             }
         } else {
-            document.getElementById('loginUsername').style.borderColor = "red";
+            document.getElementById("noItem").style.display = "flex"
         }
+    } else {
+        document.getElementById("noItem").style.display = "flex"
     }
-    
-    function editClick() {
-        const elements = document.getElementsByClassName("editTable");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].style.display = "contents";
-        }
-        const elementz = document.getElementsByClassName("editTableBtn");
-        for (let i = 0; i < elementz.length; i++) {
-            elementz[i].style.display = "flex";
-        }
-    }
-    
-    function saveClick() {
-        const elements = document.getElementsByClassName("editTable");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].style.display = "none";
-        }
-        const elementz = document.getElementsByClassName("editTableBtn");
-        for (let i = 0; i < elementz.length; i++) {
-            elementz[i].style.display = "none";
-        }
-    }
-    
-    function ShowHide(element){
-        const SalesCheckBox = document.getElementById('SalesCheckBox');
-        const GraphCheckBox = document.getElementById('GraphCheckBox');
-        if (element.id == 'Sales-eye' || element.id == 'Sales-slash') {
-            if (SalesCheckBox.checked) {
-                document.getElementById('Sales').style.display = "none";
-            } else {
-                document.getElementById('Sales').style.display = "flex";
-            }
-        } else {
-            if (GraphCheckBox.checked) {
-                document.getElementById('Graphs').style.display = "none";
-            } else {
-                document.getElementById('Graphs').style.display = "grid";
-            }
-        }
-    }
-    
-    function switchPanels(element) {
-        const DataPanel = document.getElementById('Datas');
-        const ListPanel = document.getElementById('ItemList');
-        const AddPanel = document.getElementById('AddItem');
-    
-        const ID = element.id;
-    
-        if (ID == 'DatasBtn') {
-            DataPanel.style.display = 'inline';
-            ListPanel.style.display = 'none';
-            AddPanel.style.display = 'none';
-        } else if (ID == 'ItemListBtn') {
-            DataPanel.style.display = 'none';
-            ListPanel.style.display = 'inline';
-            AddPanel.style.display = 'none';
-        } else {
-            DataPanel.style.display = 'none';
-            ListPanel.style.display = 'none';
-            AddPanel.style.display = 'inline';
-        }
-    }
-    
-    async function cartAdd(element) {
-        if (url.includes("mobile")) {
-            mobile = true;
-        }
-        let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
-        if (user) {
-            const ID = element.id.replace("toCartBtn", "")
-            const req = await fetch(apiURL + "Items/" + ID)
-            const res = await req.json();
-            if (res.item.count > 0) {
-                await fetch(apiURL + "Items/" + ID, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "count": res.item.count - 1,
-                        })
-                })
-                const response = await fetch(apiURL + "Users/" + user);
-                const result = await response.json();
-                var inCartNow = result.user.inCart;
-                let inCartIDs = result.user.inCartID;
-                inCartIDs.push(ID)
-                await fetch(apiURL + "Users/" + user, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "inCart": inCartNow + 1,
-                        "inCartID": inCartIDs
-                        })
-                })
-                if (inCartNow <= 9) {
-                    if (!mobile) {
-                        document.getElementById("cartCount").innerHTML = inCartNow + 1;
-                    } else {
-                        document.getElementById("cartCount").innerHTML = "Kosár ("+ inCartNow++ +")";
-                    }
+    document.getElementById('menuBar')?.classList.toggle('show');
+    document.getElementById('burger').checked = false;
+}
+
+function hiddenCount(selector) {
+    const elements = document.querySelectorAll(selector);
+    return Array.from(elements).filter(el => getComputedStyle(el).display === 'none');
+}
+
+async function loginBtnClick() {
+    const user = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const response = await fetch(apiURL + "Users/" + user)
+    const result = await response.json();
+    if (result) {
+        if (password === result.user.password) {
+            if (result.user.role === "admin") {
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
                 } else {
-                    if (!mobile) {
-                        document.getElementById("cartCount").innerHTML = "9+"; 
-                    } else {
-                        document.getElementById("cartCount").innerHTML = "Kosár (9+)";
-                    }
+                    window.sessionStorage.setItem("username", user)
                 }
+                window.location.replace("admin.html?platform=set")
             } else {
-                alert("Valaki épp veszi ezt!")
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
+                    window.localStorage.setItem("password", password)
+                } else {
+                    window.sessionStorage.setItem("username", user)
+                    window.sessionStorage.setItem("password", password)
+                }
+                window.location.replace("account.html?platform=set")
             }
         } else {
-            document.getElementById("login").style.display = "block";
+            document.getElementById('loginPassword').style.borderColor = "red";
+        }
+    } else {
+        document.getElementById('loginUsername').style.borderColor = "red";
+    }
+}
+
+function editClick() {
+    const elements = document.getElementsByClassName("editTable");
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = "contents";
+    }
+    const elementz = document.getElementsByClassName("editTableBtn");
+    for (let i = 0; i < elementz.length; i++) {
+        elementz[i].style.display = "flex";
+    }
+}
+
+function saveClick() {
+    const elements = document.getElementsByClassName("editTable");
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = "none";
+    }
+    const elementz = document.getElementsByClassName("editTableBtn");
+    for (let i = 0; i < elementz.length; i++) {
+        elementz[i].style.display = "none";
+    }
+}
+
+function ShowHide(element){
+    const SalesCheckBox = document.getElementById('SalesCheckBox');
+    const GraphCheckBox = document.getElementById('GraphCheckBox');
+    if (element.id == 'Sales-eye' || element.id == 'Sales-slash') {
+        if (SalesCheckBox.checked) {
+            document.getElementById('Sales').style.display = "none";
+        } else {
+            document.getElementById('Sales').style.display = "flex";
+        }
+    } else {
+        if (GraphCheckBox.checked) {
+            document.getElementById('Graphs').style.display = "none";
+        } else {
+            document.getElementById('Graphs').style.display = "grid";
         }
     }
-    
-    async function cartRemove(element, type) {
-        let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
-        if (user) {
-            let ID;
-            if (type == 'byFunc') {
-                ID = element
-            } else {
-                ID = element.id.replace("CartBin", "");
-            }
-            const response = await fetch(apiURL + "Users/" + user);
-            const result = await response.json();
-            let InCartIDs = result.user.inCartID;
-            InCartIDs = InCartIDs.filter(item => item != ID);
-            let deleted = result.user.inCartID.length - InCartIDs.length
-            await fetch(apiURL + "Users/" + user, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "inCart": result.user.inCart - deleted,
-                    "inCartID": InCartIDs
-                })
-            })
-            const req = await fetch(apiURL + "Items/" + ID);
-            const res = await req.json();
+}
+
+function switchPanels(element) {
+    const DataPanel = document.getElementById('Datas');
+    const ListPanel = document.getElementById('ItemList');
+    const AddPanel = document.getElementById('AddItem');
+
+    const ID = element.id;
+
+    if (ID == 'DatasBtn') {
+        DataPanel.style.display = 'inline';
+        ListPanel.style.display = 'none';
+        AddPanel.style.display = 'none';
+    } else if (ID == 'ItemListBtn') {
+        DataPanel.style.display = 'none';
+        ListPanel.style.display = 'inline';
+        AddPanel.style.display = 'none';
+    } else {
+        DataPanel.style.display = 'none';
+        ListPanel.style.display = 'none';
+        AddPanel.style.display = 'inline';
+    }
+}
+
+async function cartAdd(element) {
+    if (url.includes("mobile")) {
+        mobile = true;
+    }
+    if (user) {
+        const ID = element.id.replace("toCartBtn", "")
+        const req = await fetch(apiURL + "Items/" + ID)
+        const res = await req.json();
+        if (res.item.count > 0) {
             await fetch(apiURL + "Items/" + ID, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "count": res.item.count + deleted
+                    "count": res.item.count - 1,
+                    })
+            })
+            const response = await fetch(apiURL + "Users/" + user);
+            const result = await response.json();
+            var inCartNow = result.user.inCart;
+            let inCartIDs = result.user.inCartID;
+            inCartIDs.push(ID)
+            await fetch(apiURL + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": inCartNow + 1,
+                    "inCartID": inCartIDs
+                    })
+            })
+            if (inCartNow <= 9) {
+                if (!mobile) {
+                    document.getElementById("cartCount").innerHTML = inCartNow + 1;
+                } else {
+                    document.getElementById("cartCount").innerHTML = "Kosár ("+ inCartNow++ +")";
+                }
+            } else {
+                if (!mobile) {
+                    document.getElementById("cartCount").innerHTML = "9+"; 
+                } else {
+                    document.getElementById("cartCount").innerHTML = "Kosár (9+)";
+                }
+            }
+        } else {
+            alert("Valaki épp veszi ezt!")
+        }
+    } else {
+        document.getElementById("login").style.display = "block";
+    }
+}
+
+async function cartRemove(element, type) {
+    if (user) {
+        let ID;
+        if (type == 'byFunc') {
+            ID = element
+        } else {
+            ID = element.id.replace("CartBin", "");
+        }
+        const response = await fetch(apiURL + "Users/" + user);
+        const result = await response.json();
+        let InCartIDs = result.user.inCartID;
+        InCartIDs = InCartIDs.filter(item => item != ID);
+        let deleted = result.user.inCartID.length - InCartIDs.length
+        await fetch(apiURL + "Users/" + user, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "inCart": result.user.inCart - deleted,
+                "inCartID": InCartIDs
+            })
+        })
+        const req = await fetch(apiURL + "Items/" + ID);
+        const res = await req.json();
+        await fetch(apiURL + "Items/" + ID, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "count": res.item.count + deleted
+            })
+        })
+        document.getElementById("CartItem" + ID).remove();
+    }
+}
+
+async function cartPlus(element) {
+    if (user) {
+        const ID = element.id.replace("CartPlus", "");
+        const req = await fetch(apiURL + "Items/" + ID);
+        const res = await req.json();
+        if (res.item.count > 0) {
+            let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+            const response = await fetch(apiURL + "Users/" + user);
+            const result = await response.json();
+            let InCartIDs = result.user.inCartID;
+            InCartIDs.push(ID);
+            await fetch(apiURL + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": result.user.inCart + 1,
+                    "inCartID": InCartIDs
                 })
             })
-            document.getElementById("CartItem" + ID).remove();
+            await fetch(apiURL + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count - 1
+                })
+            })
+            document.getElementById("CartItemImg" + ID).innerHTML = count + 1;
         }
     }
-    
-    async function cartPlus(element) {
-        let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
-        if (user) {
-            const ID = element.id.replace("CartPlus", "");
+}
+
+async function cartMinus(element) {
+    if (user) {
+        const ID = element.id.replace("CartMinus", "");
+        let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+        if (count > 1) {
             const req = await fetch(apiURL + "Items/" + ID);
             const res = await req.json();
-            if (res.item.count > 0) {
-                let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
-                const response = await fetch(apiURL + "Users/" + user);
-                const result = await response.json();
-                let InCartIDs = result.user.inCartID;
-                InCartIDs.push(ID);
-                await fetch(apiURL + "Users/" + user, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "inCart": result.user.inCart + 1,
-                        "inCartID": InCartIDs
-                    })
-                })
-                await fetch(apiURL + "Items/" + ID, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "count": res.item.count - 1
-                    })
-                })
-                document.getElementById("CartItemImg" + ID).innerHTML = count + 1;
-            }
-        }
-    }
-    
-    async function cartMinus(element) {
-        let user = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
-        if (user) {
-            const ID = element.id.replace("CartMinus", "");
             let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
-            if (count > 1) {
-                const req = await fetch(apiURL + "Items/" + ID);
-                const res = await req.json();
-                let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
-                const response = await fetch(apiURL + "Users/" + user);
-                const result = await response.json();
-                let InCartIDs = result.user.inCartID;
-                InCartIDs.push(ID);
-                await fetch(apiURL + "Users/" + user, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "inCart": result.user.inCart - 1,
-                        "inCartID": InCartIDs
-                    })
+            const response = await fetch(apiURL + "Users/" + user);
+            const result = await response.json();
+            let InCartIDs = result.user.inCartID;
+            InCartIDs.push(ID);
+            await fetch(apiURL + "Users/" + user, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "inCart": result.user.inCart - 1,
+                    "inCartID": InCartIDs
                 })
-                await fetch(apiURL + "Items/" + ID, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "count": res.item.count + 1
-                    })
+            })
+            await fetch(apiURL + "Items/" + ID, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "count": res.item.count + 1
                 })
-                document.getElementById("CartItemImg" + ID).innerHTML = count - 1;    
-            } else {
-                cartRemove(3, 'byFunc')
-            }
+            })
+            document.getElementById("CartItemImg" + ID).innerHTML = count - 1;    
+        } else {
+            cartRemove(3, 'byFunc')
         }
     }
+}
+
+function toPay() {
+  if (document.getElementById("CartForm").innerHTML.includes("CartItem")) {
+    window.location.replace("pay.html?platform=set")
+  }
+}
+
+async function orderEvent(element) {
+    let id = element.id.replace(/^(checkOrder|cancelOrder)/, "");
+
+    document.getElementById("checkOrderItems").innerHTML = "";
+    document.getElementById("popUp").style.display = "none";
+
+    const req = await fetch(apiURL + "Datas/" + id)
+    const res = await req.json();
+
+    console.log(res)
+
+    let orderID = "#" + res.order.ID;
+    let orderStatusNum = res.order.status;
+    let orderDate = new Date(res.order.date * 1000).toLocaleString("hu-HU");
+    let orderPrice = res.order.price.toLocaleString("de-DE") + " Ft";
+    let orderItemIDs = res.order.itemIDs;
+    let orderItems = [];
+
+    for (let i = 0; i < orderItemIDs.length; i++) {
+        const response = await fetch(apiURL + "Items/" + orderItemIDs[i])
+        const result = await response.json();
+        orderItems.push(result.item.name)
+    }
+
+    const statusTexts = {
+        0: `Feldolgozás alatt`,
+        1: `Kiszállítás alatt`,
+        2: `Kézbesítve`,
+        3: `Lezárva`
+    };
     
-    async function cartPay() {
+    let orderStatus = statusTexts[orderStatusNum] || "Ismeretlen státusz";
     
+    if (element.id.includes("checkOrder")) {
+        for (let index = 0; index < orderItems.length; index++) {
+            document.getElementById("checkOrderItems").innerHTML += `<li>${orderItems[index]}</li>`;
+        }
+        document.getElementById("checkList").style.display = ""
+        document.getElementById("checkOrderID").innerHTML = orderID
+        document.getElementById("checkOrderStatus").innerHTML = orderStatus
+        document.getElementById("checkOrderDate").innerHTML = orderDate
+        document.getElementById("checkOrderPrice").innerHTML = orderPrice
+        document.getElementById("popUpYes").style.display = "none"
+        document.getElementById("popUpCancel").innerHTML = "Vissza"
+        document.getElementById("popUpTitle").innerHTML = "Rendelés Infomáció";
+        if (!mobile) {
+            document.getElementById("popUp").style.display = "flex";
+        } else {
+            document.getElementById("overlay").style.opacity = 1;
+            document.getElementById("overlay").style.pointerEvents = "all";
+            document.getElementById("popUp").style.display = "unset";
+        }
+    } else {
+        document.getElementById("checkList").style.display = "none"
+        document.getElementById("popUpYes").style.display = "block"
+        document.getElementById("popUpCancel").innerHTML = "Mégse"
+        document.getElementById("popUpYes").innerHTML = "Törlés"
+        document.getElementById("popUpTitle").innerHTML = "Rendelés Törlése";
+        if (!mobile) {
+            document.getElementById("popUp").style.display = "flex";
+        } else {
+            document.getElementById("overlay").style.opacity = 1;
+            document.getElementById("overlay").style.pointerEvents = "all";
+            document.getElementById("popUp").style.display = "unset";
+        }
+    }
+}
+
+function popUpBtn(element) {
+    if (element.id.includes("Cancel")) {
+        document.getElementById("popUp").style.display = "none";
+        if (mobile) {
+            document.getElementById("overlay").style.opacity = 0;
+            document.getElementById("overlay").style.pointerEvents = "none";
+        }
+    } else {
+
     }
 }

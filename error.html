@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hiba - Offline állapot</title>
+  <title>Offline</title>
   <style>
     * {
       box-sizing: border-box;
@@ -21,33 +21,29 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      padding: 2rem;
       text-align: center;
+      padding: 2rem;
     }
 
     .container {
-      max-width: 700px;
-      background-color: #ffffff;
+      max-width: 600px;
       border: 2px solid #2e2e2e;
+      background-color: #ffffff;
       padding: 3rem 2rem;
-      border-radius: 16px;
+      border-radius: 12px;
       box-shadow: 0 0 30px rgba(128, 0, 255, 0.15);
-      animation: fadeIn 0.8s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
+      color: #2e2e2e;
     }
 
     p {
       font-size: 1.2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      color: #2e2e2e;
     }
 
     .btn {
@@ -61,7 +57,6 @@
       transition: background 0.3s ease, transform 0.2s ease;
       text-decoration: none;
       display: inline-block;
-      margin-top: 1rem;
     }
 
     .btn:hover {
@@ -71,7 +66,7 @@
 
     ul.status {
       list-style: none;
-      margin-top: 1rem;
+      margin-top: 2rem;
       padding: 0;
       color: #2e2e2e;
       text-align: left;
@@ -91,99 +86,48 @@
       color: #8000ff;
     }
 
-    .socials {
-      margin-top: 2rem;
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      font-size: 1.5rem;
-    }
-
-    .socials a {
-      color: #8000ff;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-
-    .socials a:hover {
-      transform: scale(1.2);
-    }
-
     @media (max-width: 480px) {
-      h1 { font-size: 2rem; }
-      p { font-size: 1rem; }
-      .btn { width: 100%; }
-      ul.status { font-size: 0.95rem; }
-      .socials { font-size: 1.3rem; }
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      ul.status {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Hiba történt...</h1>
-    <p>A szerver jelenleg nem elérhető. Lehet, hogy karbantartás zajlik, vagy ideiglenes technikai probléma lépett fel.</p>
+    <p>A szerver most nem elérhető. Lehet, hogy karbantartás zajlik, vagy ideiglenes problémák miatt offline vagyunk.</p>
     <ul class="status">
-      <li><strong>Szerver állapota:</strong> Offline</li>
-      <li><strong>Megjegyzés:</strong> <span id="error-message">Karbantartás</span></li>
-      <li id="eta-item" style="display: none;"><strong>Várható visszaállás:</strong> <span id="eta-time"></span></li>
+        <li><strong>Szerver állapota:</strong> Offline</li>
+        <li><strong>Megjegyzés:</strong> <span id="error-message">Karbantartás</span></li>
     </ul>
+    <br>
     <a href="index.html" class="btn">Próbáljuk újra!</a>
-
-    <!-- Social icons section -->
-	<div class="socials" aria-label="Közösségi média linkek">
-	  <a href="https://www.vinted.hu/member/122652627" target="_blank" title="Vinted" aria-label="Vinted">
-		<svg  xmlns="http://www.w3.org/2000/svg"  width="32"  height="32"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-vinted">
-		  <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.028 6c0 7.695 -.292 11.728 0 12c2.046 -5 4.246 -12.642 5.252 -14.099c.343 -.497 .768 -.93 1.257 -1.277c.603 -.39 1.292 -.76 1.463 -.575c-.07 2.319 -4.023 15.822 -4.209 16.314a6.135 6.135 0 0 1 -3.465 3.386c-3.213 .78 -3.429 -.446 -3.836 -1.134c-.95 -2.103 -1.682 -14.26 -1.445 -15.615c.05 -.523 .143 -1.851 2.491 -2c2.359 -.354 2.547 1.404 2.492 3z" />
-		</svg>
-	  </a>
-	  <a href="https://www.instagram.com/_mr_hofi_/" target="_blank" title="Instagram" aria-label="Instagram">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-		  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-		</svg>
-	  </a>
-	  <a href="https://www.tiktok.com/@MrHofi" target="_blank" title="TikTok" aria-label="TikTok">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
-		  <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
-		</svg>
-	  </a>
-	</div>
-
   </div>
-
-  <script>
+</body>
+<script>
     function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
     }
-
-    function formatDateTime(date) {
-      const pad = num => num.toString().padStart(2, '0');
-      return `${date.getFullYear()}.${pad(date.getMonth() + 1)}.${pad(date.getDate())}. ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-    }
-
+  
     const error = getQueryParam("error");
-    const errorMessageEl = document.getElementById("error-message");
-    const etaItem = document.getElementById("eta-item");
-    const etaTimeEl = document.getElementById("eta-time");
-
-    const updateETA = () => {
-      const now = new Date();
-      now.setHours(now.getHours() + 2);
-      etaTimeEl.textContent = formatDateTime(now);
-      etaItem.style.display = "list-item";
-    };
-
     if (error) {
+      // Lecseréli az "Error: " kezdetű részt, ha van benne
       const cleanedError = decodeURIComponent(error.replace(/\+/g, ' ')).replace(/^Error:\s*/i, '');
-      errorMessageEl.textContent = cleanedError;
-      if (cleanedError.toLowerCase() === "karbantartás") {
-        updateETA();
-      }
-    } else {
-      if (errorMessageEl.textContent.toLowerCase() === "karbantartás") {
-        updateETA();
-      }
+      document.getElementById("error-message").textContent = cleanedError;
     }
-  </script>
-</body>
+</script>
 </html>

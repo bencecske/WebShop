@@ -1,7 +1,44 @@
-function admin() {
-    GetJSON(1);
-GetJSON(2);
-LoadGraphs()
+let prevStatusIcon = "⏪"
+let nextStatusIcon = "⏩"
+
+async function admin() {
+    await LoadUser();
+    if (user) {
+        let acces;
+        const response = await fetch(apiURL + "Users/" + user)
+        const result = await response.json();
+        if (result.user.role == "admin") {
+            GetJSON(1);
+            GetJSON(2);
+            LoadGraphs()
+        } else {
+            window.location.replace("account.html?platform=set")
+        }
+    } else {
+        window.location.replace("index.html")
+    }
+}
+
+function mobileAdminBtn(element) {
+    const content = element.innerHTML;
+
+    switch (true) {
+        case content.includes("Rendelések"):
+            document.getElementById("orderList").style.display = "unset"
+            document.getElementById("uploadItem").style.display = "none"
+            document.getElementById("itemList").style.display = "none"
+            break;
+        case content.includes("Új"):
+            document.getElementById("uploadItem").style.display = "unset"
+            document.getElementById("orderList").style.display = "none"
+            document.getElementById("itemList").style.display = "none"
+            break;
+        default:
+            document.getElementById("itemList").style.display = "unset"
+            document.getElementById("orderList").style.display = "none"
+            document.getElementById("uploadItem").style.display = "none"
+    }
+}
 
 async function GetJSON(type) {
     let xd = "";
@@ -12,63 +49,129 @@ async function GetJSON(type) {
     }
     const response = await fetch(apiURL + xd)
     const result = await response.json();
-    for (let i = 1; i <= result.length; i++) {
-        const res = await fetch(apiURL + xd + i + "/");
+    for (let i = result.length; i >= 1; i--) {
+        const res = await fetch(apiURL + xd + i);
         const item = await res.json();
         if (type == 1) {
             LoadItems(i, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID, item.item.count);
         } else {
-            LoadData(i, item.item.Customer, item.item.Price, item.item.Count, item.item.Date);
+            LoadData(item.order.ID, item.order.customer, item.order.price, item.order.count, item.order.date, item.order.status);
         }
     }
 }
 
 let income = 0;
 
-function LoadData(number, customer, price, count, date) {
-    let newIncome = parseInt(price.replace("Ft", "").replace(/\./g, "").trim(), 10);
+function LoadData(number, customer, price, count, date, status) {
+    const statusTexts = {
+        0: `Feldolgozás alatt <strong id="nextStatus${number}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        1: `<strong id="prevStatus${number}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Kiszállítás alatt <strong id="nextStatus${number}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        2: `<strong id="prevStatus${number}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Kézbesítve <strong id="nextStatus${number}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        3: `<strong id="prevStatus${number}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Lezárva`
+    };
+    
+    status = statusTexts[status] || "Ismeretlen státusz";
+    let newIncome = price;
     income += newIncome;
     document.getElementById('income').innerHTML = "Teljes Bevétel: " + income.toLocaleString('de-DE')  + " Ft";
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", "Elements/DataListItem.html", true);
     rawFile.onreadystatechange = function() {
-    if (rawFile.readyState === 4) {
-        var allText = rawFile.responseText;
-            document.getElementById('DataList').innerHTML += allText;
-            document.getElementById("newDataListItem").id = "dataListItem" + number;
-            document.getElementById("newDataCustomer").id = "dataCustomer" + number;
-            document.getElementById("dataCustomer" + number).innerHTML = customer;
-            document.getElementById("newDataPrice").id = "dataPrice" + number;
-            document.getElementById("dataPrice" + number).innerHTML = price;
-            document.getElementById("newDataCount").id = "dataCount" + number;
-            document.getElementById("dataCount" + number).innerHTML = count;
-            document.getElementById("newDataDate").id = "dataDate" + number;
-            document.getElementById("dataDate" + number).innerHTML = date;
+        if (rawFile.readyState === 4) {
+            document.getElementById('DataList').innerHTML += rawFile.responseText;
+
+            const replacements = {
+                "Customer": customer,
+                "Price": price.toLocaleString('de-DE') + " Ft",
+                "Count": count,
+                "Date": new Date(date * 1000).toLocaleString("hu-HU"),
+                "Number": "#" + number,
+                "Status": status
+            };
+
+            for (let key in replacements) {
+                const oldId = "newData" + key;
+                const newId = "data" + key + number;
+                const element = document.getElementById(oldId);
+                if (element) {
+                    element.id = newId;
+                    element.innerHTML = replacements[key];
+                }
+            }
         }
-    }
+    };
     rawFile.send();
+}
+
+async function changeStatus(element, direction) {
+    const ID = element.id.replace(/(prevStatus|nextStatus)/, "");
+    const response = await fetch(apiURL + "Datas/" + ID);
+    const data = await response.json();
+    
+    const newStatus = data.order.status + direction;
+
+    await fetch(apiURL + "Datas/" + ID, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ status: newStatus })
+    });
+
+    const statusTexts = {
+        0: `Feldolgozás alatt <strong id="nextStatus${ID}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        1: `<strong id="prevStatus${ID}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Kiszállítás alatt <strong id="nextStatus${ID}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        2: `<strong id="prevStatus${ID}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Kézbesítve <strong id="nextStatus${ID}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
+        3: `<strong id="prevStatus${ID}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Lezárva`
+    };
+
+    document.getElementById("dataStatus" + ID).innerHTML = statusTexts[newStatus] || "Ismeretlen státusz";
 }
 
 function LoadItems(number, name, group, type, price, description, img, id, count) {
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", "Elements/ListItem.html", true);
     rawFile.onreadystatechange = function() {
-    if (rawFile.readyState === 4) {
-        var allText = rawFile.responseText;
-            document.getElementById('ItemList').innerHTML += allText;
-            document.getElementById("newListItemImg").id = "item" + number;
-            document.getElementById("item" + number).innerHTML = count;
-            document.getElementById("item" + number).style.backgroundImage = 'url('+img+')';
-            document.getElementById("newListItemTitle").id = "item" + number + "_name";
-            document.getElementById("item" + number + "_name").innerHTML = name;
-            document.getElementById("newListItemDescription").id = "item" + number + "_description";
-            document.getElementById("item" + number + "_description").innerHTML = description;
-            document.getElementById("newListPrice").id = "item" + number + "_price";
-            document.getElementById("item" + number + "_price").innerHTML = price;
-            document.getElementById("NewListItemEdit").id = "itemEdit" + number;
-            document.getElementById("NewListItemDelete").id = "itemDelete" + number;
+        if (rawFile.readyState === 4) {
+            document.getElementById('ItemList').innerHTML += rawFile.responseText;
+            const replacements = {
+                "ListItemTitle": {
+                    newId: "item" + number + "_name",
+                    content: name
+                },
+                "ListItemDescription": {
+                    newId: "item" + number + "_description",
+                    content: description
+                },
+                "ListPrice": {
+                    newId: "item" + number + "_price",
+                    content: price
+                }
+            };
+
+            for (let key in replacements) {
+                const oldId = "new" + key;
+                const { newId, content } = replacements[key];
+                const element = document.getElementById(oldId);
+                if (element) {
+                    element.id = newId;
+                    element.innerHTML = content;
+                }
+            }
+            const imgElement = document.getElementById("newListItemImg");
+            if (imgElement) {
+                const newId = "item" + number;
+                imgElement.id = newId;
+                imgElement.innerHTML = count;
+                imgElement.style.backgroundImage = 'url(' + img + ')';
+            }
+            const editElement = document.getElementById("NewListItemEdit");
+            if (editElement) editElement.id = "itemEdit" + number;
+
+            const deleteElement = document.getElementById("NewListItemDelete");
+            if (deleteElement) deleteElement.id = "itemDelete" + number;
         }
-    }
+    };
     rawFile.send();
 }
 
@@ -145,8 +248,9 @@ async function editClick(element) {
             })
         })
     document.getElementById('popUpDiv').style.display = "none";
-    setTimeout(3000)
-    RefreshJSON()
+    if (res.ok) {
+        RefreshJSON()
+    }
 }
 
 async function deleteItem(element) {
@@ -246,5 +350,4 @@ async function LoadGraphs() {
             legend: {display: true}
         }
     });
-}
 }

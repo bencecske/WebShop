@@ -37,8 +37,13 @@ async function loadAPIURL() {
 async function init() {
     try {
         await loadAPIURL();
-        onStart();
-        onClickEvents();
+
+        if (typeof onStart === "function") {
+            onStart();
+        }
+        if (typeof payEvents === "function") {
+            payEvents();
+        }
         if (typeof admin === "function") {
             admin();
         }

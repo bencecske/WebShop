@@ -87,52 +87,13 @@
     </div>
 
     <form class="form_main" id="payment">
-        <p class="heading">Fizetés</s></p>
-        <table class="cart-table">
-          <thead>
-            <tr>
-              <th>Termék</th>
-              <th>Darab</th>
-              <th>Egységár (Ft)</th>
-              <th>Összesen (Ft)</th>
-            </tr>
-          </thead>
-          <tbody id="items">
-          </tbody>
-        </table>
-        <div class="cart-summary">
-          <h2>Végösszeg: <strong id="endPrice">0 Ft</strong></h2>
-        </div>
-        <button class="btn" type="submit">Fizetek</button>
+        <p class="heading">Sikertelen Fizetés</s></p>
+        <a href="main.html">Vissza a főoldalra</a>
     </form>
 
     <script src="Scripts/check.js"></script>
+    <script src="Scripts/payEvents.js"></script>
     <script src="Scripts/onClickEvents.js"></script>
     <script src="Scripts/onStart.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-      const stripe = Stripe("pk_test_51RDr7k4FFIWXdfs8GEM7SkiKeyGizTeFsCt4hkAXllVv3B8rqE0oZm1HqLH7yabVheMGDJh3AvH3yGJT7xQ6v6JR002el7NOqh");
-    
-      document.getElementById("payment").addEventListener("submit", async function(e) {
-
-        e.preventDefault();
-    
-        let amountText = document.getElementById("endPrice").innerText;
-        let amount = parseInt(amountText.replace(/\D/g, ''));
-    
-        const res = await fetch(apiURL + "checkout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ amount: amount }),
-        });
-    
-        const data = await res.json();
-        const sessionId = data.id;
-
-        stripe.redirectToCheckout({ sessionId: sessionId });
-      });
-    </script>
 </body>
 </html>

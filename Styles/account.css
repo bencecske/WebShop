@@ -2,6 +2,7 @@ body {
   background-color: white;
   display: grid;
   place-items: center;
+ ;
   cursor: default;
   user-select: none;
   -webkit-user-drag: none;
@@ -132,6 +133,12 @@ a {
   top: 28px;
   left: 5px;
 }
+.loginIcon{
+  position: absolute;
+  right: 0;
+  padding-top: 15px;
+  padding-right: 1%;
+}
 .card {
   display: flex;
   align-items: center;
@@ -169,7 +176,6 @@ a {
 }
 .largeIcon {
   width: 27px;
- /* Ancho específico solo para el icono de TikTok */
 }
 .socialSvg path {
   fill: rgb(255, 255, 255);
@@ -186,74 +192,6 @@ a {
       transform: translateY(0);
       opacity: 1;
  }
-}
-.cartItem {
-  position: relative;
-  width: 95%;
-  height: 100px;
-  background: #2e2e2e1a;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-  margin-bottom: 10px;
-}
-.cartItem h2 {
-  top: -30px;
-  left: 15px;
-  position: relative;
-  color: #2e2e2e;
-  width: 300px;
-}
-.cartItem h3 {
-  font-size: 29px;
-  margin-right: 10px;
-}
-.cartItem p {
-  position: absolute;
-  left: 95px;
-  top: 13px;
-  width: 300px;
-  height: 60px;
-  max-width: 300px;
-  max-height: 60px;
-  overflow: hidden;
-}
-.cartItem:hover {
-  box-shadow: 1px 10px 20px #8000ff6b;
-  transform: scale(1.01);
-}
-.cartBtnContainer {
-  position: absolute;
-  width: auto;
-  right: 0;
-  height: 100px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-}
-.cartBtn {
-  border: 2px solid #2e2e2e;
-  border-radius: 10px;
-  margin-right: 10px;
-}
-.cartBtn:hover {
-  color: #8000ff;
-  border: 2px solid #8000ff;
-}
-.cartImg {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  right: -10px;
-  background: #2e2e2e1a;
-  border-radius: 10px;
-  text-align: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  font-size: 30px;
 }
 .form_main {
   width: 90%;
@@ -308,18 +246,18 @@ a {
   font-weight: 500;
 }
 #button {
+  background-color: #f0f0f0;
   position: relative;
   width: 100%;
-  height: 40px;
-  border: 2px solid #8000ff;
-  font-size: .8em;
+  height: 30px;
+  border: none;
   font-weight: 500;
-  letter-spacing: 1px;
   border-radius: 30px;
   margin: 10px;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.5s;
+  text-align: center;
+  padding-top: 10px;
 }
 #button::after {
   content: "";
@@ -334,9 +272,6 @@ a {
   filter: blur(10px);
   transition-duration: .5s;
 }
-#button:hover {
-  transform: scale(1.1);
-}
 #button:hover::after {
   transform: translateX(600px);
   transition-duration: .5s;
@@ -347,11 +282,10 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
 }
 .signupContainer p {
   font-weight: 500;
-  color: black;
+  color: #2e2e2e;
 }
 .signupContainer a {
   font-weight: 500;
@@ -360,60 +294,10 @@ a {
   text-decoration: none;
   padding: 8px 15px;
   border-radius: 20px;
-}
-.form_main a, .btn {
-  width: 250px;
-  font-weight: 500;
-  text-align: center;
-  background-color: #2e2e2e;
-  color: white;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 20px;
   transition: all .5s;
-  border: none;
-  cursor: pointer;
-  outline: none;
 }
-.form_main a:hover, .btn:hover {
+.signupContainer a:hover {
   background-color: #8000ff;
-}
-.alertBox {
-  z-index: 100;
-  position: absolute;
-  top: 5%;
-  width: 45vh;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(255, 255, 255);
-  padding: 10px;
-  border-radius: 30px;
-  border: 2px solid #2e2e2e;
-  box-shadow: 1px 1px 50px #8000ff60;
-  margin-top: 100px;
-  overflow: hidden;
-  transition: all .5s;
-}
-.alertBox a {
-  width: 250px;
-  font-weight: 500;
-  text-align: center;
-  background-color: #2e2e2e;
-  color: white;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  transition: all .5s;
-  border: none;
-}
-.alertBox a:hover {
-  background-color: #8000ff;
-}
-.alertBox {
-  display: none;
 }
 th, td {
   border: 2px solid #2e2e2e;
@@ -421,9 +305,91 @@ th, td {
   text-align: center;
   padding: 5px;
 }
+#details th, #details td {
+  width: 50%;
+}
 th:hover , td:hover {
   border: 2px solid #8000ff;
 }
 table {
   width: 100%;
+}
+.editTable {
+  display: none;
+}
+.editInput {
+  outline: none;
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  transition: all 0.5s;
+}
+.editInput:hover {
+  border: 2px solid #8000ff;
+  transform: scale(1.05);
+}
+.editInput:focus {
+  border: 2px solid #8000ff;
+  transform: scale(1.05);
+}
+.editTableBtn {
+  margin-top: 10px;
+  display: none;
+}
+.form_main svg{
+  transition: .5s all;
+  cursor: pointer;
+}
+.form_main svg:hover{
+  transform: translateY(-3px);
+}
+#popUp {
+  max-width: 40rem;
+  display: none;
+  text-align: center;
+  box-shadow: 1px 1px 30px rgb(183, 183, 183);
+}
+#popUp table {
+  width: 70%;
+}
+#popUp th, #popUp td {
+  width: 50%;
+}
+btnContainer{
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+btnContainer a {
+  background-color: #2e2e2e;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  padding: 10px;
+  color: white;
+  transition: .5s all;
+  width: 100%;
+}
+btnContainer a:hover {
+  background-color: #8000ff;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.list li {
+  padding: 0.2rem;
+  border-left: 3px solid transparent;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  color: #333;
+  border-radius: 5px;
+}
+
+.list li:hover {
+  border-left: 3px solid #8000ff;
+  background-color: #f2e6ff;
+  color: #8000ff;
 }

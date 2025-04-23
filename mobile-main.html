@@ -16,9 +16,9 @@
         </label>
         <nav class="navbar">
           <a href="mobile-main.html?platform=set">Kezdőlap</a>
-          <a href="#man">Férfi</a>
-          <a href="#woman">Női</a>
-          <a href="#kid">Gyerek</a>
+          <a onclick="searchBy(`Man`, `all`)">Férfi</a>
+          <a onclick="searchBy(`Woman`, `all`)">Női</a>
+          <a onclick="searchBy(`Kid`, `all`)">Gyerek</a>
           <a href="mobile-cart.html?platform=set" id="cartCount">Kosár (0)</a>
           <a href="mobile-account.html?platform=set">Fiók</a>
           <footer class="footer">
@@ -56,10 +56,10 @@
         </footer>
         </nav>
         <div class="overlay"></div>
-        <form class="search-form" action="#" method="get">
+        <form class="search-bar" onsubmit="searchItem(event)">
         <input type="text" name="query" placeholder="Keresés...">
         <button type="submit"><svg 
-            onclick="searchItem()" 
+            onclick="searchItem(event)" 
             class="ListSvg" 
             width="30" 
             height="30" 
@@ -85,8 +85,12 @@
 
   <main class="main-content">
     <section class="product-list" id="main-container">
+      <div id="noItem">
+        <h1>Sajnos nincs a keresésednek megfelelő termék jelenleg</h1>
+      </div>
     </section>
   </main>
+
   <main class="account-content" id="login">
     <div class="card" style="max-width: 400px; margin: 0 auto;">
     <h2>Bejelentkezés</h2>
