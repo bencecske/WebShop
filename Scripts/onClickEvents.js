@@ -3,13 +3,64 @@ async function loginClick() {
         const response = await fetch(apiURL + "Users/" + user);
         const result = await response.json();
         if (result.user.role === "admin") {
-            window.location.replace("admin.html?platform=set");
+            if (!mobile) {
+                window.location.replace("admin.html?platform=set");
+            } else {
+                window.location.replace("mobile-admin.html?platform=set");
+            }
         } else {
-            window.location.replace("account.html?platform=set");
+            if (!mobile) {
+                window.location.replace("account.html?platform=set");
+            } else {
+                window.location.replace("mobile-account.html?platform=set");
+            }
         }
     } else {
+        if (mobile) {
+            document.getElementById("burger").checked = false
+        }
         document.getElementById("login").style.display = "flex";
         document.getElementById("registration").style.display = "none";
+    }
+}
+
+async function loginBtnClick() {
+    const user = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const response = await fetch(apiURL + "Users/" + user)
+    const result = await response.json();
+    if (result) {
+        if (password === result.user.password) {
+            if (result.user.role === "admin") {
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
+                } else {
+                    window.sessionStorage.setItem("username", user)
+                }
+                if (!mobile) {
+                    window.location.replace("admin.html?platform=set")
+                } else {
+                    window.location.replace("mobile-admin.html?platform=set")
+                }
+            } else {
+                if (document.getElementById('saveLogin').checked) {
+                    window.localStorage.setItem("username", user)
+                    window.localStorage.setItem("password", password)
+                } else {
+                    window.sessionStorage.setItem("username", user)
+                    window.sessionStorage.setItem("password", password)
+                }
+                if (!mobile) {
+                    window.location.replace("account.html?platform=set")
+                } else {
+                    window.location.replace("mobile-account.html?platform=set")
+                }
+            }
+        } else {
+            document.getElementById('loginPassword').style.borderColor = "red";
+        }
+    } else {
+        document.getElementById('loginUsername').style.borderColor = "red";
     }
 }
 
@@ -99,38 +150,6 @@ async function searchBy(group, type) {
 function hiddenCount(selector) {
     const elements = document.querySelectorAll(selector);
     return Array.from(elements).filter(el => getComputedStyle(el).display === 'none');
-}
-
-async function loginBtnClick() {
-    const user = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    const response = await fetch(apiURL + "Users/" + user)
-    const result = await response.json();
-    if (result) {
-        if (password === result.user.password) {
-            if (result.user.role === "admin") {
-                if (document.getElementById('saveLogin').checked) {
-                    window.localStorage.setItem("username", user)
-                } else {
-                    window.sessionStorage.setItem("username", user)
-                }
-                window.location.replace("admin.html?platform=set")
-            } else {
-                if (document.getElementById('saveLogin').checked) {
-                    window.localStorage.setItem("username", user)
-                    window.localStorage.setItem("password", password)
-                } else {
-                    window.sessionStorage.setItem("username", user)
-                    window.sessionStorage.setItem("password", password)
-                }
-                window.location.replace("account.html?platform=set")
-            }
-        } else {
-            document.getElementById('loginPassword').style.borderColor = "red";
-        }
-    } else {
-        document.getElementById('loginUsername').style.borderColor = "red";
-    }
 }
 
 function editClick() {

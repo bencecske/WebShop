@@ -20,7 +20,7 @@
           <a onclick="searchBy(`Woman`, `all`)">Női</a>
           <a onclick="searchBy(`Kid`, `all`)">Gyerek</a>
           <a href="mobile-cart.html?platform=set" id="cartCount">Kosár (0)</a>
-          <a href="mobile-account.html?platform=set">Fiók</a>
+          <a onclick="loginClick()">Fiók</a>
           <footer class="footer">
             <a href="#" class="socialContainer containerOne">
               <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
@@ -94,24 +94,28 @@
   <main class="account-content" id="login">
     <div class="card" style="max-width: 400px; margin: 0 auto;">
     <h2>Bejelentkezés</h2>
-      <form>
-        <input type="text" id="loginUsername" name="username" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input type="password" id="loginPassword" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br><br>
-        <button type="submit" style="width: 100%;">Bejelentkezés</button>
-        <a href="">Nincs fiókom</a>
-      </form>
+      <div>
+        <input type="text" id="loginUsername" name="username" required style="width: 100%; padding: 10px; margin: 8px 0;" placeholder="Felhasználónév"><br>
+        <input type="password" id="loginPassword" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;" placeholder="Jelszó"><br>
+        <input type="checkbox" name="saveLogin" id="saveLogin">
+        <label for="saveLogin">Maradjak bejelentkezve</label>
+        <button onclick="loginBtnClick()" style="width: 100%;">Bejelentkezés</button>
+        <a href="">Nincs még fiókom</a>
+      </div>
     </div>
   </main>
 
-  <main class="account-content" id="register">
+  <main class="account-content" id="registration">
     <div class="card" style="max-width: 400px; margin: 0 auto;">
     <h2>Regisztráció</h2>
       <form>
         <input placeholder="E-mail cim" type="email" id="email" name="email" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
         <input placeholder="Felhasználónév" type="text" id="username" name="username" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
         <input placeholder="Jelszó" type="password" id="password" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input placeholder="Jelszó újra" type="password" id="password2" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br><br>
-        <button type="submit" style="width: 100%;">Bejelentkezés</button>
+        <input placeholder="Jelszó újra" type="password" id="password2" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <input type="checkbox" name="saveLogin" id="saveLogin">
+        <label for="saveLogin">Maradjak bejelentkezve</label>
+        <button type="submit" style="width: 100%;">Regisztálás</button>
         <a href="">Van már fiókom</a>
       </form>
     </div>

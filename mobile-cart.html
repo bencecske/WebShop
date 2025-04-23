@@ -56,19 +56,43 @@
         <div class="overlay"></div>
     </header>
 
-    <main class="main-content">
-        <div class="card" style="text-align: left; gap:10px; display: flex; flex-direction: column;">
-            <h2>Kosár tartalma</h2>
-            
-            <div style="text-align: right; margin-top: 20px;" id="fullPrice">
-              <strong id="maxPrice">Végösszeg: 0</strong><br><br>
-              <button>Tovább a fizetéshez</button>
-            </div>
+    <form class="main-content" id="payment">
+      <div class="card" style="text-align: left; gap:10px; display: flex; flex-direction: column;">
+        <h2>Kosár tartalma</h2>
+        <div style="text-align: right; margin-top: 20px;" id="fullPrice">
+          <strong id="maxPrice">Végösszeg: 0</strong><br><br>
+          <button type="submit">Tovább a fizetéshez</button>
         </div>
-      </main>
+      </div>
+    </form>
   </div>
 </body>
 <script src="Scripts/check.js"></script>
 <script src="Scripts/onStart.js"></script>
 <script src="Scripts/onClickEvents.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe("pk_test_51RDr7k4FFIWXdfs8GEM7SkiKeyGizTeFsCt4hkAXllVv3B8rqE0oZm1HqLH7yabVheMGDJh3AvH3yGJT7xQ6v6JR002el7NOqh");
+
+  document.getElementById("payment").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    let amountText = document.getElementById("maxPrice").innerText;
+    let amount = parseInt(amountText.replace(/\D/g, ''));
+
+    const res = await fetch(apiURL + "checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: amount }),
+    });
+
+    const data = await res.json();
+    const sessionId = data.id;
+
+    stripe.redirectToCheckout({ sessionId: sessionId });
+  });
+</script>
 </html>

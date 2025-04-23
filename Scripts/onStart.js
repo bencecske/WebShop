@@ -15,6 +15,10 @@ async function onStart() {
 
   url = window.location.href;
 
+  if (url.includes("account") && !user) {
+    window.location.replace("index.html")
+  }
+
   if (!url.includes("admin")) {
     if (url.includes("pay")) {
       LoadPay();

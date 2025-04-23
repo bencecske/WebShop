@@ -58,7 +58,7 @@ html, body {
   text-decoration: none;
   transition: all .5s;
 }
-#login, #register {
+#login, #registration {
   position: fixed !important;
   display: none;
   position: absolute;
