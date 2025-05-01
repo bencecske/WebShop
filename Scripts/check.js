@@ -1,15 +1,7 @@
-let apiURL;
+let apiURL = "https://growing-fitting-number-therefore.trycloudflare.com/";
 
 async function loadAPIURL() {
     try {
-        const response = await fetch("Scripts/api.txt");
-
-        if (!response.ok) {
-            throw new Error("Rossz elérési útvonal");
-        }
-
-        apiURL = await response.text();
-
         const req = await fetch(apiURL);
         const text = await req.text();
 

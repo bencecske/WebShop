@@ -37,7 +37,7 @@ async function loadSessionDetails(sessionId) {
         document.getElementById("orderInfo").innerHTML = `
           <p><strong>Azonosító:</strong> #${ID}</p>
           <p><strong>Fizetés összege:</strong> ${(data.amount_total / 100).toLocaleString("de-DE")} Ft</p>
-          <p><strong>Fizetve:</strong> ${new Date(data.created * 1000).toLocaleString()}</p>
+          <p><strong>Fizetve:</strong> ${new Date(data.created * 1000).toLocaleString("hu-HU")}</p>
         `;
   
     } catch (err) {

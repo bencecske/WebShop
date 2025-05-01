@@ -108,7 +108,7 @@ html, body {
   margin: 10px 0;
   font-weight: bold;
 }
-button {
+button, #toAccount {
   padding: 10px 20px;
   background-color: #2e2e2e;
   border: none;
@@ -118,8 +118,11 @@ button {
   cursor: pointer;
   transition: all .5s;
 }
-button:hover {
+button:hover, #toAccount:hover {
   background-color: #8000ff;
+}
+#toAccount {
+  text-decoration: none;
 }
 .footer {
   position: fixed;
@@ -157,6 +160,7 @@ button:hover {
   display: flex;
   width: 100%;
   margin-left: 3%;
+  margin-right: 3%;
 }
 .search-bar input {
   outline: none;
@@ -279,7 +283,6 @@ button:hover {
   opacity: 1;
   pointer-events: all;
 }
-/* for all social containers*/
 .socialContainer {
   width: 40px;
   height: 40px;
@@ -291,12 +294,10 @@ button:hover {
   overflow: hidden;
   transition-duration: 0.3s;
 }
-/* instagram*/
 .containerOne:hover {
   background-color: #d62976;
   transition-duration: 0.3s;
 }
-/* Tiktok*/
 .containerTwo:hover {
   background-color: #25f4ee;
   transition-duration: 0.3s;
@@ -310,7 +311,6 @@ button:hover {
 }
 .largeIcon {
   width: 27px;
- /* Ancho específico solo para el icono de TikTok */
 }
 .socialSvg path {
   fill: rgb(255, 255, 255);
@@ -340,12 +340,12 @@ th, td {
   padding: 5px;
   width: 1%;
 }
-.uploadItem {
+.ItemAdd {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.uploadItem input {
+.ItemAdd input, .custom-file-upload {
   outline: none;
   border: 2px solid #2e2e2e;
   border-radius: 5px;
@@ -353,22 +353,19 @@ th, td {
   text-align: center;
   transition: all .5s;
 }
-.uploadItem input:hover {
+.custom-file-upload {
+  cursor: pointer;
+}
+input[type="file"] {
+  display: none;
+}
+.ItemAdd input:hover, .custom-file-upload:hover {
   border: 2px solid #8000ff;
   box-shadow: 2px 2px #8000ff;
 }
 .ordersHeader {
   display: flex;
   align-items: center;
-}
-#itemList {
-  display: none ;
-}
-#uploadItem {
-  display: none ;
-}
-#orderList {
-  display: unset;
 }
 #noItem {
   display: none;
@@ -427,4 +424,127 @@ btnContainer a:hover {
   border-left: 3px solid #8000ff;
   background-color: #f2e6ff;
   color: #8000ff;
+}
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cartBtn {
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .5s;
+}
+.cartBtn:hover {
+  border: 2px solid #8000ff
+}
+.asd button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+}
+.asd p {
+  margin-left: 10px;
+}
+.headerBtns button {
+  padding: 10px;
+}
+.ordersHeader .search-bar input, .ordersHeader .search-bar button{
+  padding: 2px;
+}
+.listItem {
+  margin: 10px;
+  box-shadow: 1px 1px 10px rgb(183, 183, 183);
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .listItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .listBtnContainer {
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .listImg {
+    align-self: stretch;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .textContainer {
+    width: 100%;
+  }
+
+  .listBtnContainer svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+}
+.listImg {
+  display: flex;
+  box-shadow: 1px 1px 10px rgb(183, 183, 183);
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  flex: 1
+}
+.listBtnContainer {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#popUpDiv {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  top: 25%;
+  box-shadow: 1px 1px 10px rgb(183, 183, 183);
+}
+#popUpDiv input {
+  outline: none;
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  transition: all .5s;
+  padding: 3px;
+}
+#popUpDiv input:hover {
+  border: 2px solid #8000ff;
+}
+#popUpDiv .section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+#itemList {
+  display: none ;
+}
+#ItemAdd {
+  display: none ;
+}
+#orderList {
+  display: unset;
 }

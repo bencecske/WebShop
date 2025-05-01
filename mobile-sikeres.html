@@ -1,56 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="hu">
 <head>
-    <link rel="stylesheet" href="Styles/cart.css">
-    <title>HofiShop - Kosár</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HofiShop - Fiók</title>
+    <link rel="stylesheet" href="Styles/mobile.css">
 </head>
 <body>
-
-  <div class="header">
-    <a class="mainBtn" href="main.html">HofiShop</a>
-    <div class="button-container">
-      <button class="button" onclick="cartClick()">
-        <p id="cartCount">0</p>
-        <svg
-          class="icon"
-          stroke="currentColor"
-          fill="none"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path
-            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-          ></path>
-        </svg>
-      </button>
-      <button class="button" onclick="loginClick()">
-        <svg
-          class="icon"
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 24 24"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"
-          ></path>
-        </svg>
-      </button>
-    </div>
-</div>
-
-    <div class="footer">
-        <div class="card">
+  <div class="container">
+    <header class="header">
+        <input type="checkbox" id="burger" />
+        <label class="burger" for="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="navbar">
+          <a href="mobile-main.html?platform=set">Kezdőlap</a>
+          <a href="mobile-cart.html?platform=set" id="cartCount">Kosár (0)</a>
+          <a href="mobile-account.html?platform=set">Fiók</a>
+          <footer class="footer">
             <a href="#" class="socialContainer containerOne">
               <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
                 <path
@@ -58,7 +27,6 @@
                 ></path>
               </svg>
             </a>
-          
             <a href="#" class="socialContainer containerTwo">
               <svg
                 class="socialSvg tiktokSvg largeIcon"
@@ -83,18 +51,24 @@
                 </g>
               </svg>
             </a>
-          </div>
-    </div>
+        </footer>
+        </nav>
+        <div class="overlay" id="overlay"></div>
+    </header>
 
-    <form class="form_main" id="payment">
-        <p class="heading" style="margin-bottom: 0px !important;">Sikeres Fizetés</p>
+    <main class="main-content">
+      <div class="card" style="text-align: center;">
+        <h2>Sikeres Fizetés</h2>
+        <br>
         <div id="orderInfo" style="text-align: center;"></div>
-        <a href="account.html?platform=set">Rendelések áttekintése</a>
-    </form>
+        <br>
+        <a href="mobile-account.html?platform=set" id="toAccount">Rendelések áttekintése</a>
+      </div>
 
-    <script src="Scripts/check.js"></script>
-    <script src="Scripts/onStart.js"></script>
-    <script src="Scripts/payEvents.js"></script>
-    <script src="Scripts/onClickEvents.js"></script>
+  </div>
 </body>
+<script src="Scripts/check.js"></script>
+<script src="Scripts/onStart.js"></script>
+<script src="Scripts/payEvents.js"></script>
+<script src="Scripts/onClickEvents.js"></script>
 </html>

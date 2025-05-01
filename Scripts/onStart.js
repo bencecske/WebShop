@@ -15,6 +15,10 @@ async function onStart() {
 
   url = window.location.href;
 
+  if (url.includes("mobile")) {
+    mobile = true;
+  }
+  
   if (url.includes("account") && !user) {
     window.location.replace("index.html")
   }
@@ -146,9 +150,6 @@ async function LoadPay() {
 }
 
 async function LoadCart(isCart) {
-  if (url.includes("mobile")) {
-    mobile = true;
-  }
   if (user) {
     const response = await fetch(apiURL + "Users/" + user);
     const result = await response.json();
@@ -158,12 +159,18 @@ async function LoadCart(isCart) {
         document.getElementById("cartCount").innerHTML = inCartNow;
       } else {
         document.getElementById("cartCount").innerHTML = "Kosár (" + inCartNow + ")";
+        if (document.getElementById("cartCountH")) {
+          document.getElementById("cartCountH").innerHTML = inCartNow;
+        }
       }
     } else {
       if (!mobile) {
         document.getElementById("cartCount").innerHTML = "9+";
       } else {
         document.getElementById("cartCount").innerHTML = "Kosár (9+)";
+        if (document.getElementById("cartCountH")) {
+          document.getElementById("cartCountH").innerHTML = "9+";
+        }
       }
     }
     if (isCart) {
@@ -257,9 +264,6 @@ async function GetJSON() {
 }
 
 function LoadItems(number, name, group, type, price, description, img, id) {
-    if (url.includes("mobile")) {
-      mobile = true;
-    }
     var rawFile = new XMLHttpRequest();
     if (!mobile) {
       rawFile.open("GET", "Elements/CardItem.html", true);

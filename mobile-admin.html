@@ -15,7 +15,7 @@
             <span></span>
             <span></span>
         </label>
-        <div>
+        <div class="headerBtns">
           <button onclick="mobileAdminBtn(this)">Termékek</button>
           <button onclick="mobileAdminBtn(this)">Rendelések</button>
           <button onclick="mobileAdminBtn(this)">Új Termék</button>
@@ -92,23 +92,54 @@
             </button>
           </form>
         </div>
+        <div id="ItemList"></div>
       </div>
     </main>
 
-    <main class="main-content" id="uploadItem">
+    
+  <div class="card" id="popUpDiv">
+    <h1 id="popUpItemName">Cucc neve</h1>
+    <div class="dataContainer">
+      <div class="section">
+        <h3>Név</h3>
+        <input type="text" id="popUpName">
+      </div>
+      <div class="section">
+        <h3>Leírás</h3>
+        <input type="text" id="popUpDesc">
+      </div>
+      <div class="section">
+        <h3>Csoport</h3>
+        <input type="text" id="popUpGroup">
+      </div>
+      <div class="section">
+        <h3>Tipus</h3>
+        <input type="text" id="popUpType">
+      </div>
+      <div class="section">
+        <h3>Ár</h3>
+        <input type="text" id="popUpPrice">
+      </div>
+      <div class="section">
+        <h3>Darabszám</h3>
+        <input type="text" id="popUpCount">
+      </div>
+      <button id="editBtn" onclick="editClick(this)">Szerkesztés</button>
+    </div>
+  </div>
+
+    <main class="main-content" id="ItemAdd">
       <div class="card" style="text-align: left;">
         <h2>Új Termék</h2>
-        <div class="uploadItem">
-          <input type="text" placeholder="Termék neve" id="">
-          <input type="text" placeholder="Termék leirasa" id="">
-          <input type="text" placeholder="Termék csoportja" id="">
-          <input type="text" placeholder="Termék tipusa" id="">
-          <input type="text" placeholder="Termék ára" id="">
-          <input type="text" placeholder="Termék darabszáma" id="">
-          <label for="">
-            <input type="file" id="">
-          </label>
-          <button onclick="">Feltöltés</button>
+        <div class="ItemAdd">
+          <input type="text" name="" id="AddItemName" placeholder="Termék Neve">
+          <input type="text" name="" id="AddItemDescription" placeholder="Termék Leírása">
+          <input type="text" name="" id="AddItemGroup" placeholder="Termék Csoportja">
+          <input type="text" name="" id="AddItemType" placeholder="Termék Tipusa">
+          <input type="text" name="" id="AddItemPrice" placeholder="Termék Ára">
+          <input type="text" name="" id="AddItemCount" placeholder="Termék Darabszáma">
+          <label for="file-upload" class="custom-file-upload">Termék Képe</label><input id="file-upload" type="file" />
+          <button id="addItemButton" type="button" onclick="AddItem()">Feltöltés</button>
         </div>
       </div>
     </main>
@@ -116,7 +147,8 @@
     <main class="main-content" id="orderList">
       <div class="card" style="text-align: left;">
         <h2>Rendelések</h2>
-        <table id="orderTable">
+        <p id="income">Teljes Bevétel: 0 Ft</p>
+        <table id="DataList">
           <thead>
             <th>Azonosito</th>
             <th>Termékek</th>

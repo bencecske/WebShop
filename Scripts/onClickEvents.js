@@ -34,8 +34,10 @@ async function loginBtnClick() {
             if (result.user.role === "admin") {
                 if (document.getElementById('saveLogin').checked) {
                     window.localStorage.setItem("username", user)
+                    window.localStorage.setItem("password", password)
                 } else {
                     window.sessionStorage.setItem("username", user)
+                    window.sessionStorage.setItem("password", password)
                 }
                 if (!mobile) {
                     window.location.replace("admin.html?platform=set")
@@ -75,7 +77,11 @@ function closeForm() {
 }
 
 function cartClick() {
-    window.location.replace("cart.html?platform=set");
+    if (!mobile) {
+        window.location.replace("cart.html?platform=set");
+    } else {
+        window.location.replace("mobile-cart.html?platform=set");
+    }
 }
 
 function menuClick() {
@@ -247,17 +253,20 @@ async function cartAdd(element) {
                     "inCartID": inCartIDs
                     })
             })
+            inCartNow++ 
             if (inCartNow <= 9) {
                 if (!mobile) {
-                    document.getElementById("cartCount").innerHTML = inCartNow + 1;
+                    document.getElementById("cartCount").innerHTML = inCartNow;
                 } else {
-                    document.getElementById("cartCount").innerHTML = "Kosár ("+ inCartNow++ +")";
+                    document.getElementById("cartCount").innerHTML = "Kosár ("+ inCartNow + ")";
+                    document.getElementById("cartCountH").innerHTML = inCartNow;
                 }
             } else {
                 if (!mobile) {
                     document.getElementById("cartCount").innerHTML = "9+"; 
                 } else {
                     document.getElementById("cartCount").innerHTML = "Kosár (9+)";
+                    document.getElementById("cartCountH").innerHTML = "9+";
                 }
             }
         } else {
@@ -303,6 +312,8 @@ async function cartRemove(element, type) {
             })
         })
         document.getElementById("CartItem" + ID).remove();
+        document.getElementById("maxPrice").innerHTML = "Végösszeg: 0 Ft"
+        LoadCart(false)
     }
 }
 
@@ -312,7 +323,12 @@ async function cartPlus(element) {
         const req = await fetch(apiURL + "Items/" + ID);
         const res = await req.json();
         if (res.item.count > 0) {
-            let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+            let count;
+            if (!mobile) {
+                count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+            } else {
+                count = document.getElementById("CartCount" + ID).innerHTML.replace("Mennyiség: ", "")
+            }
             const response = await fetch(apiURL + "Users/" + user);
             const result = await response.json();
             let InCartIDs = result.user.inCartID;
@@ -336,7 +352,20 @@ async function cartPlus(element) {
                     "count": res.item.count - 1
                 })
             })
-            document.getElementById("CartItemImg" + ID).innerHTML = count + 1;
+            count++
+            let newPrice = parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, '')) * count
+            document.getElementById("CartPrice" + ID).innerHTML = newPrice.toLocaleString("de-DE") + " Ft";
+            if (!mobile) {
+                document.getElementById("CartItemImg" + ID).innerHTML = count;
+            } else {
+                document.getElementById("CartCount" + ID).innerHTML = "Mennyiség: " + count;
+                document.getElementById("CartPrice" + ID).innerHTML = newPrice.toLocaleString("de-DE") + " Ft";
+                let priceNow = document.getElementById("maxPrice").innerHTML.replace(/\./g, '').replace(/\s?Ft/g, '').replace("Végösszeg:", "")
+                let addPrice = parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, ''))
+                const newMaxPrice = parseInt(priceNow) + addPrice
+                document.getElementById("maxPrice").innerHTML = "Végösszeg: " + newMaxPrice.toLocaleString("de-DE") + " Ft"
+                LoadCart(false)
+            }
         }
     }
 }
@@ -344,37 +373,58 @@ async function cartPlus(element) {
 async function cartMinus(element) {
     if (user) {
         const ID = element.id.replace("CartMinus", "");
-        let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+        if (!mobile) {
+            count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
+        } else {
+            count = document.getElementById("CartCount" + ID).innerHTML.replace("Mennyiség: ", "")
+        }
         if (count > 1) {
             const req = await fetch(apiURL + "Items/" + ID);
             const res = await req.json();
-            let count = parseInt(document.getElementById("CartItemImg" + ID).innerHTML)
             const response = await fetch(apiURL + "Users/" + user);
             const result = await response.json();
-            let InCartIDs = result.user.inCartID;
-            InCartIDs.push(ID);
-            await fetch(apiURL + "Users/" + user, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "inCart": result.user.inCart - 1,
-                    "inCartID": InCartIDs
+            if (result.user.inCart > 0) {
+                let InCartIDs = result.user.inCartID;
+                const index = InCartIDs.indexOf(ID);
+                if (index !== -1) {
+                    InCartIDs.splice(index, 1);
+                }
+                await fetch(apiURL + "Users/" + user, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "inCart": result.user.inCart - 1,
+                        "inCartID": InCartIDs
+                    })
                 })
-            })
-            await fetch(apiURL + "Items/" + ID, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "count": res.item.count + 1
+                await fetch(apiURL + "Items/" + ID, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "count": res.item.count + 1
+                    })
                 })
-            })
-            document.getElementById("CartItemImg" + ID).innerHTML = count - 1;    
+            }
+            count--;
+            let newPrice = parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, '')) * count
+            if (!mobile) {
+                document.getElementById("CartItemImg" + ID).innerHTML = count;
+                document.getElementById("CartPrice" + ID).innerHTML = newPrice.toLocaleString("de-DE") + " Ft";
+            } else {
+                document.getElementById("CartCount" + ID).innerHTML = "Mennyiség: " + count;
+                document.getElementById("CartPrice" + ID).innerHTML = newPrice.toLocaleString("de-DE") + " Ft";
+                let priceNow = document.getElementById("maxPrice").innerHTML.replace(/\./g, '').replace(/\s?Ft/g, '').replace("Végösszeg:", "")
+                let addPrice = parseInt(res.item.price.replace(/\./g, '').replace(/\s?Ft/g, ''))
+                const newMaxPrice = parseInt(priceNow) - addPrice
+                document.getElementById("maxPrice").innerHTML = "Végösszeg: " + newMaxPrice.toLocaleString("de-DE") + " Ft"
+                LoadCart(false)
+            }  
         } else {
-            cartRemove(3, 'byFunc')
+            cartRemove(ID, 'byFunc')
         }
     }
 }
@@ -406,7 +456,14 @@ async function orderEvent(element) {
     for (let i = 0; i < orderItemIDs.length; i++) {
         const response = await fetch(apiURL + "Items/" + orderItemIDs[i])
         const result = await response.json();
-        orderItems.push(result.item.name)
+        let index = orderItems.findIndex(item => item.startsWith(result.item.name));
+        if (index === -1) {
+            orderItems.push(result.item.name + " x1");
+        } else {
+            let parts = orderItems[index].split(" x");
+            let count = parseInt(parts[1]) + 1;
+            orderItems[index] = result.item.name + " x" + count;
+        }
     }
 
     const statusTexts = {

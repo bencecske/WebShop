@@ -25,18 +25,18 @@ function mobileAdminBtn(element) {
     switch (true) {
         case content.includes("Rendelések"):
             document.getElementById("orderList").style.display = "unset"
-            document.getElementById("uploadItem").style.display = "none"
+            document.getElementById("ItemAdd").style.display = "none"
             document.getElementById("itemList").style.display = "none"
             break;
         case content.includes("Új"):
-            document.getElementById("uploadItem").style.display = "unset"
+            document.getElementById("ItemAdd").style.display = "unset"
             document.getElementById("orderList").style.display = "none"
             document.getElementById("itemList").style.display = "none"
             break;
         default:
             document.getElementById("itemList").style.display = "unset"
             document.getElementById("orderList").style.display = "none"
-            document.getElementById("uploadItem").style.display = "none"
+            document.getElementById("ItemAdd").style.display = "none"
     }
 }
 
@@ -97,6 +97,11 @@ function LoadData(number, customer, price, count, date, status) {
                     element.id = newId;
                     element.innerHTML = replacements[key];
                 }
+                if (mobile) {
+                    if (newId.includes("Customer") || newId.includes("Price") || newId.includes("Date")) {
+                        element.style.display = "none"
+                    }
+                }
             }
         }
     };
@@ -134,6 +139,10 @@ function LoadItems(number, name, group, type, price, description, img, id, count
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4) {
             document.getElementById('ItemList').innerHTML += rawFile.responseText;
+            if (mobile) {
+                document.getElementById("NewListItemDelete").style.fill = "none"
+                document.getElementById("NewListItemEdit").style.fill = "none"
+            }
             const replacements = {
                 "ListItemTitle": {
                     newId: "item" + number + "_name",
@@ -163,7 +172,7 @@ function LoadItems(number, name, group, type, price, description, img, id, count
                 const newId = "item" + number;
                 imgElement.id = newId;
                 imgElement.innerHTML = count;
-                imgElement.style.backgroundImage = 'url(' + img + ')';
+                //imgElement.style.backgroundImage = `url(${apiURL}Images/${img})`;
             }
             const editElement = document.getElementById("NewListItemEdit");
             if (editElement) editElement.id = "itemEdit" + number;
@@ -177,40 +186,49 @@ function LoadItems(number, name, group, type, price, description, img, id, count
 
 function RefreshJSON() {
     document.getElementById('ItemList').innerHTML = "";
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/ItemListTitle.html", true);
-    rawFile.onreadystatechange = function() {
-    if (rawFile.readyState === 4) {
-        var allText = rawFile.responseText;
-        document.getElementById('ItemList').innerHTML += allText;
+    if (!mobile) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", "Elements/ItemListTitle.html", true);
+        rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4) {
+            var allText = rawFile.responseText;
+            document.getElementById('ItemList').innerHTML += allText;
+            }
         }
+        rawFile.send();
     }
-    rawFile.send();
     GetJSON(1)
 }
 
 async function AddItem() {
-    let name = document.getElementById('AddItemName').value;
-    let group = document.getElementById('AddItemGroup').value;
-    let type = document.getElementById('AddItemType').value;
-    let price = document.getElementById('AddItemPrice').value;
-    let count = document.getElementById('AddItemCount').value;
-    let description = document.getElementById('AddItemDescription').value;
-    const response = await fetch(apiURL + "Items", {
+    let name = document.getElementById('AddItemName');
+    let group = document.getElementById('AddItemGroup');
+    let type = document.getElementById('AddItemType');
+    let price = document.getElementById('AddItemPrice');
+    let count = document.getElementById('AddItemCount');
+    let description = document.getElementById('AddItemDescription');
+    await fetch(apiURL + "Items", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "name":name,
-            "group":group,
-            "type":type,
-            "price":price,
-            "count":count,
-            "description":description,
+            "name":name.value,
+            "group":group.value,
+            "type":type.value,
+            "price":price.value,
+            "count":count.value,
+            "description":description.value,
             "Img":"/Images/NikePolo.png"
             })
         })
+    name.value = "";
+    group.value = "";
+    type.value = "";
+    price.value = "";
+    count.value = "";
+    description.value = "";
+    RefreshJSON();
 }
 
 async function editItem(element) {
@@ -257,8 +275,10 @@ async function deleteItem(element) {
     const id = element.id.replace("itemDelete", "")
     fetch(apiURL + "Items/" + id + "/", {
         method: 'DELETE',
-      })
-      .then(res => res.json())
+    })
+    document.getElementById("")
+    let parent = element.parentElement;
+    parent.parentElement.remove();
 }
 
 async function searchItem() {
