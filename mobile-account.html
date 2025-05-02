@@ -57,13 +57,20 @@
     </header>
 
     <main class="main-content">
-      <div class="card" style="text-align: left;">
-        <h2>Fiók adatai</h2>
-        <p><strong>Név:</strong> Minta János</p>
-        <p><strong>Email:</strong> minta@email.hu</p>
-        <p><strong>Szállítási cím:</strong> 1234 Budapest, Webshop utca 5.</p>
-        <br>
-        <button>Adatok módosítása</button>
+      <div class="card accountDetails" style="text-align: left;">
+          <h2>Fiók adatai</h2>
+          <p><strong>Név:</strong> <span id="user" class="nonEditAccount"></span><input type="text" id="newUsername" class="editAccount"></p>
+          <p><strong>Email:</strong> <span id="email" class="nonEditAccount"></span><input type="email" id="newEmail" class="editAccount"></p>
+          <p><strong>Szállítási cím:</strong> <span id="address" class="nonEditAccount"></span><input type="text" id="newAddress" class="editAccount"></p>
+          <p class="editAccount"><strong>Régi jelszó:</strong><input type="text" id="oldPass" class="editAccount"></p>
+          <br class="editAccount">
+          <p class="editAccount"><strong>Új jelszó:</strong><input type="text" id="newPass" class="editAccount"></p>
+          <br class="editAccount">
+          <br class="editAccount">
+          <button id="saveAccount" class="editAccount" onclick="toggleAccountEdit(false)">Változtatások mentése</button>
+        <br class="nonEditAccount">
+        <button class="nonEditAccount" onclick="toggleAccountEdit(true)">Adatok módosítása</button>
+        <button class="nonEditAccount" onclick="logOut()">Kijelentkezés</button>
       </div>
       <div class="card" style="text-align: left;margin-top: 20px;">
         <h2>Rendelések</h2>

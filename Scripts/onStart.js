@@ -46,9 +46,10 @@ async function onStart() {
 async function LoadUser() {
   let checkUser = window.sessionStorage.getItem('username') || window.localStorage.getItem('username')
   let checkPassword = window.sessionStorage.getItem('password') || window.localStorage.getItem('password')
+  let result
   if (checkUser && checkPassword) {
     const response = await fetch(apiURL + "users/" + checkUser)
-    const result = await response.json();
+    result = await response.json();
     if (response.ok) {
       if (result.user.password == checkPassword) {
         user = checkUser
@@ -60,6 +61,21 @@ async function LoadUser() {
     }
   } else {
     user = null
+  }
+  url = window.location.href;
+  if (url.includes("account")) {
+    let username
+    let email
+    let address
+    username = result.user.name
+    email = result.user.email
+    address = result.user.address
+    if (!address) {
+      address = "Add meg a szállítási címet!"
+    }
+    document.getElementById("user").innerHTML = username
+    document.getElementById("email").innerHTML = email
+    document.getElementById("address").innerHTML = address
   }
 }
 

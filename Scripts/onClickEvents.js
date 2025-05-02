@@ -135,7 +135,6 @@ async function searchBy(group, type) {
         const result = await response.json();
         if (result.item.length > 0) {
             for (let i = 0; i < result.item.length; i++) {
-                console.log(result.item[i].name)
                 item = document.getElementById("item" + [result.item[i].ID])
                 if (!mobile) {
                     item.style.display = "flex"
@@ -156,28 +155,6 @@ async function searchBy(group, type) {
 function hiddenCount(selector) {
     const elements = document.querySelectorAll(selector);
     return Array.from(elements).filter(el => getComputedStyle(el).display === 'none');
-}
-
-function editClick() {
-    const elements = document.getElementsByClassName("editTable");
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].style.display = "contents";
-    }
-    const elementz = document.getElementsByClassName("editTableBtn");
-    for (let i = 0; i < elementz.length; i++) {
-        elementz[i].style.display = "flex";
-    }
-}
-
-function saveClick() {
-    const elements = document.getElementsByClassName("editTable");
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].style.display = "none";
-    }
-    const elementz = document.getElementsByClassName("editTableBtn");
-    for (let i = 0; i < elementz.length; i++) {
-        elementz[i].style.display = "none";
-    }
 }
 
 function ShowHide(element){
@@ -444,8 +421,6 @@ async function orderEvent(element) {
     const req = await fetch(apiURL + "Datas/" + id)
     const res = await req.json();
 
-    console.log(res)
-
     let orderID = "#" + res.order.ID;
     let orderStatusNum = res.order.status;
     let orderDate = new Date(res.order.date * 1000).toLocaleString("hu-HU");
@@ -519,5 +494,35 @@ function popUpBtn(element) {
         }
     } else {
 
+    }
+}
+
+async function logOut() {
+    
+}
+
+function toggleAccountEdit(editMode) {
+    if (!mobile) {
+        const tableElements = document.getElementsByClassName("editTable");
+        const tableButtons = document.getElementsByClassName("editTableBtn");
+
+        for (let el of tableElements) {
+            el.style.display = editMode ? "contents" : "none";
+        }
+
+        for (let btn of tableButtons) {
+            btn.style.display = editMode ? "flex" : "none";
+        }
+    } else {
+        const editElements = document.getElementsByClassName("editAccount");
+        const nonEditElements = document.getElementsByClassName("nonEditAccount");
+
+        for (let el of editElements) {
+            el.style.display = editMode ? "inline" : "none";
+        }
+
+        for (let el of nonEditElements) {
+            el.style.display = editMode ? "none" : "inline";
+        }
     }
 }
