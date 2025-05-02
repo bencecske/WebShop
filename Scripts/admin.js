@@ -1,5 +1,8 @@
 let prevStatusIcon = "⏪"
 let nextStatusIcon = "⏩"
+let adminRole = ""
+let nextRole = ""
+let prevRole = ""
 
 async function admin() {
     await LoadUser();
@@ -10,7 +13,8 @@ async function admin() {
         if (result.user.role == "admin") {
             GetJSON(1);
             GetJSON(2);
-            LoadGraphs()
+            LoadGraphs();
+            LoadUserList();
         } else {
             window.location.replace("account.html?platform=set")
         }
@@ -62,7 +66,7 @@ async function GetJSON(type) {
 
 let income = 0;
 
-function LoadData(number, customer, price, count, date, status) {
+async function LoadData(number, customer, price, count, date, status) {
     const statusTexts = {
         0: `Feldolgozás alatt <strong id="nextStatus${number}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
         1: `<strong id="prevStatus${number}" onclick="changeStatus(this, -1)">${prevStatusIcon} </strong>Kiszállítás alatt <strong id="nextStatus${number}" onclick="changeStatus(this, 1)"> ${nextStatusIcon}</strong>`,
@@ -370,4 +374,19 @@ async function LoadGraphs() {
             legend: {display: true}
         }
     });
+}
+
+async function LoadUserList() {
+    const respone = await fetch(apiURL + "Users");
+    const result = await respone.json();
+    console.log(result)
+    document.getElementById("allUsers").innerHTML = `(${result.length})`
+    for (let index = 0; index < result.length; index++) {
+        document.getElementById("UserList").innerHTML += `
+        <tr id="user${result[index].ID}">
+          <td>${result[index].name}</td>
+          <td>${result[index].role}</td>
+          <td>${result[index].orders.length}</td>
+        </tr>`
+    }
 }

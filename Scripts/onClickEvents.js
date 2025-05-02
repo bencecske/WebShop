@@ -160,13 +160,20 @@ function hiddenCount(selector) {
 function ShowHide(element){
     const SalesCheckBox = document.getElementById('SalesCheckBox');
     const GraphCheckBox = document.getElementById('GraphCheckBox');
+    const UsersCheckBox = document.getElementById('UsersCheckBox');
     if (element.id == 'Sales-eye' || element.id == 'Sales-slash') {
         if (SalesCheckBox.checked) {
             document.getElementById('Sales').style.display = "none";
         } else {
             document.getElementById('Sales').style.display = "flex";
         }
-    } else {
+    } else if (element.id == 'Users-eye' || element.id == 'Users-slash') {
+        if (UsersCheckBox.checked) {
+            document.getElementById('Users').style.display = "none";
+        } else {
+            document.getElementById('Users').style.display = "grid";
+        }
+    } else if (element.id == 'Graphs-eye' || element.id == 'Graphs-slash') {
         if (GraphCheckBox.checked) {
             document.getElementById('Graphs').style.display = "none";
         } else {
