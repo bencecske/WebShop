@@ -18,6 +18,8 @@ async function loginClick() {
     } else {
         if (mobile) {
             document.getElementById("burger").checked = false
+			document.getElementById("login").style.display = "flex";
+			document.getElementById("registration").style.display = "none";
         }
         document.getElementById("login").style.display = "flex";
         document.getElementById("registration").style.display = "none";
@@ -67,6 +69,7 @@ async function loginBtnClick() {
 }
 
 function registerClick() {
+	console.log("xddd")
     document.getElementById("login").style.display = "none";
     document.getElementById("registration").style.display = "flex";
 }

@@ -228,8 +228,54 @@
         <a onclick="loginClick()">Bejelentkezek!</a>
     </div>
   </form>
+  
+<!-- Süti banner -->
+<div id="cookie-banner" class="fixed-banner">
+  <p>Ez az oldal sütiket használ a jobb felhasználói élmény érdekében. <a href="#" onclick="openCookieDetails(); return false;">Részletek</a></p>
+  <button onclick="acceptCookies()">Elfogadom</button>
+</div>
+
+<!-- ÁSZF banner -->
+<div id="terms-banner" class="fixed-banner">
+  <p>Az oldal használatához kérjük, fogadd el az <a href="#" onclick="openTermsPopup(); return false;">ÁSZF-et</a>.</p>
+  <button onclick="acceptTerms()">Elfogadom</button>
+</div>
+
+<div id="cookie-details-popup" style="display: none;">
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999;" onclick="closeCookieDetails()"></div>
+  <div style="position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 30px; max-width: 600px; width: 90%; z-index: 10000; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+    <h2>Süti tájékoztató</h2>
+    <p>Ez a weboldal sütiket használ annak érdekében, hogy javítsa a felhasználói élményt és elemezze a forgalmat.</p>
+    
+    <h3>Szükséges sütik</h3>
+    <p>Ezek biztosítják az oldal alapvető működését, mint például a bejelentkezés vagy a kosár megjegyzése. Ezeket nem lehet letiltani.</p>
+    
+    <h3>Statisztikai sütik</h3>
+    <p>Elemzési célokra használjuk (pl. Google Analytics), hogy megértsük, hogyan használják a látogatók az oldalt.</p>
+    
+    <h3>Marketing sütik</h3>
+    <p>Ezek személyre szabott hirdetések megjelenítését segítik, például Google vagy Facebook rendszereken keresztül.</p>
+    
+    <button onclick="closeCookieDetails()">Bezárás</button>
+  </div>
+</div>
+
+<div id="terms-popup" style="display: none;">
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999;" onclick="closeTermsPopup()"></div>
+  <div style="position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 30px; max-width: 600px; width: 90%; z-index: 10000; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 80%; overflow-y: auto;">
+    <h2>Általános Szerződési Feltételek (ÁSZF)</h2>
+    <p><strong>Kérjük, figyelmesen olvasd el!</strong> Az oldal további használata előtt el kell fogadnod a feltételeket.</p>
+
+    <p>(Itt jön a teljes szöveg, például: a rendelés menete, fizetés, szállítás, elállási jog, panaszkezelés, stb.)</p>
+
+    <p>Például: „A weboldal szolgáltatásait kizárólag a feltételek elfogadása után veheted igénybe.”</p>
+
+    <button onclick="closeTermsPopup()">Bezárás</button>
+  </div>
+</div>
 
   <script src="Scripts/check.js"></script>
+  <script src="Scripts/accept.js"></script>
   <script src="Scripts/onStart.js"></script>
   <script src="Scripts/onClickEvents.js"></script>
 </body>

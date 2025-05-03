@@ -555,3 +555,38 @@ a {
   position: absolute;
   text-align: center;
 }
+.fixed-banner {
+  display: none;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background: #fdfdfd;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  text-align: center;
+  z-index: 9990;
+}
+.fixed-banner button {
+  padding: 6px 18px;
+  background-color: #2e2e2e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .5s
+}
+.fixed-banner button:hover {
+  background-color: #8000ff
+}
+#cookie-banner {
+  bottom: 100px; /* Feljebb, hogy ne takarja az ÁSZF banner */
+}
+
+#terms-banner {
+  bottom: 0; /* Legalsó sáv */
+}
+.fixed-banner a {
+  color: #8000ff;
+  text-decoration: underline;
+}
