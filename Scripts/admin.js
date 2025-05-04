@@ -1,8 +1,9 @@
 let prevStatusIcon = "⏪"
 let nextStatusIcon = "⏩"
-let adminRole = ""
-let nextRole = ""
-let prevRole = ""
+let adminRole = "🅰"
+let nextRole = "🔺"
+let prevRole = "🔻"
+let checkUserIcon = "📜"
 
 async function admin() {
     await LoadUser();
@@ -183,6 +184,8 @@ function LoadItems(number, name, group, type, price, description, img, id, count
 
             const deleteElement = document.getElementById("NewListItemDelete");
             if (deleteElement) deleteElement.id = "itemDelete" + number;
+
+            document.getElementById("newListItem").id = "listItem" + number
         }
     };
     rawFile.send();
@@ -285,44 +288,6 @@ async function deleteItem(element) {
     parent.parentElement.remove();
 }
 
-async function searchItem() {
-    let search = document.getElementById('listSearch').value;
-    let name = search.replace(" ", "%20")
-    if (search !=  null) {
-    document.getElementById('ItemList').innerHTML = "";
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Elements/ItemListTitle.html", true);
-    rawFile.onreadystatechange = function() {
-    if (rawFile.readyState === 4) {
-        var allText = rawFile.responseText;
-        document.getElementById('ItemList').innerHTML += allText;
-        }
-    }
-    rawFile.send();
-    const response = await fetch(apiURL + "Items/Name/" + name)
-    const result = await response.json();
-    for (let i = 0; i <= result.item.length; i++) {
-        const res = await fetch(apiURL + "Items/Name/" + name + "/");
-        const item = await res.json();
-        const j = i++
-        LoadItems(j, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID, item.item.count);
-        }
-    }
-}
-
-function filterItem() {
-    const filter = document.getElementById('filters').style.display;
-    if (filter == "none") {
-        document.getElementById('filters').style.display = "flex"
-    } else {
-        document.getElementById('filters').style.display = "none"
-    }
-}
-
-async function filterChange() {
-    
-}
-
 async function LoadGraphs() {
     const response = await fetch(apiURL + "Graphs/")
     const result = await response.json();
@@ -379,14 +344,89 @@ async function LoadGraphs() {
 async function LoadUserList() {
     const respone = await fetch(apiURL + "Users");
     const result = await respone.json();
-    console.log(result)
     document.getElementById("allUsers").innerHTML = `(${result.length})`
     for (let index = 0; index < result.length; index++) {
         document.getElementById("UserList").innerHTML += `
-        <tr id="user${result[index].ID}">
-          <td>${result[index].name}</td>
+        <tr id="user${result[index].ID}" class="listedUser">
+          <td id="user${result[index].ID}">${result[index].name} 
+          <strong id="checkUser${result[index].ID}" onclick="checkUser(this)">${checkUserIcon}<strong>
+          </td>
           <td>${result[index].role}</td>
           <td>${result[index].orders.length}</td>
         </tr>`
+    }
+}
+
+async function checkUser(element) {
+    let ID = element.id.replace("checkUser", "")
+
+    const respone = await fetch(apiURL + "Usersbyid/" + ID)
+    const result = await respone.json();
+
+    document.getElementById("checkName").innerHTML = result.user.name
+    document.getElementById("checkMail").innerHTML = result.user.email
+    document.getElementById("checkPass").innerHTML = result.user.password
+    document.getElementById("checkPhone").innerHTML = result.user.phone
+    document.getElementById("checkCart").innerHTML = result.user.inCart
+    document.getElementById("checkRole").innerHTML = result.user.role
+    document.getElementById("checkOrders").innerHTML = result.user.orders
+    document.getElementById("checkAddress").innerHTML = result.user.address
+    document.getElementById("userInfo").style.display = "flex"
+}
+
+function closeUserInfo() {
+    document.getElementById("userInfo").style.display = "none"
+}
+
+function showHideAdmin(element) {
+    if (element.innerHTML.includes("❌")) {
+        if (element.id.includes("users")) {
+            document.getElementById("UserList").style.display = "none"
+            element.innerHTML = "✅"
+        } else {
+            document.getElementById("DataList").style.display = "none"
+            element.innerHTML = "✅"
+        }
+    } else {
+        if (element.id.includes("users")) {
+            document.getElementById("UserList").style.display = "unset"
+            element.innerHTML = "❌"
+        } else {
+            document.getElementById("DataList").style.display = "unset"
+            element.innerHTML = "❌"
+        }
+    }
+}
+
+function adminSearch(element) {
+    let searchFilter = element.value.toLowerCase()
+    if (element.id.includes("item")) {
+        let cardCount = document.getElementsByClassName("listItem").length
+        for (let index = 1; index <= cardCount; index++) {
+            let cardTitle = document.getElementById("item" + index + "_name")
+            let card = document.getElementById("listItem" + index)
+            card.style.display = "flex"
+            if (!cardTitle.innerHTML.toLowerCase().includes(searchFilter)) {
+                card.style.display = "none"
+            }
+        }
+    } else if (element.id.includes("user")) {
+        let userCount = document.getElementsByClassName("listedUser").length
+        for (let index = 1; index <= userCount; index++) {
+            let user = document.getElementById("user" + index)
+            user.style.display = "table-row"
+            if (!user.innerHTML.toLowerCase().includes(searchFilter)) {
+                user.style.display = "none"
+            }
+        }
+    } else {
+        let orderCount = document.getElementsByClassName("listedOrder").length
+        for (let index = 1; index <= orderCount; index++) {
+            let order = document.getElementById("dataNumber" + index)
+            order.parentElement.style.display = "table-row"
+            if (!order.innerHTML.toLowerCase().includes(searchFilter)) {
+                order.parentElement.style.display = "none"
+            }
+        }
     }
 }

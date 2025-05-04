@@ -1,13 +1,16 @@
 function acceptCookies() {
   localStorage.setItem("cookiesAccepted", "true");
   document.getElementById("cookie-banner").style.display = "none";
+  if (document.getElementById("terms-banner").style.display == "none") {
+    document.getElementById("overlayBanner").style.display = "none"
+  }
 }
 
 function acceptTerms() {
   localStorage.setItem("termsAccepted", "true");
   document.getElementById("terms-banner").style.display = "none";
-  if (document.getElementById("cookie-banner").style.display != "none") {
-	document.getElementById("cookie-banner").style.bottom = 0;
+  if (document.getElementById("cookie-banner").style.display == "none") {
+	  document.getElementById("overlayBanner").style.display = "none"
   }
 }
 
@@ -25,11 +28,16 @@ function closeTermsPopup() {
   document.getElementById("terms-popup").style.display = "none";
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
+  const respone = await fetch(apiURL + "aszf")
+  const result = await respone.text()
+  document.getElementById("aszf").innerHTML = result
   if (!localStorage.getItem("cookiesAccepted")) {
     document.getElementById("cookie-banner").style.display = "block";
+    document.getElementById("overlayBanner").style.display = "flex"
   }
   if (!localStorage.getItem("termsAccepted")) {
     document.getElementById("terms-banner").style.display = "block";
+    document.getElementById("overlayBanner").style.display = "flex"
   }
 });

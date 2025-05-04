@@ -69,7 +69,6 @@ async function loginBtnClick() {
 }
 
 function registerClick() {
-	console.log("xddd")
     document.getElementById("login").style.display = "none";
     document.getElementById("registration").style.display = "flex";
 }
@@ -78,37 +77,60 @@ async function registerBtnClick() {
 	let empty = document.getElementById("empty")
 	let takenUser = document.getElementById("takenUser")
 	let takenMail = document.getElementById("takenMail")
+	let wrongMail = document.getElementById("wrongMail")
 	let passNotMatch = document.getElementById("passNotMatch")
+    let takenPhone = document.getElementById("takenPhone")
+    let wrongPhone = document.getElementById("wrongPhone")
+    let wrongAddress = document.getElementById("wrongAddress")
+
 	empty.style.display = "none"
 	takenUser.style.display = "none"
 	takenMail.style.display = "none"
+	wrongMail.style.display = "none"
 	passNotMatch.style.display = "none"
-	
+    takenPhone.style.display = "none"
+    wrongPhone.style.display = "none"
+    wrongAddress.style.display = "none"
 	
 	let username = document.getElementById("registerUsername").value
 	let email = document.getElementById("registerEmail").value
 	let pass = document.getElementById("registerPassword").value
 	let passAgain = document.getElementById("registerPasswordAgain").value
+    let phone = document.getElementById("registerPhone").value
+    let code = document.getElementById("registerCode").value
+    let city = document.getElementById("registerCity").value
+    let street = document.getElementById("registerStreet").value
 
 	let user = []
 	let mail = []
+    let phoneNums = []
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^(?:\+36|06)\d{9}$/;
+    const streetRegex = /^[\p{L}\s\.\-]+ \d+[a-zA-Z]?$/u;
+    const codeIsValid = /^\d{4}$/.test(code);
 	
 	const response = await fetch(apiURL + "Users")
 	const result = await response.json()
+
 	for (let i = 0; i < result.length; i++) {
-		console.log(result[i].name)
-		
+		user.push(result[i].name)
+        mail.push(result[i].email)
+        phoneNums.push(result[i].phone)
 	}
-	
-	if (!username || !email || !pass || !passAgain) {
+
+	if (!username || !email || !pass || !passAgain || !code || !city || !street || !phone) {
 		empty.style.display = "unset" 
 		return
 	}
-	if (username == user) {
+    if (!emailPattern.test(email)) {
+		wrongMail.style.display = "unset" 
+		return 
+    }
+	if (user.includes(username)) {
 		takenUser.style.display = "unset" 
 		return 
 	}
-	if (email == mail) {
+	if (mail.includes(email)) {
 		takenMail.style.display = "unset" 
 		return
 	}
@@ -116,8 +138,34 @@ async function registerBtnClick() {
 		passNotMatch.style.display = "unset" 
 		return
 	}
-	
-	alert("Sikeres regisztráció")
+    if (phoneNums.includes(phone)) {
+        takenPhone.style.display = "unset"
+        return
+    }
+    if (!phoneRegex.test(phone)) {
+        wrongPhone.style.display = "unset";
+        return;
+    }
+    if (!codeIsValid || !streetRegex.test(street)) {
+        wrongAddress.style.display = "unset";
+        return;
+    }
+
+	const req = await fetch(apiURL + "register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "name":username,
+            "password":pass,
+            "email":email,
+            "phone":phone,
+            "address":code + " " + city + ", " + street
+        })
+    })
+    const res = await req.json()
+    alert(res)
 }
 
 function closeForm() {
@@ -137,6 +185,8 @@ function menuClick() {
     document.getElementById('menuBar').classList.toggle('show');
 }
 
+let hiddenCards = [];
+
 function searchItem(event) {
     event?.preventDefault();
     let cards;
@@ -151,13 +201,17 @@ function searchItem(event) {
     cards = document.getElementsByClassName("cardItem").length || document.getElementsByClassName("product-card").length;
     for (let i = 1; i <= cards; i++) {
         item = document.getElementById("item" + [i])
-        item.style.display = "flex";
+        if (!hiddenCards.includes(item)) {
+            item.style.display = "flex";
+        }
         title = document.getElementById("item" + [i] + "_name").innerHTML.toLowerCase();
         description = document.getElementById("item" + [i] + "_description").innerHTML.toLowerCase();
         if (!title.includes(query) && !description.includes(query)) {
             item.style.display = "none"
         } else {
-            item.style.display = "unset"
+            if (!hiddenCards.includes(item)) {
+                item.style.display = "unset"
+            }
         }
     }
     const hidden = hiddenCount('.cardItem, .product-card');
@@ -167,12 +221,25 @@ function searchItem(event) {
 }
 
 async function searchBy(group, type) {
+    hiddenCards = []
+    const url = new URL(window.location);
+    url.searchParams.set('csoport', group);
+    url.searchParams.set('tipus', type);
+    const translations = {
+        Man: 'Férfi',
+        Woman: 'Női',
+        Kid: 'Gyerek'
+    };
+    let displayGroup = translations[group] || group;
+    document.getElementById("mainsearch").placeholder = `Keresés (${displayGroup} csoportban)...`
+    window.history.pushState({}, '', url);
     document.getElementById("noItem").style.display = "none"
     let cards = document.getElementsByClassName("cardItem").length || document.getElementsByClassName("product-card").length;
     let item;
     for (let index = 1; index <= cards; index++) {
         item = document.getElementById("item" + [index])
         item.style.display = "none"
+        hiddenCards.push(item);
     }
     let response;
     if (type == "all") {
@@ -187,8 +254,12 @@ async function searchBy(group, type) {
                 item = document.getElementById("item" + [result.item[i].ID])
                 if (!mobile) {
                     item.style.display = "flex"
+                    let index = hiddenCards.indexOf(item)
+                    hiddenCards.splice(index, 1)
                 } else {
                     item.style.display = "unset"
+                    let index = hiddenCards.indexOf(item)
+                    hiddenCards.splice(index, 1)
                 }
             }
         } else {
@@ -199,6 +270,18 @@ async function searchBy(group, type) {
     }
     document.getElementById('menuBar')?.classList.toggle('show');
     document.getElementById('burger').checked = false;
+    console.log(hiddenCards)
+}
+
+function resetSearch(event) {
+    event?.preventDefault();
+    const url = new URL(window.location);
+    url.search = "?platform=set";
+    window.history.replaceState(null, "", url);
+    document.getElementById("mainsearch").placeholder = `Keresés...`
+    document.getElementById("mainsearch").value = ""
+    hiddenCards = []
+    searchItem()
 }
 
 function hiddenCount(selector) {

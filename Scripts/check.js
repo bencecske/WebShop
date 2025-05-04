@@ -1,4 +1,4 @@
-let apiURL = "https://express-steam-went-decimal.trycloudflare.com/";
+let apiURL = "https://breath-eos-blond-wm.trycloudflare.com/";
 
 async function loadAPIURL() {
     try {

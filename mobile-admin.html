@@ -66,8 +66,8 @@
       <div class="card" style="text-align: left;">
         <div class="ordersHeader">
           <h2>Termékek</h2>
-          <form class="search-bar" onsubmit="searchItem(event)">
-            <input type="text" name="query" placeholder="Keresés...">
+          <form class="search-bar">
+            <input type="text" name="query" placeholder="Keresés..." oninput="adminSearch(this)" id="itemSearch">
             <button type="submit"><svg 
                 onclick="searchItem(event)" 
                 class="ListSvg" 
@@ -95,38 +95,37 @@
         <div id="ItemList"></div>
       </div>
     </main>
-
     
-  <div class="card" id="popUpDiv">
-    <h1 id="popUpItemName">Cucc neve</h1>
-    <div class="dataContainer">
-      <div class="section">
-        <h3>Név</h3>
-        <input type="text" id="popUpName">
+    <div class="card" id="popUpDiv">
+      <h1 id="popUpItemName">Cucc neve</h1>
+      <div class="dataContainer">
+        <div class="section">
+          <h3>Név</h3>
+          <input type="text" id="popUpName">
+        </div>
+        <div class="section">
+          <h3>Leírás</h3>
+          <input type="text" id="popUpDesc">
+        </div>
+        <div class="section">
+          <h3>Csoport</h3>
+          <input type="text" id="popUpGroup">
+        </div>
+        <div class="section">
+          <h3>Tipus</h3>
+          <input type="text" id="popUpType">
+        </div>
+        <div class="section">
+          <h3>Ár</h3>
+          <input type="text" id="popUpPrice">
+        </div>
+        <div class="section">
+          <h3>Darabszám</h3>
+          <input type="text" id="popUpCount">
+        </div>
+        <button id="editBtn" onclick="editClick(this)">Szerkesztés</button>
       </div>
-      <div class="section">
-        <h3>Leírás</h3>
-        <input type="text" id="popUpDesc">
-      </div>
-      <div class="section">
-        <h3>Csoport</h3>
-        <input type="text" id="popUpGroup">
-      </div>
-      <div class="section">
-        <h3>Tipus</h3>
-        <input type="text" id="popUpType">
-      </div>
-      <div class="section">
-        <h3>Ár</h3>
-        <input type="text" id="popUpPrice">
-      </div>
-      <div class="section">
-        <h3>Darabszám</h3>
-        <input type="text" id="popUpCount">
-      </div>
-      <button id="editBtn" onclick="editClick(this)">Szerkesztés</button>
     </div>
-  </div>
 
     <main class="main-content" id="ItemAdd">
       <div class="card" style="text-align: left;">
@@ -146,7 +145,7 @@
 
     <main class="main-content" id="orderList">
       <div class="card" style="text-align: left;">
-        <h2>Rendelések</h2>
+        <h2>Rendelések <strong onclick="showHideAdmin(this)" id="orderTitle">❌</strong><input type="text" class="searchbar" placeholder="Keresés..." oninput="adminSearch(this)" id="orderSearch"></h2>
         <p id="income">Teljes Bevétel: 0 Ft</p>
         <table id="DataList">
           <thead>
@@ -156,7 +155,61 @@
           </thead>
         </table>
       </div>
+      <div class="card" style="text-align: left;">
+        <h2>Felhasználók <strong id="allUsers">(0)</strong><strong onclick="showHideAdmin(this)" id="usersTitle">❌</strong><input type="text" class="searchbar" placeholder="Keresés..." oninput="adminSearch(this)" id="userSearch"></h2>
+        <table id="UserList">
+          <thead>
+            <th>Név</th>
+            <th>Rang</th>
+            <th>Rendelések</th>
+          </thead>
+        </table>
+      </div>
     </main>
+
+    <div id="userInfo">
+      <h1 id="checkTitle">User</h1>
+      <table>
+        <tr>
+          <th>Név</th>
+          <td id="checkName"></td>
+        </tr>
+        <tr>
+          <th>Rang</th>
+          <td id="checkRole"></td>
+        </tr>
+        <tr>
+          <th>E-Mail cim</th>
+          <td id="checkMail"></td>
+        </tr>
+        <tr>
+          <th>Telefonszám</th>
+          <td id="checkPhone"></td>
+        </tr>
+        <tr>
+          <th>Jelszó</th>
+          <td id="checkPass"></td>
+        </tr>
+        <tr>
+          <th>Szállitási cim</th>
+          <td id="checkAddress"></td>
+        </tr>
+        <tr>
+          <th>Kosárban</th>
+          <td id="checkCart"></td>
+        </tr>
+        <tr>
+          <th>Rendelések</th>
+          <td id="checkOrders"></td>
+        </tr>
+        <tr>
+          <th>Műveletek</th>
+          <td id="checkFuncs"></td>
+        </tr>
+      </table>
+      <button style="text-align: center;margin-top: 10px;" onclick="closeUserInfo()">Bezárás</button>
+    </div>
+
   </div>
 </body>
 <script src="Scripts/check.js"></script>
