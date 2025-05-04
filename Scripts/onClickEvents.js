@@ -74,6 +74,52 @@ function registerClick() {
     document.getElementById("registration").style.display = "flex";
 }
 
+async function registerBtnClick() {
+	let empty = document.getElementById("empty")
+	let takenUser = document.getElementById("takenUser")
+	let takenMail = document.getElementById("takenMail")
+	let passNotMatch = document.getElementById("passNotMatch")
+	empty.style.display = "none"
+	takenUser.style.display = "none"
+	takenMail.style.display = "none"
+	passNotMatch.style.display = "none"
+	
+	
+	let username = document.getElementById("registerUsername").value
+	let email = document.getElementById("registerEmail").value
+	let pass = document.getElementById("registerPassword").value
+	let passAgain = document.getElementById("registerPasswordAgain").value
+
+	let user = []
+	let mail = []
+	
+	const response = await fetch(apiURL + "Users")
+	const result = await response.json()
+	for (let i = 0; i < result.length; i++) {
+		console.log(result[i].name)
+		
+	}
+	
+	if (!username || !email || !pass || !passAgain) {
+		empty.style.display = "unset" 
+		return
+	}
+	if (username == user) {
+		takenUser.style.display = "unset" 
+		return 
+	}
+	if (email == mail) {
+		takenMail.style.display = "unset" 
+		return
+	}
+	if (pass != passAgain) {
+		passNotMatch.style.display = "unset" 
+		return
+	}
+	
+	alert("Sikeres regisztráció")
+}
+
 function closeForm() {
     document.getElementById("login").style.display = "none";
     document.getElementById("registration").style.display = "none";
