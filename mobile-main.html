@@ -120,16 +120,28 @@
   <main class="account-content" id="registration">
     <div class="card" style="max-width: 400px; margin: 0 auto;">
     <h2>Regisztráció</h2>
-      <form>
-        <input placeholder="E-mail cim" type="email" id="email" name="email" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input placeholder="Felhasználónév" type="text" id="username" name="username" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input placeholder="Jelszó" type="password" id="password" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input placeholder="Jelszó újra" type="password" id="password2" name="password" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
-        <input type="checkbox" name="saveLogin" id="saveLogin">
-        <label for="saveLogin">Maradjak bejelentkezve</label>
-        <button type="submit" style="width: 100%;">Regisztálás</button>
+      <div>
+        <input placeholder="Felhasználónév" type="text" id="registerUsername" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <span style="color: red; display: none" id="takenUser">Ez a felhasználónév már foglalt!</span>
+        <input placeholder="E-mail cim" type="email" id="registerEmail" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <span style="color: red; display: none" id="takenMail">Ez az E-Mail cím már foglalt!</span>
+        <span style="color: red; display: none" id="wrongMail">Helytelen E-Mail cím!</span>
+        <input placeholder="Telefonszám" type="text" id="registerPhone"  required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <span style="color: red; display: none" id="takenPhone">Ez az telefonszám már foglalt!</span>
+        <span style="color: red; display: none" id="wrongPhone">Helytelen telefonszám!</span>
+        <div style="display: flex; gap: 5px; justify-content: space-evenly; align-items: center;">
+          <input placeholder="Irányitószám" type="text" id="registerCode" required style="width: 30%; padding: 10px; margin: 8px 0;"><br>
+          <input placeholder="Város" type="text" id="registerCity" required style="width: 30%; padding: 10px; margin: 8px 0;"><br>
+          <input placeholder="Utca és házszám" type="text" id="registerStreet" required style="width: 40%; padding: 10px; margin: 8px 0;"><br>
+        </div>
+        <span style="color: red; display: none" id="wrongAddress">Helytelen cim!</span>
+        <input placeholder="Jelszó" type="password" id="registerPassword" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <span style="color: red; display: none" id="passNotMatch">Kérlek a két jelszó azonos legyen!</span>
+        <input placeholder="Jelszó újra" type="password" id="registerPasswordAgain" required style="width: 100%; padding: 10px; margin: 8px 0;"><br>
+        <span style="color: red; display: none" id="empty">Kérlek tölts ki minden mezőt!</span>
+        <button type="submit" style="width: 100%;" onclick="registerBtnClick()">Regisztálás</button>
         <a onclick="loginClick()">Van már fiókom</a>
-      </form>
+      </div>
     </div>
   </main>
 <div class="overlayBanner" id="overlayBanner">

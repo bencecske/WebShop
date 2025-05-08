@@ -1,4 +1,4 @@
-let apiURL = "https://breath-eos-blond-wm.trycloudflare.com/";
+let apiURL = "https://telephone-fy-through-input.trycloudflare.com/";
 
 async function loadAPIURL() {
     try {

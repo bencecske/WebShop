@@ -67,15 +67,18 @@ async function LoadUser() {
     let username
     let email
     let address
+    let phone
     username = result.user.name
     email = result.user.email
     address = result.user.address
+    phone = result.user.phone
     if (!address) {
       address = "Add meg a szállítási címet!"
     }
     document.getElementById("user").innerHTML = username
     document.getElementById("email").innerHTML = email
     document.getElementById("address").innerHTML = address
+    document.getElementById("phone").innerHTML = phone
   }
 }
 

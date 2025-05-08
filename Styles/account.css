@@ -319,17 +319,10 @@ table {
 }
 .editInput {
   outline: none;
-  border: 2px solid #2e2e2e;
-  border-radius: 5px;
+  border: none;
+  width: 100%;
+  text-align: center;
   transition: all 0.5s;
-}
-.editInput:hover {
-  border: 2px solid #8000ff;
-  transform: scale(1.05);
-}
-.editInput:focus {
-  border: 2px solid #8000ff;
-  transform: scale(1.05);
 }
 .editTableBtn {
   margin-top: 10px;
@@ -392,4 +385,7 @@ btnContainer a:hover {
   border-left: 3px solid #8000ff;
   background-color: #f2e6ff;
   color: #8000ff;
+}
+.errorMsg {
+  display: none;
 }

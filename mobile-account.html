@@ -18,7 +18,7 @@
         <nav class="navbar">
           <a href="mobile-main.html?platform=set">Kezdőlap</a>
           <a href="mobile-cart.html?platform=set" id="cartCount">Kosár (0)</a>
-          <a href="mobile-account.html?platform=set">Fiók</a>
+          <a onclick="loginClick()">Fiók</a>
           <footer class="footer">
             <a href="#" class="socialContainer containerOne">
               <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
@@ -59,25 +59,45 @@
     <main class="main-content">
       <div class="card accountDetails" style="text-align: left;">
           <h2>Fiók adatai</h2>
-          <p><strong>Név:</strong> <span id="user" class="nonEditAccount"></span><input type="text" id="newUsername" class="editAccount"></p>
-          <p><strong>Email:</strong> <span id="email" class="nonEditAccount"></span><input type="email" id="newEmail" class="editAccount"></p>
-          <p><strong>Szállítási cím:</strong> <span id="address" class="nonEditAccount"></span><input type="text" id="newAddress" class="editAccount"></p>
-          <p class="editAccount"><strong>Régi jelszó:</strong><input type="text" id="oldPass" class="editAccount"></p>
+          <p><strong>Név:</strong> 
+            <span id="user" class="nonEditAccount"></span>
+            <input type="text" id="newUsername" class="editAccount">
+            <span style="color: red;" id="takenUser" class="errorMsg"> Foglalt felhasználónév</span></p>
+          <p><strong>Email:</strong> 
+          <span id="email" class="nonEditAccount"></span>
+          <input type="email" id="newEmail" class="editAccount">
+          <span style="color: red;" id="takenMail" class="errorMsg"> Foglalt E-Mail cím</span>
+          <span style="color: red;" id="wrongMail" class="errorMsg"> Helytelen E-Mail cím</span></p>
+          <p><strong>Telefonszám:</strong>
+            <span id="phone" class="nonEditAccount"></span>
+            <input type="text" id="newPhone" class="editAccount">
+            <span style="color: red;" id="takenPhone" class="errorMsg"> Foglalt telefonszám</span>
+            <span style="color: red;" id="wrongPhone" class="errorMsg"> Helytelen telefonszám</span></p>
+          <p><strong>Szállítási cím:</strong>
+            <span id="address" class="nonEditAccount"></span>
+            <input type="text" id="newAddress" class="editAccount">
+            <span style="color: red;" id="wrongAddress" class="errorMsg"> Helytelen cím</span></p>
+          <p class="editAccount"><strong>Régi jelszó:</strong>
+            <input type="text" id="oldPass" class="editAccount">
+            <span style="color: red;" id="wrongPass" class="errorMsg"> Rossz jelszó</span></p>
           <br class="editAccount">
-          <p class="editAccount"><strong>Új jelszó:</strong><input type="text" id="newPass" class="editAccount"></p>
+          <p class="editAccount"><strong>Új jelszó:</strong>
+            <input type="text" id="newPass" class="editAccount">
+            <span style="color: red;" id="passMatch" class="errorMsg"> Jelszó egyezés</span></p>
           <br class="editAccount">
+          <span style="color: red;" id="empty" class="errorMsg">Kérlek tölts ki minden mezőt!</span>
           <br class="editAccount">
-          <button id="saveAccount" class="editAccount" onclick="toggleAccountEdit(false)">Változtatások mentése</button>
+          <button id="saveAccount" class="editAccount" onclick="editAccount()">Változtatások mentése</button>
         <br class="nonEditAccount">
-        <button class="nonEditAccount" onclick="toggleAccountEdit(true)">Adatok módosítása</button>
+        <button class="nonEditAccount" onclick="toggleAccountEdit(true, false)">Adatok módosítása</button>
         <button class="nonEditAccount" onclick="logOut()">Kijelentkezés</button>
       </div>
       <div class="card" style="text-align: left;margin-top: 20px;">
         <h2>Rendelések</h2>
-        <table id="orderList">
-            <th>Azonositó</th>
-            <th>Állapot</th>
-            <th>Műveletek</th>
+        <table style="display: table;" id="orderList">
+          <th>Azonositó</th>
+          <th>Állapot</th>
+          <th>Műveletek</th>
         </table>
       </div>
     </main>

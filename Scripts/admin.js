@@ -17,7 +17,11 @@ async function admin() {
             LoadGraphs();
             LoadUserList();
         } else {
-            window.location.replace("account.html?platform=set")
+            if (!mobile) {
+                window.location.replace("account.html?platform=set")
+            } else {
+                window.location.replace("mobile-account.html?platform=set")
+            }
         }
     } else {
         window.location.replace("index.html")

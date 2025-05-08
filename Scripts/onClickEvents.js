@@ -1,3 +1,5 @@
+let change = true
+
 async function loginClick() {
     if (user) {
         const response = await fetch(apiURL + "Users/" + user);
@@ -54,12 +56,18 @@ async function loginBtnClick() {
                     window.sessionStorage.setItem("username", user)
                     window.sessionStorage.setItem("password", password)
                 }
-                if (!mobile) {
-                    window.location.replace("account.html?platform=set")
+                if (change) {
+                    if (!mobile) {
+                        window.location.replace("account.html?platform=set")
+                    } else {
+                        window.location.replace("mobile-account.html?platform=set")
+                    }
                 } else {
-                    window.location.replace("mobile-account.html?platform=set")
+                    change = true
+                    await LoadUser()
+                    document.getElementById("login").style.display = "none"
                 }
-            }
+        }
         } else {
             document.getElementById('loginPassword').style.borderColor = "red";
         }
@@ -164,8 +172,9 @@ async function registerBtnClick() {
             "address":code + " " + city + ", " + street
         })
     })
-    const res = await req.json()
-    alert(res)
+    document.getElementById("registration").style.display = "none"
+    window.sessionStorage.setItem("password", pass)
+    window.sessionStorage.setItem("username", username)
 }
 
 function closeForm() {
@@ -174,10 +183,15 @@ function closeForm() {
 }
 
 function cartClick() {
-    if (!mobile) {
-        window.location.replace("cart.html?platform=set");
+    if (user) {
+        if (!mobile) {
+            window.location.replace("cart.html?platform=set");
+        } else {
+            window.location.replace("mobile-cart.html?platform=set");
+        }
     } else {
-        window.location.replace("mobile-cart.html?platform=set");
+        change = false
+        document.getElementById("login").style.display = "flex"
     }
 }
 
@@ -270,7 +284,6 @@ async function searchBy(group, type) {
     }
     document.getElementById('menuBar')?.classList.toggle('show');
     document.getElementById('burger').checked = false;
-    console.log(hiddenCards)
 }
 
 function resetSearch(event) {
@@ -389,7 +402,8 @@ async function cartAdd(element) {
             alert("Valaki épp veszi ezt!")
         }
     } else {
-        document.getElementById("login").style.display = "block";
+        change = false
+        document.getElementById("login").style.display = "flex";
     }
 }
 
@@ -636,32 +650,157 @@ function popUpBtn(element) {
     }
 }
 
-async function logOut() {
+async function toggleAccountEdit(editMode, error) {
+    const errorMsg = document.getElementsByClassName("errorMsg")
+    for (let el of errorMsg) {
+        el.style.display = "none"
+    }
+
+    if (error) {
+        switch (error) {
+            default:
+                document.getElementById(error).style.display = "unset"
+                return
+        }
+    }
+
+    let user = document.getElementById("user")
+    let email = document.getElementById("email")
+    let address = document.getElementById("address")
+    let phone = document.getElementById("phone")
+    let newUser = document.getElementById("newUsername")
+    let newEmail = document.getElementById("newEmail")
+    let newAddress = document.getElementById("newAddress")
+    let newPhone = document.getElementById("newPhone")
     
+        if (editMode) {
+            newUser.value = user.innerHTML
+            newEmail.value = email.innerHTML
+            newAddress.value = address.innerHTML
+            newPhone.value = phone.innerHTML
+        }
+    
+        if (!mobile) {
+            const tableElements = document.getElementsByClassName("editTable");
+            const tableButtons = document.getElementsByClassName("editTableBtn");
+            document.getElementById("nonEditTable").style.display = editMode ? "none" : "table"
+            document.getElementById("nonEditBtn").style.display = editMode ? "none" : "unset"
+    
+            for (let el of tableElements) {
+                el.style.display = editMode ? "table" : "none";
+            }
+    
+            for (let btn of tableButtons) {
+                btn.style.display = editMode ? "flex" : "none";
+            }
+        } else {
+            const editElements = document.getElementsByClassName("editAccount");
+            const nonEditElements = document.getElementsByClassName("nonEditAccount");
+    
+            for (let el of editElements) {
+                el.style.display = editMode ? "inline" : "none";
+            }
+    
+            for (let el of nonEditElements) {
+                el.style.display = editMode ? "none" : "inline";
+            }
+        }
 }
 
-function toggleAccountEdit(editMode) {
-    if (!mobile) {
-        const tableElements = document.getElementsByClassName("editTable");
-        const tableButtons = document.getElementsByClassName("editTableBtn");
+async function editAccount() {
+    let user = document.getElementById("user").innerHTML
+    let email = document.getElementById("email").innerHTML
+    let address = document.getElementById("address").innerHTML
+    let phone = document.getElementById("phone").innerHTML
+    let newUser = document.getElementById("newUsername").value
+    let newEmail = document.getElementById("newEmail").value
+    let newAddress = document.getElementById("newAddress").value
+    let newPhone = document.getElementById("newPhone").value
+    let oldPass = document.getElementById("oldPass").value
+    let newPass = document.getElementById("newPass").value
+    let takenUsers = []
+    let takenPhones = []
+    let takenMails = []
 
-        for (let el of tableElements) {
-            el.style.display = editMode ? "contents" : "none";
-        }
+    const oldData = { user, email, address, phone };
+    const newData = { user: newUser, email: newEmail, address: newAddress, phone: newPhone };
 
-        for (let btn of tableButtons) {
-            btn.style.display = editMode ? "flex" : "none";
+    const isSame = Object.keys(oldData).every(key => oldData[key] === newData[key]);
+
+    if (isSame) return toggleAccountEdit(false, false)
+
+    if (!newUser || !newPhone || !newEmail || !newAddress || !newPass || !oldPass) return toggleAccountEdit(true, "empty")
+
+    const validMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+    const validPhone = /^(?:\+36|06)\d{9}$/.test(newPhone);
+    const validAddress = /^\d{4} [\p{L}\s\-]+, [\p{L}\s\-]+ \d+[a-zA-Z]?\.?$/u.test(newAddress);
+
+    if (!validPhone) return toggleAccountEdit(true, "wrongPhone") 
+    if (!validMail) return toggleAccountEdit(true, "wrongMail")
+    if (!validAddress) return toggleAccountEdit(true, "wrongAddress")
+    
+    if (oldPass == newPass) return toggleAccountEdit(true, "passMatch")
+
+    const response = await fetch(apiURL + "Users/" + user)
+    const result = await response.json()
+    
+    if (oldPass != result.user.password) return toggleAccountEdit(true, "wrongPass")
+
+    await fetch(apiURL + "Users")
+    .then(response => response.json())
+    .then(result => {
+        for (let index = 0; index < result.length; index++) {
+            takenUsers.push(result[index].name);
+            takenMails.push(result[index].email);
+            takenPhones.push(result[index].phone);
+        };
+    });
+
+    if (takenUsers.includes(newUser) && newUser != user) return toggleAccountEdit(true, "takenUser") 
+
+    if (takenPhones.includes(newPhone) && newPhone != phone) return toggleAccountEdit(true, "takenPhone") 
+
+    if (takenMails.includes(newEmail) && newEmail != email) return toggleAccountEdit(true, "takenMail")
+
+    alert("Siker")
+    toggleAccountEdit(false, false)
+}
+
+async function logOut() {
+    let user = window.sessionStorage.getItem("username") || window.localStorage.getItem("username")
+    let pass = window.sessionStorage.getItem("password") || window.localStorage.getItem("password")
+    if (user && pass) {
+        await clearCart()
+        return
+        window.localStorage.removeItem("username")
+        window.localStorage.removeItem("password")
+        window.sessionStorage.removeItem("username")
+        window.sessionStorage.removeItem("password")
+        if (!mobile) {
+            window.location.replace("main.html?platform=set")
+        } else {
+            window.location.replace("mobile-main.html?platform=set")
         }
     } else {
-        const editElements = document.getElementsByClassName("editAccount");
-        const nonEditElements = document.getElementsByClassName("nonEditAccount");
+        window.location.replace("index.html")
+    }
+}
 
-        for (let el of editElements) {
-            el.style.display = editMode ? "inline" : "none";
-        }
-
-        for (let el of nonEditElements) {
-            el.style.display = editMode ? "none" : "inline";
-        }
+async function clearCart() {
+    let user = window.sessionStorage.getItem("username") || window.localStorage.getItem("username")
+    let pass = window.sessionStorage.getItem("password") || window.localStorage.getItem("password")
+    if (user && pass) {
+    const request = await fetch(apiURL + "Users/" + user)
+    const result = await request.json()
+    let inCart = result.user.inCart
+    let inCartIDs = result.user.inCartID
+    console.log(inCart, inCartIDs)
+    for (let index = 0; index < inCartIDs.length; index++) {
+        inCartIDs.filter(index)
+        console.log(inCartIDs)
+    }
+    return
+    } else {
+        window.location.replace("index.html")
     }
 }

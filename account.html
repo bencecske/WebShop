@@ -86,7 +86,7 @@
 
     <form class="form_main" action="" id="details">
         <p class="heading">Fiók adatok</s></p>
-        <table>
+        <table id="nonEditTable">
             <tr>
               <td>Felhasználónév</td>
               <td id="user"></td>
@@ -96,45 +96,61 @@
               <td id="email"></td>
             </tr>
             <tr>
+              <td>Telefonszám</td>
+              <td id="phone"></td>
+            </tr>
+            <tr>
               <td>Szállítási cím</td>
               <td id="address"></td>
             </tr>
             <tr>
               <td>Jelszó</td>
               <td>
-                <svg style="cursor: pointer;" onclick="toggleAccountEdit(true)" width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg style="cursor: pointer;" onclick="toggleAccountEdit(true, false)" width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.4998 5.49994L18.3282 8.32837M3 20.9997L3.04745 20.6675C3.21536 19.4922 3.29932 18.9045 3.49029 18.3558C3.65975 17.8689 3.89124 17.4059 4.17906 16.9783C4.50341 16.4963 4.92319 16.0765 5.76274 15.237L17.4107 3.58896C18.1918 2.80791 19.4581 2.80791 20.2392 3.58896C21.0202 4.37001 21.0202 5.63634 20.2392 6.41739L8.37744 18.2791C7.61579 19.0408 7.23497 19.4216 6.8012 19.7244C6.41618 19.9932 6.00093 20.2159 5.56398 20.3879C5.07171 20.5817 4.54375 20.6882 3.48793 20.9012L3 20.9997Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </td>
             </tr>
         </table>
-        <br>
           <table class="editTable">
             <tr>
-              <td>Új Felhasználónév</td>
-              <td><input class="editInput" type="text"></td>
+              <td>Felhasználónév</td>
+              <td><input class="editInput" type="text" id="newUsername"></td>
             </tr>
             <tr>
-              <td>Új E-Mail cim</td>
-              <td><input class="editInput" type="email"></td>
+              <td>E-Mail cim</td>
+              <td><input class="editInput" type="email" id="newEmail"></td>
             </tr>
             <tr>
-              <td>Új Szállítási cím</td>
-              <td><input class="editInput" type="text"></td>
+              <td>Telefonszám</td>
+              <td><input class="editInput" type="email" id="newPhone"></td>
+            </tr>
+            <tr>
+              <td>Szállítási cím</td>
+              <td><input class="editInput" type="text" id="newAddress"></td>
             </tr>
             <tr>
               <td>Régi Jelszó</td>
-              <td><input class="editInput" type="password"></td>
+              <td><input class="editInput" type="password" id="oldPass"></td>
             </tr>
             <tr>
               <td>Új Jelszó</td>
-              <td><input class="editInput" type="password"></td>
+              <td><input class="editInput" type="password" id="newPass"></td>
             </tr>
           </table>
+          <span style="color: red;" id="takenUser" class="errorMsg"> Foglalt felhasználónév</span>
+          <span style="color: red;" id="takenMail" class="errorMsg"> Foglalt E-Mail cím</span>
+          <span style="color: red;" id="wrongMail" class="errorMsg"> Helytelen E-Mail cím</span>
+          <span style="color: red;" id="empty" class="errorMsg">Kérlek tölts ki minden mezőt!</span>
+          <span style="color: red;" id="passMatch" class="errorMsg"> Jelszó egyezés</span>
+          <span style="color: red;" id="wrongPass" class="errorMsg"> Rossz jelszó</span>
+          <span style="color: red;" id="wrongAddress" class="errorMsg"> Helytelen cím</span>
+          <span style="color: red;" id="takenPhone" class="errorMsg"> Foglalt telefonszám</span>
+          <span style="color: red;" id="wrongPhone" class="errorMsg"> Helytelen telefonszám</span>
           <div class="signupContainer">
-              <a class="editTableBtn" onclick="toggleAccountEdit(false)">Mentés</a>
+              <a class="editTableBtn" onclick="editAccount()">Mentés</a>
               <br class="editTableBtn">
-              <a style="margin-top: 10px;">Kijelentkezek!</a>
+              <a style="margin-top: 10px;" id="nonEditBtn" onclick="logOut()">Kijelentkezek!</a>
           </div>
     </form>
 
