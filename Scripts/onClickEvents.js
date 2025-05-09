@@ -29,18 +29,28 @@ async function loginClick() {
 }
 
 async function loginBtnClick() {
-    const user = document.getElementById('loginUsername').value;
+    document.getElementById('loginPassword').style.borderColor = "#2e2e2e";
+    document.getElementById('loginUsername').style.borderColor = "#2e2e2e";
+    const loginUser = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-    const response = await fetch(apiURL + "Users/" + user)
+    if (!loginUser) {
+        document.getElementById('loginUsername').style.borderColor = "red";
+        return
+    }
+    if (!password) {
+        document.getElementById('loginPassword').style.borderColor = "red";
+        return
+    }
+    const response = await fetch(apiURL + "Users/" + loginUser)
     const result = await response.json();
-    if (result) {
+    if (response.ok) {
         if (password === result.user.password) {
             if (result.user.role === "admin") {
                 if (document.getElementById('saveLogin').checked) {
-                    window.localStorage.setItem("username", user)
+                    window.localStorage.setItem("username", loginUser)
                     window.localStorage.setItem("password", password)
                 } else {
-                    window.sessionStorage.setItem("username", user)
+                    window.sessionStorage.setItem("username", loginUser)
                     window.sessionStorage.setItem("password", password)
                 }
                 if (!mobile) {
@@ -50,10 +60,10 @@ async function loginBtnClick() {
                 }
             } else {
                 if (document.getElementById('saveLogin').checked) {
-                    window.localStorage.setItem("username", user)
+                    window.localStorage.setItem("username", loginUser)
                     window.localStorage.setItem("password", password)
                 } else {
-                    window.sessionStorage.setItem("username", user)
+                    window.sessionStorage.setItem("username", loginUser)
                     window.sessionStorage.setItem("password", password)
                 }
                 if (change) {
@@ -358,6 +368,7 @@ async function cartAdd(element) {
         const req = await fetch(apiURL + "Items/" + ID)
         const res = await req.json();
         if (res.item.count > 0) {
+
             await fetch(apiURL + "Items/" + ID, {
                 method: "PATCH",
                 headers: {
@@ -365,8 +376,15 @@ async function cartAdd(element) {
                 },
                 body: JSON.stringify({
                     "count": res.item.count - 1,
-                    })
-            })
+                })
+            }).then(response => response.json().then(result => {
+                if (result.item.count == 0) {
+                    document.getElementById(element.id).disabled = "true"
+                    document.getElementById(element.id).innerHTML = "Elfogyott"
+                    document.getElementById(element.id).style.backgroundColor = "red"
+                }
+            }))
+
             const response = await fetch(apiURL + "Users/" + user);
             const result = await response.json();
             var inCartNow = result.user.inCart;
@@ -399,7 +417,9 @@ async function cartAdd(element) {
                 }
             }
         } else {
-            alert("Valaki épp veszi ezt!")
+            document.getElementById(element.id).disabled = "true"
+            document.getElementById(element.id).innerHTML = "Elfogyott"
+            document.getElementById(element.id).style.backgroundColor = "red"
         }
     } else {
         change = false
@@ -729,7 +749,7 @@ async function editAccount() {
 
     if (isSame) return toggleAccountEdit(false, false)
 
-    if (!newUser || !newPhone || !newEmail || !newAddress || !newPass || !oldPass) return toggleAccountEdit(true, "empty")
+    if (!newUser || !newPhone || !newEmail || !newAddress || !oldPass) return toggleAccountEdit(true, "empty")
 
     const validMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
     const validPhone = /^(?:\+36|06)\d{9}$/.test(newPhone);
@@ -763,6 +783,27 @@ async function editAccount() {
     if (takenMails.includes(newEmail) && newEmail != email) return toggleAccountEdit(true, "takenMail")
 
     alert("Siker")
+
+    if (!newPass) {
+        newPass = oldPass
+    }
+
+    await fetch(apiURL + "Users/" + user, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "name": newUser,
+            "password": newPass,
+            "address": newAddress,
+            "email": newEmail,
+            "phone": newPhone
+        })
+    })
+    document.getElementById("newPass").value = ""
+    document.getElementById("oldPass").value = ""
+    await LoadUser()
     toggleAccountEdit(false, false)
 }
 
@@ -770,8 +811,6 @@ async function logOut() {
     let user = window.sessionStorage.getItem("username") || window.localStorage.getItem("username")
     let pass = window.sessionStorage.getItem("password") || window.localStorage.getItem("password")
     if (user && pass) {
-        await clearCart()
-        return
         window.localStorage.removeItem("username")
         window.localStorage.removeItem("password")
         window.sessionStorage.removeItem("username")
@@ -781,25 +820,6 @@ async function logOut() {
         } else {
             window.location.replace("mobile-main.html?platform=set")
         }
-    } else {
-        window.location.replace("index.html")
-    }
-}
-
-async function clearCart() {
-    let user = window.sessionStorage.getItem("username") || window.localStorage.getItem("username")
-    let pass = window.sessionStorage.getItem("password") || window.localStorage.getItem("password")
-    if (user && pass) {
-    const request = await fetch(apiURL + "Users/" + user)
-    const result = await request.json()
-    let inCart = result.user.inCart
-    let inCartIDs = result.user.inCartID
-    console.log(inCart, inCartIDs)
-    for (let index = 0; index < inCartIDs.length; index++) {
-        inCartIDs.filter(index)
-        console.log(inCartIDs)
-    }
-    return
     } else {
         window.location.replace("index.html")
     }

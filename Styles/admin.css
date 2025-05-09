@@ -417,10 +417,10 @@ input[type="file"] {
   margin-left: 10px;
 }
 #Datas {
-  display: inline;
+  display: none;
 }
 #ItemList {
-  display: none;
+  display: inline;
 }
 #AddItem {
   display: none;

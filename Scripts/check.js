@@ -1,4 +1,4 @@
-let apiURL = "https://telephone-fy-through-input.trycloudflare.com/";
+let apiURL = "https://led-council-luggage-phil.trycloudflare.com/";
 
 async function loadAPIURL() {
     try {

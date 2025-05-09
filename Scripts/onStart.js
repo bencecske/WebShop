@@ -64,6 +64,9 @@ async function LoadUser() {
   }
   url = window.location.href;
   if (url.includes("account")) {
+    if (!user) {
+      window.location.replace("index.html")
+    }
     let username
     let email
     let address
@@ -275,7 +278,25 @@ async function GetJSON() {
       for (let i = 1; i <= result.length; i++) {
         const res = await fetch(apiURL + "Items/" + i + "/");
         const item = await res.json();
-        LoadItems(i, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID);
+        if (item.item.count > 0) {
+          LoadItems(i, item.item.name, item.item.group, item.item.type, item.item.price, item.item.description, item.item.Img, item.item.ID);
+        }
+      }
+      url = window.location.href;
+      if (!mobile) {
+        if (!document.body.innerHTML.includes("cardItem") && url.includes("main")) {
+          document.body.innerHTML += 
+          `<div style="top: 80px; position: absolute; text-align: center;">
+            <h1>Sajnos jelenleg nincs semmilyen termék raktáron!</h1>
+          </div>`
+        }
+      } else {
+        if (!document.getElementById("main-container").innerHTML.includes("product-card") && url.includes("main")) {
+          document.getElementById("main-container").innerHTML += 
+          `<div style="top: 80px; position: absolute; text-align: center;">
+            <h1>Sajnos jelenleg nincs semmilyen termék raktáron!</h1>
+          </div>`
+        }
       }
     } catch (error) {
       //baj
