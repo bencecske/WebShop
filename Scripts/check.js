@@ -1,4 +1,4 @@
-let apiURL = "https://consensus-prostate-somerset-newark.trycloudflare.com/";
+let apiURL = "https://passion-html-sort-gray.trycloudflare.com/";
 
 async function loadAPIURL() {
     try {
